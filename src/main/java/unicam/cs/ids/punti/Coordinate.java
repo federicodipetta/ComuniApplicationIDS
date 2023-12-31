@@ -5,20 +5,28 @@ package unicam.cs.ids.punti;
  */
 public class Coordinate {
 
-    private final double latitudine;
+    private final Double latitudine;
 
-    private final double longitudine;
+    private final Double longitudine;
 
-    public Coordinate(double latitudine, double longitudine) {
+    public Coordinate(Double latitudine, Double longitudine) {
         this.latitudine = latitudine;
         this.longitudine = longitudine;
     }
 
-    public double getLatitudine() {
+    /**
+     * Restituisce la latitudine del punto.
+     * @return latitudine del punto.
+     */
+    public Double getLatitudine() {
         return latitudine;
     }
 
-    public double getLongitudine() {
+    /**
+     * Restituisce la longitudine del punto.
+     * @return longitudine del punto.
+     */
+    public Double getLongitudine() {
         return longitudine;
     }
 

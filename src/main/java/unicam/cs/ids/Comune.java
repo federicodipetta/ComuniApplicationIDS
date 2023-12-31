@@ -22,5 +22,35 @@ public class Comune {
     }
 
 
+    /**
+     * Restituisce il nome del comune.
+     * @return nome del comune.
+     */
+    public String getNome() {
+        return nome;
+    }
 
+    /**
+     * Restituisce la provincia del comune.
+     * @return provincia del comune.
+     */
+    public String getProvincia() {
+        return provincia;
+    }
+
+    /**
+     * Restituisce l'id del comune.
+     * @return id del comune.
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Restituisce il punto fisico del comune.
+     * @return punto fisico del comune.
+     */
+    public PuntoFisico getPuntoComune() {
+        return puntoComune;
+    }
 }
