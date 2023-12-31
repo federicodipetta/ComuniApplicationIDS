@@ -17,7 +17,6 @@ public class PuntoFisico {
 
     /**
      * Restituisce la coordinata del punto fisico.
-     * @return
      */
     public Coordinate getCoordinate() {
         return coordinate;
