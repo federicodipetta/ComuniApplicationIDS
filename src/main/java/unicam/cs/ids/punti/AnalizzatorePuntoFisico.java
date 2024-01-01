@@ -1,15 +1,15 @@
 package unicam.cs.ids.punti;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import unicam.cs.ids.Comune;
 import unicam.cs.ids.servizi.ServizioOSM;
-
 import java.io.IOException;
 
 /**
  * Questa classe viene usata per analizzare un punto fisico.
  */
 public class AnalizzatorePuntoFisico {
-
     private final ServizioOSM servizioOSM;
 
     public AnalizzatorePuntoFisico() {
@@ -22,41 +22,14 @@ public class AnalizzatorePuntoFisico {
      * @param comune Il comune in cui controllare.
      * @return True se il punto fisico è all'interno del comune, false altrimenti.
      * @throws IOException Se la chiamata al servizio OSM fallisce.
+     * @throws JSONException Se la risposta del servizio OSM non è in formato JSON.
      */
-    public boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune) throws IOException {
-        String risultatoChiamata = servizioOSM.getInfoPunto(puntoFisico.getCoordinate());
-        String risultato = getNomeCitta(risultatoChiamata);
-        if(risultato == null) risultato = getNomeCitta2(risultatoChiamata);
-        if(risultato == null) return false;
-        return risultato.equals("\"" + comune.getNome() + "\"");
-    }
-
-    /**
-     * Restituisce il nome della città in cui si trova il punto fisico.
-     * @param risultatoChiamata Il risultato della chiamata al servizio OSM.
-     * @return Il nome della città in cui si trova il punto fisico.
-     */
-    private String getNomeCitta(String risultatoChiamata) {
-        if(risultatoChiamata.split("town").length < 2) return null;
-        if(risultatoChiamata.split("town")[1].split(":").length < 2) return null;
-        return risultatoChiamata
-                .split("town")[1]
-                .split(":")[1]
-                .split(",")[0];
-    }
-
-    /**
-     * Restituisce il nome della città in cui si trova il punto fisico.
-     * @param risultatoChiamata Il risultato della chiamata al servizio OSM.
-     * @return Il nome della città in cui si trova il punto fisico.
-     */
-    private String getNomeCitta2(String risultatoChiamata) {
-        if(risultatoChiamata.split("city").length < 2) return null;
-        if(risultatoChiamata.split("city")[1].split(":").length < 2) return null;
-        return risultatoChiamata
-                .split("city")[1]
-                .split(":")[1]
-                .split(",")[0];
+    public boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune) throws IOException, JSONException {
+        JSONObject risultatoChiamata = new JSONObject(servizioOSM.getInfoPunto(puntoFisico.getCoordinate()));
+        JSONObject address = risultatoChiamata.getJSONObject("address");
+        if(address.has("city")) return address.getString("city").equalsIgnoreCase(comune.getNome());
+        if(address.has("town")) return address.getString("town").equalsIgnoreCase(comune.getNome());
+        return false;
     }
 
 }
