@@ -32,8 +32,7 @@ public class ServizioOSM {
     private URLConnection getUrlConnection(Coordinate coordinate) throws IOException {
         String link = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + coordinate.getLatitudine().toString();
         link += "&lon=" + coordinate.getLongitudine().toString();
-        URLConnection connessione = new URL(link).openConnection();
-        return connessione;
+        return new URL(link).openConnection();
     }
 
 }

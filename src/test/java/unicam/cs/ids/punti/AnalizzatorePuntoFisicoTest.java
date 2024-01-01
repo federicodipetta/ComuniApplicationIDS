@@ -1,5 +1,6 @@
 package unicam.cs.ids.punti;
 
+import org.json.JSONException;
 import org.junit.Test;
 import unicam.cs.ids.Comune;
 
@@ -11,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 public class AnalizzatorePuntoFisicoTest {
 
     @Test
-    public void controllaPuntoFisicoTest() throws IOException {
+    public void controllaPuntoFisicoTest() throws IOException, JSONException {
         PuntoFisico puntoFisico = new PuntoFisico(new Coordinate(0.0, 0.0)); // Non ci interessa, per ora, che il comune sia al suo interno.
         PuntoFisico scuola = new PuntoFisico(new Coordinate(43.3019444, 13.730555555555556)); // Civitanova Marche.
         Comune comune = new Comune("Civitanova Marche", "Macerata", "1", puntoFisico);
@@ -25,7 +26,7 @@ public class AnalizzatorePuntoFisicoTest {
     }
 
     @Test
-    public void controllaPuntoFisicoTest2() throws IOException {
+    public void controllaPuntoFisicoTest2() throws IOException, JSONException {
         PuntoFisico puntoFisico1 = new PuntoFisico(new Coordinate(43.7725, 11.256666666666666)); // Firenze.
         AnalizzatorePuntoFisico analizzatorePuntoFisico = new AnalizzatorePuntoFisico();
         Comune firenze = new Comune("Firenze", "Firenze", "1", puntoFisico1);
