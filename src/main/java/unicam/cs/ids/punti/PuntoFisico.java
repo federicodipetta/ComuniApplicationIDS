@@ -22,4 +22,13 @@ public class PuntoFisico {
     public Coordinate getCoordinate() {
         return coordinate;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PuntoFisico)) return false;
+        PuntoFisico that = (PuntoFisico) o;
+        return coordinate.equals(that.coordinate);
+    }
+
 }

@@ -53,4 +53,13 @@ public class Comune {
     public PuntoFisico getPuntoComune() {
         return puntoComune;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Comune)) return false;
+        Comune comune = (Comune) o;
+        return id.equals(comune.getId());
+    }
+
 }

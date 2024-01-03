@@ -19,4 +19,12 @@ public class Utente {
         return id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Utente)) return false;
+        Utente utente = (Utente) o;
+        return utente.getId().equals(id);
+    }
+
 }

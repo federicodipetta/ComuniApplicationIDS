@@ -30,4 +30,12 @@ public class Coordinate {
         return longitudine;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Coordinate)) return false;
+        Coordinate that = (Coordinate) o;
+        return latitudine.equals(that.latitudine) && longitudine.equals(that.longitudine);
+    }
+
 }
