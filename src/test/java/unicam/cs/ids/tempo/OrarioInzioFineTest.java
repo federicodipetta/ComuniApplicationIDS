@@ -47,11 +47,9 @@ public class OrarioInzioFineTest {
 
         assertTrue(orarioInizioFine2.sovrapposto(orarioInizioFine3));
         assertTrue(orarioInizioFine3.sovrapposto(orarioInizioFine2));
-
+        //testa che due orari non sovrapposti non siano sovrapposti
         assertFalse(orarioInizioFine1.sovrapposto(orarioInizioFine4));
         assertFalse(orarioInizioFine4.sovrapposto(orarioInizioFine1));
-
-
     }
 
 

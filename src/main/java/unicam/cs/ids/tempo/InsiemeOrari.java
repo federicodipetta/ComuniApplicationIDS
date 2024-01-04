@@ -25,7 +25,11 @@ public class InsiemeOrari implements Tempo{
             if(this.orarioInizioFineList.get(i).sovrapposto(this.orarioInizioFineList.get(i+1))){
                 this.orarioInizioFineList.set(i,
                         new OrarioInizioFine(
-                                this.orarioInizioFineList.get(i).inizio(),
+                                this.orarioInizioFineList.get(i).inizio().isBefore(this.orarioInizioFineList.get(i+1).inizio())?
+                                this.orarioInizioFineList.get(i).inizio()
+                                        : //controllo quale orario inizia prima e prendo quello
+                                this.orarioInizioFineList.get(i+1).inizio(),
+                               // quello che finisce dopo è sempre "i+1" perchè è ordinato
                                 this.orarioInizioFineList.get(i+1).fine()));
                 this.orarioInizioFineList.remove(i+1);
                 i--;
@@ -59,5 +63,13 @@ public class InsiemeOrari implements Tempo{
             }
         }
         return this.orarioInizioFineList.get(m);
+    }
+
+    /**
+     * solo per test
+     * @retrun la lista deglio orari di inizio e fine
+     */
+    public List<OrarioInizioFine> getOrarioInizioFineList() {
+        return orarioInizioFineList;
     }
 }
