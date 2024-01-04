@@ -12,7 +12,7 @@ public class GestoreRuoliSingleton {
 
     private static GestoreRuoliSingleton instance;
 
-    private Map<Utente, Set<RuoloComune>> mappaUtenteRuoliComune;
+    private final Map<Utente, Set<RuoloComune>> mappaUtenteRuoliComune;
 
     private GestoreRuoliSingleton() {
         mappaUtenteRuoliComune = new HashMap<>();
@@ -29,6 +29,12 @@ public class GestoreRuoliSingleton {
         return instance;
     }
 
+    /**
+     * Restituisce i comuni in cui un utente è abilitato con un certo ruolo.
+     * @param utente l'utente di cui si vogliono conoscere i comuni abilitati.
+     * @param ruolo il ruolo di cui si vogliono conoscere i comuni abilitati.
+     * @return l'insieme dei comuni in cui l'utente è abilitato con il ruolo.
+     */
     public Set<Comune> getComuniAbilitati(Utente utente, Ruolo ruolo) {
         return mappaUtenteRuoliComune.getOrDefault(utente, new HashSet<>())
                 .stream()
@@ -55,6 +61,11 @@ public class GestoreRuoliSingleton {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "GestoreRuoliSingleton{" +
+                "mappaUtenteRuoliComune=" + mappaUtenteRuoliComune.toString() +
+                '}';
+    }
 
 }

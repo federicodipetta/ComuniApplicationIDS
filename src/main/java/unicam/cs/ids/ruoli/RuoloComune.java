@@ -6,11 +6,25 @@ import unicam.cs.ids.Comune;
  * Classe utilizzata per associare a un comune il ruolo. Serve per rappresentare una coppia.
  */
 public record RuoloComune(Comune comune, Ruolo ruolo) {
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RuoloComune)) return false;
-        RuoloComune that = (RuoloComune) o;
-        return comune.equals(that.comune) && ruolo == that.ruolo;
+        if (!(o instanceof RuoloComune ruoloComune)) return false;
+        return comune.equals(ruoloComune.comune) && this.ruolo == ruoloComune.ruolo;
     }
+
+    @Override
+    public int hashCode() {
+        return comune.hashCode() + ruolo.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "RuoloComune{" +
+                "comune=" + comune +
+                ", ruolo=" + ruolo +
+                '}';
+    }
+
 }

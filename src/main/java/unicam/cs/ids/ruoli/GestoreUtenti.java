@@ -2,9 +2,7 @@ package unicam.cs.ids.ruoli;
 
 import unicam.cs.ids.Comune;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,19 +11,29 @@ import java.util.Set;
  */
 public class GestoreUtenti {
 
-    private GestoreRuoliSingleton gestoreRuoliSingleton;
+    private final GestoreRuoliSingleton gestoreRuoliSingleton;
 
-    private Set<Utente> utenti;
+    private final Set<Utente> utenti;
 
     public GestoreUtenti() {
         gestoreRuoliSingleton = GestoreRuoliSingleton.getInstance();
         utenti = new HashSet<>();
     }
 
+    /**
+     * Aggiunge un utente alla lista degli utenti.
+     * @param utente l'utente da aggiungere.
+     * @return true se l'utente è stato aggiunto, false altrimenti.
+     */
     public boolean aggiungiUtente(Utente utente) {
         return utenti.add(utente);
     }
 
+    /**
+     * Rimuove un utente dalla lista degli utenti.
+     * @param utente l'utente da rimuovere.
+     * @return true se l'utente è stato rimosso, false altrimenti.
+     */
     public boolean rimuoviUtente(Utente utente) {
         return utenti.remove(utente);
     }
@@ -48,6 +56,13 @@ public class GestoreUtenti {
      */
     public boolean setRuoloUtente(Utente utente, RuoloComune ruoloComune) {
     	return gestoreRuoliSingleton.aggiungiUtenteRuoloComune(utente, ruoloComune);
+    }
+
+    @Override
+    public String toString() {
+        return "GestoreUtenti{" +
+                "utenti=" + utenti.size() +
+                '}';
     }
 
 }
