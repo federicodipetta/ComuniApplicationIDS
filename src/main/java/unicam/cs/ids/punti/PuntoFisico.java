@@ -1,33 +1,30 @@
 package unicam.cs.ids.punti;
 
+import java.util.List;
+
 /**
  * Classe per rappresentare un punto fisico.
  */
-public class PuntoFisico {
-
-    private final Coordinate coordinate;
-
-    /**
-     * Costruttore del punto fisico.
-     * @param coordinate coordinate del punto fisico.co
-     */
-    public PuntoFisico(Coordinate coordinate) {
-        this.coordinate = coordinate;
-    }
-
-    /**
-     * Restituisce la coordinata del punto fisico.
-     */
-    public Coordinate getCoordinate() {
-        return coordinate;
-    }
+public record PuntoFisico(Coordinate coordinate, List<Contenuto> contenuti) {
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PuntoFisico)) return false;
-        PuntoFisico that = (PuntoFisico) o;
-        return coordinate.equals(that.coordinate);
+        if (!(o instanceof PuntoFisico puntoFisico)) return false;
+        return coordinate.equals(puntoFisico.coordinate) && contenuti.equals(puntoFisico.contenuti);
+    }
+
+    @Override
+    public int hashCode() {
+        return coordinate.hashCode() + contenuti.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "PuntoFisico{" +
+                coordinate.toString() +
+                ", contenuti=" + contenuti.size() +
+                '}';
     }
 
 }

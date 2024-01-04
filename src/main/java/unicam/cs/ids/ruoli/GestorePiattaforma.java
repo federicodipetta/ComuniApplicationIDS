@@ -2,26 +2,43 @@ package unicam.cs.ids.ruoli;
 
 import unicam.cs.ids.Comune;
 
-import java.util.HashSet;
-import java.util.Set;
-
+/**
+ * Classe utilizzata per gestire la piattaforma.
+ */
 public class GestorePiattaforma {
 
-    private GestoreUtenti gestoreUtenti;
-
-    private Set<Comune> comuni;
+    private final GestoreUtenti gestoreUtenti;
+    private final GestoreComuni gestoreComuni;
 
     public GestorePiattaforma() {
         gestoreUtenti = new GestoreUtenti();
-        comuni = new HashSet<>();
+        gestoreComuni = new GestoreComuni();
     }
 
+    /**
+     * Aggiunge un utente alla lista degli utenti
+     * @param utente l'utente da aggiungere
+     * @return true se l'utente è stato aggiunto, false altrimenti
+     */
     public boolean aggiungiUtente(Utente utente) {
         return gestoreUtenti.aggiungiUtente(utente);
     }
 
+    /**
+     * Aggiunge un comune alla lista dei comuni
+     * @param comune il comune da aggiungere
+     * @return true se il comune è stato aggiunto, false altrimenti
+     */
     public boolean aggiungiComune(Comune comune) {
-        return comuni.add(comune);
+        return gestoreComuni.aggiungiComune(comune);
+    }
+
+    @Override
+    public String toString() {
+        return "GestorePiattaforma{" +
+                "gestoreUtenti=" + gestoreUtenti +
+                ", gestoreComuni=" + gestoreComuni +
+                '}';
     }
 
 }

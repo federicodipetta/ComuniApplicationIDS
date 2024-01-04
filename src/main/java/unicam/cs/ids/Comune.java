@@ -4,62 +4,29 @@ import unicam.cs.ids.punti.PuntoFisico;
 /**
  * Classe utilizzata per rappresentare un comune.
  */
-public class Comune {
-
-    private final String nome;
-
-    private final String provincia;
-
-    private final String id;
-
-    private final PuntoFisico puntoComune;
-
-    public Comune(String nome, String provincia, String id, PuntoFisico puntoComune) {
-        this.nome = nome;
-        this.provincia = provincia;
-        this.id = id;
-        this.puntoComune = puntoComune;
-    }
-
-
-    /**
-     * Restituisce il nome del comune.
-     * @return nome del comune.
-     */
-    public String getNome() {
-        return nome;
-    }
-
-    /**
-     * Restituisce la provincia del comune.
-     * @return provincia del comune.
-     */
-    public String getProvincia() {
-        return provincia;
-    }
-
-    /**
-     * Restituisce l'id del comune.
-     * @return id del comune.
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Restituisce il punto fisico del comune.
-     * @return punto fisico del comune.
-     */
-    public PuntoFisico getPuntoComune() {
-        return puntoComune;
-    }
+public record Comune(String nome, String provincia, String id, PuntoFisico puntoComune) {
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Comune)) return false;
-        Comune comune = (Comune) o;
-        return id.equals(comune.getId());
+        if (!(o instanceof Comune comune)) return false;
+        return id.equals(comune.id()) && nome.equals(comune.nome()) && provincia.equals(comune.provincia()) && puntoComune.equals(comune.puntoComune());
     }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode() + nome.hashCode() + provincia.hashCode() + puntoComune.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Comune{" +
+                "nome='" + nome + '\'' +
+                ", provincia='" + provincia + '\'' +
+                ", id='" + id + '\'' +
+                ", puntoComune=" + puntoComune.toString() +
+                '}';
+    }
+
 
 }

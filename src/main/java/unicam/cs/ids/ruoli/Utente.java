@@ -1,30 +1,27 @@
 package unicam.cs.ids.ruoli;
 
-public class Utente {
-
-    private final String nomeUtente;
-
-    private final String id;
-
-    public Utente(String nomeUtente, String id) {
-        this.nomeUtente = nomeUtente;
-        this.id = id;
-    }
-
-    public String getNomeUtente() {
-        return nomeUtente;
-    }
-
-    public String getId() {
-        return id;
-    }
+/**
+ * Questa classe rappresenta un utente.
+ * @param nomeUtente il nome dell'utente.
+ * @param id l'id dell'utente.
+ */
+public record Utente(String nomeUtente, String id) {
 
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;
-        if (!(o instanceof Utente)) return false;
-        Utente utente = (Utente) o;
-        return utente.getId().equals(id);
+        if (!(o instanceof Utente utente)) return false;
+        return utente.id().equals(id) && utente.nomeUtente().equals(nomeUtente);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode() + nomeUtente.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return nomeUtente + " (" + id + ")";
     }
 
 }
