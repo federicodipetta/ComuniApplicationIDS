@@ -11,14 +11,9 @@ import java.net.URLConnection;
 /**
  * Classe utilizzata per ottenere informazioni da OpenStreetMap.
  */
-public class ServizioOSM {
+public class ServizioOSM implements IServizioOSM {
 
-    /**
-     * Metodo utilizzato per ottenere le informazioni di un punto
-     * geografico da OpenStreetMap.
-     * @param coordinate Le coordinate del punto di cui si vogliono ottenere le informazioni.
-     * @return Le informazioni, in formato JSON, ottenute da OSM riguardanti il punto dato.
-     * */
+    @Override
     public String getInfoPunto(Coordinate coordinate) throws IOException {
         URLConnection connessione = getUrlConnection(coordinate);
         BufferedReader reader = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
