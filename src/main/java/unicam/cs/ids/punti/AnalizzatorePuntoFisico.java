@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * Questa classe viene usata per analizzare un punto fisico.
  */
-public class AnalizzatorePuntoFisico {
+public class AnalizzatorePuntoFisico implements IAnalizzatorePuntoFisico {
 
     private final ServizioOSM servizioOSM;
 
@@ -17,20 +17,18 @@ public class AnalizzatorePuntoFisico {
         this.servizioOSM = new ServizioOSM();
     }
 
-    /**
-     * Controlla se il punto fisico è all'interno del comune.
-     * @param puntoFisico Il punto fisico da controllare.
-     * @param comune Il comune in cui controllare.
-     * @return True se il punto fisico è all'interno del comune, false altrimenti.
-     * @throws IOException Se la chiamata al servizio OSM fallisce.
-     * @throws JSONException Se la risposta del servizio OSM non è in formato JSON.
-     */
+    @Override
     public boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune) throws IOException, JSONException {
+        return getNomeComune(puntoFisico).equalsIgnoreCase(comune.nome().trim());
+    }
+
+    @Override
+    public String getNomeComune(PuntoFisico puntoFisico) throws IOException, JSONException {
         JSONObject risultatoChiamata = new JSONObject(servizioOSM.getInfoPunto(puntoFisico.coordinate()));
         JSONObject address = risultatoChiamata.getJSONObject("address");
-        if(address.has("city")) return address.getString("city").equalsIgnoreCase(comune.nome());
-        if(address.has("town")) return address.getString("town").equalsIgnoreCase(comune.nome());
-        return false;
+        if(address.has("city")) return address.getString("city").trim();
+        if(address.has("town")) return address.getString("town").trim();
+        return "";
     }
 
 }
