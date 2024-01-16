@@ -3,5 +3,5 @@ package unicam.cs.ids.tempo;
 import java.time.LocalDateTime;
 
 public interface ObserverTempo {
-    void update(LocalDateTime ora);
+    void update(LocalDateTime dataOra);
 }

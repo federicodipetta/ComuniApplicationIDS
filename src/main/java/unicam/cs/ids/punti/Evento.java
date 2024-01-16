@@ -1,6 +1,7 @@
 package unicam.cs.ids.punti;
 
 import unicam.cs.ids.ruoli.Utente;
+import unicam.cs.ids.tempo.Tempo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ public class Evento extends Contenuto {
 
     private final List<Utente> iscritti;
 
-    public Evento(String titolo, String testo, List<File> fileMultimediali, int id) {
-        super(titolo, testo, fileMultimediali, id);
+    public Evento(String titolo, String testo, List<File> fileMultimediali, int id, Tempo tempo) {
+        super(titolo, testo, fileMultimediali, id, tempo);
         this.iscritti = new ArrayList<>();
     }
 
