@@ -10,6 +10,7 @@ import java.io.IOException;
  * Questa classe viene usata per analizzare un punto fisico.
  */
 public class AnalizzatorePuntoFisico {
+
     private final ServizioOSM servizioOSM;
 
     public AnalizzatorePuntoFisico() {
@@ -25,10 +26,10 @@ public class AnalizzatorePuntoFisico {
      * @throws JSONException Se la risposta del servizio OSM non è in formato JSON.
      */
     public boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune) throws IOException, JSONException {
-        JSONObject risultatoChiamata = new JSONObject(servizioOSM.getInfoPunto(puntoFisico.getCoordinate()));
+        JSONObject risultatoChiamata = new JSONObject(servizioOSM.getInfoPunto(puntoFisico.coordinate()));
         JSONObject address = risultatoChiamata.getJSONObject("address");
-        if(address.has("city")) return address.getString("city").equalsIgnoreCase(comune.getNome());
-        if(address.has("town")) return address.getString("town").equalsIgnoreCase(comune.getNome());
+        if(address.has("city")) return address.getString("city").equalsIgnoreCase(comune.nome());
+        if(address.has("town")) return address.getString("town").equalsIgnoreCase(comune.nome());
         return false;
     }
 
