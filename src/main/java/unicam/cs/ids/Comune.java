@@ -10,7 +10,7 @@ public record Comune(String nome, String provincia, String id, PuntoFisico punto
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Comune comune)) return false;
-        return id.equals(comune.id()) && nome.equals(comune.nome()) && provincia.equals(comune.provincia()) && puntoComune.equals(comune.puntoComune());
+        return id.equals(comune.id()) && nome.trim().equals(comune.nome().trim()) && provincia.trim().equals(comune.provincia().trim()) && puntoComune.equals(comune.puntoComune());
     }
 
     @Override
