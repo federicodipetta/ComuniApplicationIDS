@@ -76,4 +76,22 @@ public abstract class Contenuto {
                 '}';
     }
 
+    /**
+     * Metodo per aggiungere un file multimediale al contenuto.
+     * @param file Il file da aggiungere.
+     * @return true se il file è stato aggiunto, false altrimenti.
+     */
+    public boolean aggiungiFile(List<File> file) {
+    	return fileMultimediali.addAll(file);
+    }
+
+    /**
+     * Metodo per rimuovere un file multimediale dal contenuto.
+     * @param file Il file da rimuovere.
+     * @return true se il file è stato rimosso, false altrimenti.
+     */
+    public boolean rimuoviFile(List<File> file) {
+    	return fileMultimediali.removeAll(file);
+    }
+
 }
