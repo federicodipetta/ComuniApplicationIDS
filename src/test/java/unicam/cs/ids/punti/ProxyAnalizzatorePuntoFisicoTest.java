@@ -16,7 +16,7 @@ public class ProxyAnalizzatorePuntoFisicoTest {
         PuntoFisico puntoFisico = new PuntoFisico(new Coordinate(0.0, 0.0), null); // Non ci interessa, per ora, che il comune sia al suo interno.
         PuntoFisico scuola = new PuntoFisico(new Coordinate(43.3019444, 13.730555555555556), null); // Civitanova Marche.
         Comune comune = new Comune("Civitanova Marche", "Macerata", "1", puntoFisico);
-        IAnalizzatorePuntoFisico analizzatorePuntoFisico = new ProxyAnalizzatorePuntoFisico();
+        IAnalizzatorePuntoFisico analizzatorePuntoFisico = new ProxyAnalizzatorePuntoFisico(new AnalizzatorePuntoFisico());
         assertTrue(analizzatorePuntoFisico.controllaPuntoFisico(scuola, comune));
         assertTrue(analizzatorePuntoFisico.controllaPuntoFisico(scuola, comune));
         assertFalse(analizzatorePuntoFisico.controllaPuntoFisico(puntoFisico, comune));
