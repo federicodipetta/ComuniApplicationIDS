@@ -20,12 +20,14 @@ public class GestoreComunale {
     private final Set<Contest> contest;
     private final Set<PuntoFisico> puntiFisici;
     private final AnalizzatorePuntoFisico analizzatorePuntoFisico;
+    private final GestoreRichieste gestoreRichieste;
 
     public GestoreComunale(Comune comune) {
         this.comune = comune;
         this.contest = new HashSet<>();
         this.puntiFisici = new HashSet<>();
         this.analizzatorePuntoFisico = new AnalizzatorePuntoFisico();
+        this.gestoreRichieste = new GestoreRichieste();
     }
 
     /**

@@ -1,6 +1,6 @@
 package unicam.cs.ids.ruoli;
 
-public class GestoreRichiesta {
+public class GestoreRichieste {
 
     //TODO: da implementare
 
