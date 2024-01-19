@@ -7,6 +7,14 @@ import java.util.List;
  */
 public record PuntoFisico(Coordinate coordinate, List<Contenuto> contenuti) {
 
+    /**
+     * Questo metodo permette di aggiungere un contenuto a un punto fisico.
+     * @param contenuto il contenuto da aggiungere
+     */
+    public boolean aggiungiContenuto(Contenuto contenuto) {
+        return contenuti.add(contenuto);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

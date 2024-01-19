@@ -13,9 +13,9 @@ import java.util.List;
  */
 public class ProxyAnalizzatorePuntoFisico implements IAnalizzatorePuntoFisico {
 
-    private IAnalizzatorePuntoFisico analizzatorePuntoFisico;
+    private final IAnalizzatorePuntoFisico analizzatorePuntoFisico;
 
-    private List<Coppia<PuntoFisico, String>> cache;
+    private final List<Coppia<PuntoFisico, String>> cache;
 
     public ProxyAnalizzatorePuntoFisico(IAnalizzatorePuntoFisico analizzatorePuntoFisico) {
         this.analizzatorePuntoFisico = analizzatorePuntoFisico;

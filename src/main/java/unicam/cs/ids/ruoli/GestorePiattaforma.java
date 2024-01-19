@@ -36,8 +36,8 @@ public class GestorePiattaforma {
     @Override
     public String toString() {
         return "GestorePiattaforma{" +
-                "gestoreUtenti=" + gestoreUtenti +
-                ", gestoreComuni=" + gestoreComuni +
+                gestoreUtenti.toString() +
+                ", " + gestoreComuni.toString() +
                 '}';
     }
 

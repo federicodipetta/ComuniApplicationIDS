@@ -5,6 +5,9 @@ import unicam.cs.ids.Comune;
 
 import java.io.IOException;
 
+/**
+ * Questa interfaccia definisce i metodi per analizzare un punto fisico.
+ */
 public interface IAnalizzatorePuntoFisico {
 
     /**

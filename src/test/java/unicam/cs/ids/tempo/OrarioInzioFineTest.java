@@ -32,9 +32,9 @@ public class OrarioInzioFineTest {
          inizio3 = LocalDateTime.of(2021, 1, 1, 1, 0);
          fine3 = LocalDateTime.of(2021, 1, 1, 2, 0);
          orarioInizioFine3 = new OrarioInizioFine(inizio3, fine3);
-            inizio4 = LocalDateTime.of(2021, 1, 1, 3, 0);
-            fine4 = LocalDateTime.of(2021, 1, 1, 4, 0);
-            orarioInizioFine4 = new OrarioInizioFine(inizio4, fine4);
+         inizio4 = LocalDateTime.of(2021, 1, 1, 3, 0);
+         fine4 = LocalDateTime.of(2021, 1, 1, 4, 0);
+         orarioInizioFine4 = new OrarioInizioFine(inizio4, fine4);
     }
     
     @Test
@@ -50,6 +50,13 @@ public class OrarioInzioFineTest {
         //testa che due orari non sovrapposti non siano sovrapposti
         assertFalse(orarioInizioFine1.sovrapposto(orarioInizioFine4));
         assertFalse(orarioInizioFine4.sovrapposto(orarioInizioFine1));
+    }
+
+    @Test
+    public void testContiene(){
+        assertTrue(orarioInizioFine1.contiene(inizio));
+        assertTrue(orarioInizioFine1.contiene(fine));
+        assertFalse(orarioInizioFine1.contiene(fine2));
     }
 
 
