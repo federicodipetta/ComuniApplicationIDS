@@ -3,23 +3,22 @@ package unicam.cs.ids.tempo;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
+import java.util.function.Function;
 
 public class Periodo implements Tempo{
-    private TemporalAdjuster inizio;
-    private TemporalAdjuster fine;
+    private Function<LocalDateTime,OrarioInizioFine> adjuster;
 
-    public Periodo(TemporalAdjuster inizio, TemporalAdjuster fine){
-        this.inizio = inizio;
-        this.fine = fine;
+    public Periodo(Function<LocalDateTime,OrarioInizioFine>adjuster){
+        this.adjuster = adjuster;
     }
 
     @Override
     public boolean attivato(LocalDateTime orario) {
-        return orario.with(inizio).isBefore(orario) && orario.with(fine).isAfter(orario);
+        return adjuster.apply(orario).contiene(orario);
     }
 
     @Override
     public OrarioInizioFine getProssimoOrario(LocalDateTime ora) {
-        return new OrarioInizioFine(ora.with(inizio), ora.with(fine));
+        return adjuster.apply(ora);
     }
 }
