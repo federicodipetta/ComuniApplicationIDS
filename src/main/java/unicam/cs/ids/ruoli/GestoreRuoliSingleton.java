@@ -64,7 +64,7 @@ public class GestoreRuoliSingleton {
     @Override
     public String toString() {
         return "GestoreRuoliSingleton{" +
-                "mappaUtenteRuoliComune=" + mappaUtenteRuoliComune.toString() +
+                "mappaUtenteRuoliComune=" + mappaUtenteRuoliComune.size() +
                 '}';
     }
 

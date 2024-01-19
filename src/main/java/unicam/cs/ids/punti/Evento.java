@@ -4,27 +4,20 @@ import unicam.cs.ids.ruoli.Utente;
 import unicam.cs.ids.tempo.Tempo;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Classe per rappresentare un evento.
  */
 public class Evento extends Contenuto {
 
-    private final List<Utente> iscritti;
+    private final Set<Utente> iscritti;
 
     public Evento(String titolo, String testo, List<File> fileMultimediali, int id, Tempo tempo) {
         super(titolo, testo, fileMultimediali, id, tempo);
-        this.iscritti = new ArrayList<>();
-    }
-
-    /**
-     * Metodo per ottenere la lista degli iscritti all'evento.
-     * @return la lista degli iscritti all'evento.
-     */
-    public List<Utente> getIscritti() {
-        return iscritti;
+        this.iscritti = new HashSet<>();
     }
 
     /**
@@ -33,11 +26,7 @@ public class Evento extends Contenuto {
      * @return true se l'utente è stato iscritto all'evento, false altrimenti.
      */
     public boolean iscrizione(Utente utente) {
-        if (this.iscritti.contains(utente)) {
-            return false;
-        }
-        this.iscritti.add(utente);
-        return true;
+        return iscritti.add(utente);
     }
 
     /**
@@ -46,11 +35,7 @@ public class Evento extends Contenuto {
      * @return true se l'utente è stato disiscritto dall'evento, false altrimenti.
      */
     public boolean disiscrizione(Utente utente) {
-        if (this.iscritti.contains(utente)) {
-            this.iscritti.remove(utente);
-            return true;
-        }
-        return false;
+        return iscritti.remove(utente);
     }
 
     @Override
@@ -68,7 +53,7 @@ public class Evento extends Contenuto {
     @Override
     public String toString() {
         return "Evento{" +
-                "contenuto='" + super.toString() + '\'' +
+                super.toString() + '\'' +
                 "iscritti='" + iscritti.size() + '\'' +
                 '}';
     }

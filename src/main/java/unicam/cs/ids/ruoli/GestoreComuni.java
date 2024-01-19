@@ -3,54 +3,47 @@ package unicam.cs.ids.ruoli;
 import unicam.cs.ids.Comune;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Classe utilizzata per gestire i comuni della piattaforma.
  */
 public class GestoreComuni {
 
-    private final List<Comune> comuni;
+    private final Set<GestoreComunale> gestoriComunali;
 
     public GestoreComuni() {
-        this.comuni = new ArrayList<>();
+        this.gestoriComunali = new HashSet<>();
     }
 
     /**
-     * Restituisce la lista dei comuni
-     * @return lista dei comuni
+     * Restituisce un gestore comunale dato un comune
+     * @param comune il comune del gestore comunale da restituire
+     * @return il gestore comunale richiesto
      */
-    public List<Comune> getComuni() {
-        return comuni;
-    }
-
-    /**
-     * Restituisce il comune con l'id passato come parametro
-     * @param idComune l'id del comune
-     * @return il comune con l'id passato come parametro
-     */
-    public Comune getComune(String idComune) {
-        for (Comune c : comuni) {
-            if (c.id().equals(idComune)) {
-                return c;
+    public GestoreComunale getGestoreComunale(Comune comune) {
+        for (GestoreComunale gc : gestoriComunali) {
+            if (gc.getComune().equals(comune)) {
+                return gc;
             }
         }
         return null;
     }
 
     /**
-     * Aggiunge un comune alla lista dei comuni
-     * @param comune il comune da aggiungere
-     * @return true se il comune è stato aggiunto, false altrimenti
+     * Aggiunge un gestore comunale alla lista dei gestori comunali
+     * @param comune il comune del gestore comunale da aggiungere
+     * @return true se il gestore comunale è stato aggiunto, false altrimenti
      */
     public boolean aggiungiComune(Comune comune) {
-        return comuni.add(comune);
+        return gestoriComunali.add(new GestoreComunale(comune));
     }
 
     @Override
     public String toString() {
         return "GestoreComuni{" +
-                "comuni=" + comuni.size() +
+                "GestoriComunali=" + gestoriComunali.size() +
                 '}';
     }
 

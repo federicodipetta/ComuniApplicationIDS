@@ -11,7 +11,8 @@ import java.util.List;
  * che contiene un orario di inizio e uno di fine.
  */
 public class InsiemeOrari implements Tempo{
-    private final List<OrarioInizioFine> orarioInizioFineList ;
+
+    private final List<OrarioInizioFine> orarioInizioFineList;
 
     /**
      * Costruttore di un insieme di orari
@@ -37,18 +38,23 @@ public class InsiemeOrari implements Tempo{
         }
     }
 
+
     @Override
     public boolean attivato(LocalDateTime orario) {
-        return binartysearch(orario) != null;
+        return binarysearch(orario) != null;
     }
 
     @Override
     public OrarioInizioFine getProssimoOrario(LocalDateTime ora) {
-        return binartysearch(ora);
+        return binarysearch(ora);
     }
 
-
-    private OrarioInizioFine binartysearch(LocalDateTime s){
+    /**
+     * Questo metodo cerca l'orario di inizio e fine che contiene l'orario passato come parametro
+     * @param s orario da cercare
+     * @return l'orario di inizio e fine che contiene l'orario passato come parametro
+     */
+    private OrarioInizioFine binarysearch(LocalDateTime s){
         int i = 0;
         int j = this.orarioInizioFineList.size()-1;
         int m = (i+j)/2;
@@ -66,10 +72,11 @@ public class InsiemeOrari implements Tempo{
     }
 
     /**
-     * solo per test
-     * @retrun la lista deglio orari di inizio e fine
+     * Solo per test
+     * @return la lista degli orari di inizio e fine
      */
     public List<OrarioInizioFine> getOrarioInizioFineList() {
         return orarioInizioFineList;
     }
+
 }

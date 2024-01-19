@@ -9,18 +9,10 @@ import unicam.cs.ids.ruoli.GestoreComunale;
  */
 public class RichiestaContenuto implements RichiestaCommand {
 
-    private Contenuto contenuto;
+    private final Contenuto contenuto;
+    private final PuntoFisico puntoFisico;
+    private final GestoreComunale gestoreComunale;
 
-    private PuntoFisico puntoFisico;
-
-    private GestoreComunale gestoreComunale;
-
-    /**
-     * Costruttore di una richiesta riguardante un contenuto.
-     * @param contenuto Il contenuto.
-     * @param puntoFisico Il punto fisico del contenuto.
-     * @param gestoreComunale Il gestore comunale.
-     */
     public RichiestaContenuto(Contenuto contenuto, PuntoFisico puntoFisico, GestoreComunale gestoreComunale) {
         this.contenuto = contenuto;
         this.puntoFisico = puntoFisico;
@@ -32,5 +24,22 @@ public class RichiestaContenuto implements RichiestaCommand {
         if (accetta) {
             gestoreComunale.aggiungiContenuto(contenuto, puntoFisico);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Richiesta Contenuto: " + contenuto.toString() + " - " + puntoFisico.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof RichiestaContenuto richiesta)) return false;
+        return richiesta.contenuto.equals(this.contenuto) && richiesta.puntoFisico.equals(this.puntoFisico);
+    }
+
+    @Override
+    public int hashCode() {
+        return contenuto.hashCode() + puntoFisico.hashCode();
     }
 }
