@@ -15,7 +15,6 @@ public class Segnalazione implements RichiestaCommand{
      * Costruttore di una segnalazione
      * @param descrizione la descrizione della segnalazione
      * @param contenuto il contenuto che deve essere segnalato
-     * @param gestoreComunale il comune in cui è presente la segnalazione
      */
     Segnalazione(String descrizione, Contenuto contenuto){
         this.descrizione = descrizione;
