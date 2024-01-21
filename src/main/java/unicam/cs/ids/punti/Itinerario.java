@@ -15,19 +15,11 @@ public class Itinerario extends Contenuto{
         this.contenuti = contenuti;
     }
 
-    /**
-     * Restituisce la lista dei contenuti dell'itinerario.
-     * @return la lista dei contenuti dell'itinerario.
-     */
-    public List<Contenuto> getContenuti() {
-        return contenuti;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Itinerario itinerario)) return false;
-        return super.equals(itinerario) && contenuti.equals(itinerario.getContenuti());
+        return super.equals(itinerario) && contenuti.equals(itinerario.contenuti);
     }
 
     @Override

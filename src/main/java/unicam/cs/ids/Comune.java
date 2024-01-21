@@ -24,7 +24,7 @@ public record Comune(String nome, String provincia, String id, PuntoFisico punto
                 "nome='" + nome + '\'' +
                 ", provincia='" + provincia + '\'' +
                 ", id='" + id + '\'' +
-                ", puntoComune=" + puntoComune.toString() +
+                ", " + puntoComune.toString() +
                 '}';
     }
 

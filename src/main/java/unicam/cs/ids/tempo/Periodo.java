@@ -1,11 +1,10 @@
 package unicam.cs.ids.tempo;
 
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAdjusters;
 import java.util.function.Function;
 
 public class Periodo implements Tempo{
+
     private Function<LocalDateTime,OrarioInizioFine> adjuster;
 
     public Periodo(Function<LocalDateTime,OrarioInizioFine>adjuster){
