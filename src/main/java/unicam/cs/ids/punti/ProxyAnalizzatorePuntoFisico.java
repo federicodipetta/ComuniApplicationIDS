@@ -6,7 +6,9 @@ import unicam.cs.ids.servizi.Coppia;
 import unicam.cs.ids.servizi.ListaCircolare;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Questa classe viene usata come proxy per analizzare un punto fisico.
@@ -15,22 +17,20 @@ public class ProxyAnalizzatorePuntoFisico implements IAnalizzatorePuntoFisico {
 
     private final IAnalizzatorePuntoFisico analizzatorePuntoFisico;
 
-    private final List<Coppia<PuntoFisico, String>> cache;
+    private final Map<PuntoFisico, String> cache;
 
     public ProxyAnalizzatorePuntoFisico(IAnalizzatorePuntoFisico analizzatorePuntoFisico) {
         this.analizzatorePuntoFisico = analizzatorePuntoFisico;
-        this.cache = new ListaCircolare<>(); // Cache di 10 elementi.
+        this.cache = new HashMap<>();
     }
 
     @Override
     public boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune) throws IOException, JSONException {
-        for(Coppia<PuntoFisico, String> coppia : cache) {
-            if(coppia.primo().equals(puntoFisico))
-                return coppia.secondo().trim().equals(comune.nome().trim());
-        } // Se arriviamo fino a qui, il risultato non è in cache.
+        if(cache.containsKey(puntoFisico)) // Se il punto e' in cache...
+            return cache.get(puntoFisico).equals(comune.nome()); // Vedo se il comune e' corretto.
         String nomeComune = getNomeComune(puntoFisico);
-        cache.add(new Coppia<>(puntoFisico, getNomeComune(puntoFisico))); // Salva il comune corretto in cui si trova.
-        return nomeComune.equals(comune.nome().trim());
+        cache.put(puntoFisico, nomeComune); // Salva il comune in cache.
+        return nomeComune.equals(comune.nome());
     }
 
     @Override
