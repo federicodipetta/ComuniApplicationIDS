@@ -24,7 +24,7 @@ public class AnalizzatorePuntoFisico implements IAnalizzatorePuntoFisico {
 
     @Override
     public String getNomeComune(PuntoFisico puntoFisico) throws IOException, JSONException {
-        JSONObject risultatoChiamata = new JSONObject(servizioOSM.getInfoPunto(puntoFisico.coordinate()));
+        JSONObject risultatoChiamata = new JSONObject(servizioOSM.getInfoPunto(puntoFisico.getCoordinate()));
         JSONObject address = risultatoChiamata.getJSONObject("address");
         if(address.has("city")) return address.getString("city").trim();
         if(address.has("town")) return address.getString("town").trim();
