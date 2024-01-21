@@ -43,6 +43,21 @@ public abstract class Contenuto implements ObserverTempo {
     }
 
     /**
+     * cambia lo stato del contenuto.
+     * @param stato il nuovo stato.
+     */
+    public void setStato(Stato stato) {
+        this.stato = stato;
+    }
+
+    /**
+     * @return lo stato del contenuto.
+     */
+    public Stato getStato() {
+        return this.stato;
+    }
+
+    /**
      * Aggiorna lo stato del contenuto.
      * @param dataOra la data e l'ora attuali.
      */
