@@ -41,6 +41,29 @@ public abstract class Contenuto implements ObserverTempo {
         this.tempo = tempo;
         stato = SelettoreStato.nuovoStato(Stato.CHIUSO, tempo, LocalDateTime.now());
     }
+    public Contenuto(String titolo, String testo, List<File> fileMultimediali, int id, Tempo tempo, Stato stato) {
+        this.fileMultimediali = fileMultimediali;
+        this.testo = testo;
+        this.titolo = titolo;
+        this.id = id;
+        this.tempo = tempo;
+        this.stato = stato;
+    }
+
+    /**
+     * cambia lo stato del contenuto.
+     * @param stato il nuovo stato.
+     */
+    public void setStato(Stato stato) {
+        this.stato = stato;
+    }
+
+    /**
+     * @return lo stato del contenuto.
+     */
+    public Stato getStato() {
+        return this.stato;
+    }
 
     /**
      * Aggiorna lo stato del contenuto.
@@ -94,12 +117,11 @@ public abstract class Contenuto implements ObserverTempo {
 
     @Override
     public String toString() {
-        return "Contenuto{" +
+        return
                 "id=" + id +
-                "titolo='" + titolo + '\'' +
+                ", titolo='" + titolo + '\'' +
                 ", testo='" + testo + '\'' +
-                ", fileMultimediali=" + fileMultimediali.size() +
-                '}';
+                ", fileMultimediali=" + fileMultimediali.size()+",";
     }
 
 }

@@ -1,5 +1,8 @@
 package unicam.cs.ids.punti;
 
+import unicam.cs.ids.stato.Stato;
+import unicam.cs.ids.tempo.Tempo;
+
 import java.io.File;
 import java.util.List;
 
@@ -14,7 +17,10 @@ public class Itinerario extends Contenuto{
         super(titolo, testo, fileMultimediali, id);
         this.contenuti = contenuti;
     }
-
+    public Itinerario(String titolo, String testo, List<File> fileMultimediali, List<Contenuto> contenuti, int id, Tempo tempo) {
+        super(titolo, testo, fileMultimediali, id, tempo);
+        this.contenuti = contenuti;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

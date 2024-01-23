@@ -4,6 +4,7 @@ import unicam.cs.ids.ruoli.Utente;
 import unicam.cs.ids.tempo.Tempo;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,6 +39,9 @@ public class Evento extends Contenuto {
         return iscritti.remove(utente);
     }
 
+    public boolean iscriviAll(Collection<Utente> utente) {
+        return iscritti.addAll(utente);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
