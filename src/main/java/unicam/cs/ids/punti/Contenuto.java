@@ -92,14 +92,18 @@ public abstract class Contenuto implements ObserverTempo {
         return fileMultimediali.removeAll(file);
     }
 
-    public JSONObject dettagli() throws JSONException {
-        return new JSONObject()
-                .put("titolo", titolo)
-                .put("testo", testo)
-                .put("fileMultimediali", fileMultimediali)
-                .put("id", id)
-                .put("tempo", tempo)
-                .put("stato", stato);
+    public JSONObject dettagli()  {
+        try {
+            return new JSONObject()
+                    .put("titolo", titolo)
+                    .put("testo", testo)
+                    .put("fileMultimediali", fileMultimediali)
+                    .put("id", id)
+                    .put("tempo", tempo)
+                    .put("stato", stato);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
