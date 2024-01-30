@@ -48,4 +48,8 @@ public class GestoreComuni {
     }
 
 
+    public Comune getComuneById(String idComune) {
+            //TODO: implementare
+        return null;
+    }
 }

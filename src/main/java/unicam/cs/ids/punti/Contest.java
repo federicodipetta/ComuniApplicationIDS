@@ -25,7 +25,7 @@ public class Contest implements ObserverTempo {
     private Tempo tempo;
     private Stato stato;
     private final PuntoFisico puntoFisico;
-    private final int id;
+    private final String id;
 
     public Contest (Utente animatore, String titolo, String descrizione, Tempo tempo, PuntoFisico puntoFisico, int id) {
         this.animatore = animatore;
@@ -61,7 +61,7 @@ public class Contest implements ObserverTempo {
         return false;
     }
 
-    public int getId () {
+    public String getId () {
         return id;
     }
 
@@ -110,6 +110,6 @@ public class Contest implements ObserverTempo {
 
     @Override
     public int hashCode() {
-        return id * 31 << 4;
+        return id.hashCode();
     }
 }

@@ -1,14 +1,14 @@
 package unicam.cs.ids.ruoli;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import unicam.cs.ids.Comune;
-import unicam.cs.ids.punti.AnalizzatorePuntoFisico;
-import unicam.cs.ids.punti.Contenuto;
-import unicam.cs.ids.punti.Contest;
-import unicam.cs.ids.punti.PuntoFisico;
+import unicam.cs.ids.punti.*;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -63,18 +63,44 @@ public class GestoreComunale {
      * @param id l'id del contest
      * @return il contest
      */
-    public Contest getContest(int id) {
-        for (Contest c : contest) {
-            if (c.getId() == id) {
-                return c;
-            }
-        }
-        return null;
+    public Contest getContest(String id) {
+        return contest.stream()
+                .filter(contest -> contest.getId().equals(id)).findFirst()
+                .orElse(null);
     }
 
+
+    /**
+     * Questo metodo ritorna il comune del gestore comunale
+     * @return il comune del gestore comunale
+     */
     public Comune getComune() {
         return comune;
     }
+
+    /**
+     * Questo metodo ritorna o dettagli di un puntofisico, nelle quali potremmo trovare
+     * le coordinate del punto, il numero dei contenuti.
+     * @return
+     * @throws JSONException
+     */
+    public JSONArray getDettagliPuntiFisici() throws JSONException {
+        //TODO: implementare
+        return null;
+    }
+
+    /**
+     * Questo metodo ritorna i dettagli dei contenuti dentro un punto fisico.
+     * @param puntoFisico il punto fisico
+     * @return i dettagli dei contenuti del punto fisico
+     * @throws JSONException
+     */
+    public JSONArray getDettagliContenuti(PuntoFisico puntoFisico) throws JSONException {
+        return puntiFisici.stream().filter(x -> x.equals(puntoFisico))
+                .findFirst().orElseThrow().getContenuti().stream()
+                .map(Contenuto::dettagli).collect(JSONArray::new, JSONArray::put, JSONArray::put);
+    }
+
 
     @Override
     public String toString() {
@@ -85,4 +111,18 @@ public class GestoreComunale {
                 '}';
     }
 
+    public boolean eliminaContenuto(Contenuto contenuto, PuntoFisico puntoFisico) {
+        //TODO: implementare
+        return false;
+    }
+
+    public Contest getContestById(String idContest) {
+        //TODO: implementare
+        return null;
+    }
+
+    public List<Iscrizioni> getIscrizioniVincenti(Contest contestById) {
+        //TODO: implementare
+        return null;
+    }
 }
