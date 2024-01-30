@@ -27,7 +27,7 @@ public class Contest implements ObserverTempo {
     private final PuntoFisico puntoFisico;
     private final String id;
 
-    public Contest (Utente animatore, String titolo, String descrizione, Tempo tempo, PuntoFisico puntoFisico, int id) {
+    public Contest (Utente animatore, String titolo, String descrizione, Tempo tempo, PuntoFisico puntoFisico, String id) {
         this.animatore = animatore;
         this.partecipazioni = new HashMap<>();
         this.titolo = titolo;
