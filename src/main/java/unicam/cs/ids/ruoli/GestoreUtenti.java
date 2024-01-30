@@ -11,12 +11,12 @@ import java.util.Set;
  */
 public class GestoreUtenti {
 
-    private final GestoreRuoliSingleton gestoreRuoliSingleton;
+    private final GestoreRuoli gestoreRuoli;
 
     private final Set<Utente> utenti;
 
     public GestoreUtenti() {
-        gestoreRuoliSingleton = GestoreRuoliSingleton.getInstance();
+        gestoreRuoli = new GestoreRuoli();
         utenti = new HashSet<>();
     }
 
@@ -45,7 +45,7 @@ public class GestoreUtenti {
      * @return la lista dei comuni a cui l'utente è abilitato con quel ruolo.
      */
     public Set<Comune> getComuniAbilitati(Utente utente, Ruolo ruolo) {
-        return gestoreRuoliSingleton.getComuniAbilitati(utente, ruolo);
+        return gestoreRuoli.getComuniAbilitati(utente, ruolo);
     }
 
     /**
@@ -55,7 +55,7 @@ public class GestoreUtenti {
      * @return true se l'utente è stato associato al ruolo nel comune, false altrimenti.
      */
     public boolean setRuoloUtente(Utente utente, RuoloComune ruoloComune) {
-    	return gestoreRuoliSingleton.aggiungiUtenteRuoloComune(utente, ruoloComune);
+    	return gestoreRuoli.aggiungiUtenteRuoloComune(utente, ruoloComune);
     }
 
     @Override
@@ -63,6 +63,15 @@ public class GestoreUtenti {
         return "GestoreUtenti{" +
                 "utenti=" + utenti.size() +
                 '}';
+    }
+
+    public Utente getUtenteById(String idUtente) {
+        for(Utente utente : utenti) {
+            if(utente.id().equals(idUtente)) {
+                return utente;
+            }
+        }
+        return null;
     }
 
 }
