@@ -1,27 +1,27 @@
 package unicam.cs.ids.controllers;
 
 import unicam.cs.ids.Comune;
+import unicam.cs.ids.ruoli.GestorePiattaforma;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class ControllerComuni {
 
-    private final Set<Comune> comuni;
+    private final GestorePiattaforma gestorePiattaforma;
 
     /**
      * Costruisce un ControllerComuni.
      */
     public ControllerComuni() {
-        this.comuni = new HashSet<>();
+        this.gestorePiattaforma = new GestorePiattaforma();
     }
 
     /**
-     * Costruisce un ControllerComuni a partire da un insieme di comuni.
-     * @param comuni L'insieme di partenza.
+     * Costruisce un ControllerComuni.
+     * @param gestorePiattaforma Il gestore della piattaforma.
      */
-    public ControllerComuni(Set<Comune> comuni) {
-        this.comuni = comuni;
+    public ControllerComuni(GestorePiattaforma gestorePiattaforma) {
+        this.gestorePiattaforma = gestorePiattaforma;
     }
 
     /**
@@ -30,7 +30,7 @@ public class ControllerComuni {
      * @return true se il comune è stato aggiunto, false altrimenti.
      */
     public boolean aggiungiComune(Comune comune) {
-        return comuni.add(comune);
+        return gestorePiattaforma.aggiungiComune(comune);
     }
 
     /**
@@ -38,7 +38,7 @@ public class ControllerComuni {
      * @return Un insieme contenente i comuni del Controller.
      */
     public Set<Comune> getComuni() {
-        return comuni;
+        return gestorePiattaforma.getComuni();
     }
 
 }

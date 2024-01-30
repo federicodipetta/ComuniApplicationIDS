@@ -2,6 +2,8 @@ package unicam.cs.ids.ruoli;
 
 import unicam.cs.ids.Comune;
 
+import java.util.Set;
+
 /**
  * Classe utilizzata per gestire la piattaforma.
  */
@@ -39,6 +41,10 @@ public class GestorePiattaforma {
                 gestoreUtenti.toString() +
                 ", " + gestoreComuni.toString() +
                 '}';
+    }
+
+    public Set<Comune> getComuni() {
+        return gestoreComuni.getComuni();
     }
 
 }
