@@ -5,6 +5,7 @@ import unicam.cs.ids.Comune;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Classe utilizzata per gestire i comuni della piattaforma.
@@ -51,5 +52,10 @@ public class GestoreComuni {
     public Comune getComuneById(String idComune) {
             //TODO: implementare
         return null;
+    }
+
+    public Set<Comune> getComuni() {
+        //TODO: implementare
+        return new HashSet<>();
     }
 }

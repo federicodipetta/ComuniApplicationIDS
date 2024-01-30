@@ -8,25 +8,12 @@ import java.util.stream.Collectors;
 /**
  * Questa classe implementa il design pattern Singleton per la gestione dei ruoli.
  */
-public class GestoreRuoliSingleton {
-
-    private static GestoreRuoliSingleton instance;
+public class GestoreRuoli {
 
     private final Map<Utente, Set<RuoloComune>> mappaUtenteRuoliComune;
 
-    private GestoreRuoliSingleton() {
+    public GestoreRuoli() {
         mappaUtenteRuoliComune = new HashMap<>();
-    }
-
-    /**
-     * Restituisce l'istanza del GestoreRuoliSingleton.
-     * @return l'istanza del GestoreRuoliSingleton.
-     */
-    public static GestoreRuoliSingleton getInstance() {
-        if (instance == null) {
-            instance = new GestoreRuoliSingleton();
-        }
-        return instance;
     }
 
     /**

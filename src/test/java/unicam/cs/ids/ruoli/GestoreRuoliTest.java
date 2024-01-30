@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertFalse;
 
-public class GestoreRuoliSingletonTest {
+public class GestoreRuoliTest {
 
     private Utente utente1 = new Utente("utente1", "1");
     private Utente utente2 = new Utente("utente2", "2");
@@ -19,20 +19,14 @@ public class GestoreRuoliSingletonTest {
     private RuoloComune ruoloComune2 = new RuoloComune(camerino, Ruolo.CONTRIBUTOR_AUTORIZZATO);
 
     @Test
-    public void testGetInstance() {
-        GestoreRuoliSingleton gestoreRuoliSingleton = GestoreRuoliSingleton.getInstance();
-        assert gestoreRuoliSingleton != null;
-    }
-
-    @Test
     public void testAggiungiUtenteRuoloComune() {
-        GestoreRuoliSingleton gestoreRuoliSingleton = GestoreRuoliSingleton.getInstance();
-        assert gestoreRuoliSingleton.aggiungiUtenteRuoloComune(utente1, ruoloComune1);
-        assert gestoreRuoliSingleton.aggiungiUtenteRuoloComune(utente1, ruoloComune2);
-        assertFalse(gestoreRuoliSingleton.aggiungiUtenteRuoloComune(utente1, ruoloComune1));
-        assert gestoreRuoliSingleton.aggiungiUtenteRuoloComune(utente2, ruoloComune1);
-        assert gestoreRuoliSingleton.aggiungiUtenteRuoloComune(utente2, ruoloComune2);
-        assertFalse(gestoreRuoliSingleton.aggiungiUtenteRuoloComune(utente2, ruoloComune1));
+        GestoreRuoli gestoreRuoli = new GestoreRuoli();
+        assert gestoreRuoli.aggiungiUtenteRuoloComune(utente1, ruoloComune1);
+        assert gestoreRuoli.aggiungiUtenteRuoloComune(utente1, ruoloComune2);
+        assertFalse(gestoreRuoli.aggiungiUtenteRuoloComune(utente1, ruoloComune1));
+        assert gestoreRuoli.aggiungiUtenteRuoloComune(utente2, ruoloComune1);
+        assert gestoreRuoli.aggiungiUtenteRuoloComune(utente2, ruoloComune2);
+        assertFalse(gestoreRuoli.aggiungiUtenteRuoloComune(utente2, ruoloComune1));
     }
 
 }
