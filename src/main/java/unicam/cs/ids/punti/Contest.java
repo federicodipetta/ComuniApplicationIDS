@@ -18,18 +18,18 @@ import java.util.Map;
  */
 public class Contest implements ObserverTempo {
 
+    private final String id;
     private final Utente animatore;
-    private final Map<Utente, File> partecipazioni;
+    private final Map<Iscrizione, Integer> iscrizioni;
     private final String titolo;
     private final String descrizione;
     private Tempo tempo;
     private Stato stato;
     private final PuntoFisico puntoFisico;
-    private final String id;
 
     public Contest (Utente animatore, String titolo, String descrizione, Tempo tempo, PuntoFisico puntoFisico, String id) {
         this.animatore = animatore;
-        this.partecipazioni = new HashMap<>();
+        this.iscrizioni = new HashMap<>();
         this.titolo = titolo;
         this.tempo = tempo;
         this.descrizione = descrizione;
@@ -55,14 +55,25 @@ public class Contest implements ObserverTempo {
      */
     public boolean aggiungiIscrizione(Utente utente, File file) {
         if (stato == Stato.APERTO) {
-            partecipazioni.put(utente, file);
+            iscrizioni.put(new Iscrizione(utente, this, file), 0);
             return true;
         }
         return false;
     }
 
-    public String getId () {
-        return id;
+    /**
+     * Questo metodo permette di aggiungere un voto a un'iscrizione del contest.
+     * @param iscrizione l'iscrizione a cui aggiungere il voto.
+     * @return true se il voto è stato aggiunto, false altrimenti.
+     */
+    public boolean votazione (Iscrizione iscrizione) {
+        if (stato == Stato.APERTO) {
+            if (iscrizioni.containsKey(iscrizione)) {
+                iscrizioni.put(iscrizione, iscrizioni.get(iscrizione) + 1);
+                return true;
+            }
+        }
+        return true;
     }
 
     /**
@@ -74,16 +85,28 @@ public class Contest implements ObserverTempo {
         stato = SelettoreStato.nuovoStato(stato, tempo, dataOra);
     }
 
-    public JSONObject dettagli() throws JSONException {
-        return new JSONObject()
-                .put("id", id)
-                .put("animatore", animatore.toString())
-                .put("partecipazioni", partecipazioni.size())
-                .put("titolo", titolo)
-                .put("descrizione", descrizione)
-                .put("tempo", tempo.toString())
-                .put("stato", stato.toString())
-                .put("puntoFisico", puntoFisico.toString());
+    public JSONObject dettagli() {
+        try {
+            return new JSONObject()
+                    .put("id", id)
+                    .put("titolo", titolo)
+                    .put("descrizione", descrizione)
+                    .put("stato", stato)
+                    .put("puntoFisico", puntoFisico.toString());
+        } catch (JSONException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    public JSONObject dettagliMinimi() {
+        try {
+            return new JSONObject()
+                    .put("id", id)
+                    .put("titolo", titolo)
+                    .put("stato", stato);
+        } catch (JSONException e) {
+            throw new RuntimeException();
+        }
     }
 
 
@@ -92,7 +115,7 @@ public class Contest implements ObserverTempo {
         return "Contest{" +
                 "id=" + id +
                 "animatore=" + animatore +
-                ", partecipazioni=" + partecipazioni.size() +
+                ", iscrizioni=" + iscrizioni.size() +
                 ", titolo='" + titolo + '\'' +
                 ", descrizione='" + descrizione + '\'' +
                 ", tempo=" + tempo.toString() +
@@ -105,11 +128,31 @@ public class Contest implements ObserverTempo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Contest contest)) return false;
-        return id == contest.id;
+        return id.equals(contest.id);
     }
 
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    public Stato getStato () {
+        return stato;
+    }
+
+    public void setStato (Stato stato) {
+        this.stato = stato;
+    }
+
+    public Map<Iscrizione, Integer> getIscrizioni() {
+        return this.iscrizioni;
+    }
+
+    public Utente getAnimatore() {
+        return this.animatore;
+    }
+
+    public String getId () {
+        return id;
     }
 }

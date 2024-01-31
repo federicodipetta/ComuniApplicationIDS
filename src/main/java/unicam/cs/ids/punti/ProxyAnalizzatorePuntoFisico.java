@@ -2,12 +2,9 @@ package unicam.cs.ids.punti;
 
 import org.json.JSONException;
 import unicam.cs.ids.Comune;
-import unicam.cs.ids.servizi.Coppia;
-import unicam.cs.ids.servizi.ListaCircolare;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

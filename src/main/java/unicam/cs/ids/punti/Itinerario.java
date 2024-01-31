@@ -1,6 +1,6 @@
 package unicam.cs.ids.punti;
 
-import unicam.cs.ids.stato.Stato;
+import org.json.JSONObject;
 import unicam.cs.ids.tempo.Tempo;
 
 import java.io.File;
@@ -21,6 +21,18 @@ public class Itinerario extends Contenuto{
         super(titolo, testo, fileMultimediali, id, tempo);
         this.contenuti = contenuti;
     }
+
+    @Override
+    public JSONObject dettagli() {
+        try {
+            JSONObject dettagli = super.dettagli();
+            dettagli.put("contenuti", contenuti.size());
+            return dettagli;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

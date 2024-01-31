@@ -5,6 +5,7 @@ import unicam.cs.ids.Comune;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Classe utilizzata per gestire i comuni della piattaforma.
@@ -15,20 +16,6 @@ public class GestoreComuni {
 
     public GestoreComuni() {
         this.gestoriComunali = new HashSet<>();
-    }
-
-    /**
-     * Restituisce un gestore comunale dato un comune
-     * @param comune il comune del gestore comunale da restituire
-     * @return il gestore comunale richiesto
-     */
-    public GestoreComunale getGestoreComunale(Comune comune) {
-        for (GestoreComunale gc : gestoriComunali) {
-            if (gc.getComune().equals(comune)) {
-                return gc;
-            }
-        }
-        return null;
     }
 
     /**
@@ -47,9 +34,42 @@ public class GestoreComuni {
                 '}';
     }
 
-
+    /**
+     * Questo metodo restituisce un gestore comunale dato un id di comune.
+     * @param idComune l'id del comune del gestore comunale da restituire.
+     * @return il gestore comunale richiesto.
+     */
     public Comune getComuneById(String idComune) {
-            //TODO: implementare
+        for (GestoreComunale gc : gestoriComunali) {
+            if (gc.getComune().id().equals(idComune)) {
+                return gc.getComune();
+            }
+        }
         return null;
     }
+
+    /**
+     * Restituisce la lista dei comuni gestiti.
+     * @return la lista dei comuni gestiti.
+     */
+    public Set<Comune> getComuni() {
+        return gestoriComunali.stream()
+                .map(GestoreComunale::getComune)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Restituisce un gestore comunale dato un comune
+     * @param comune il comune del gestore comunale da restituire
+     * @return il gestore comunale richiesto
+     */
+    public GestoreComunale getGestoreComunale(Comune comune) {
+        for (GestoreComunale gc : gestoriComunali) {
+            if (gc.getComune().equals(comune)) {
+                return gc;
+            }
+        }
+        return null;
+    }
+
 }
