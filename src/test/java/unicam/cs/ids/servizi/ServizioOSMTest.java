@@ -1,5 +1,6 @@
 package unicam.cs.ids.servizi;
 
+import org.json.JSONException;
 import org.junit.Test;
 import unicam.cs.ids.punti.Coordinate;
 
@@ -19,6 +20,17 @@ public class ServizioOSMTest {
                 .split(":")[1]
                 .split(",")[0];
         assertEquals("\"Civitanova Marche\"", citta);
+    }
+
+    @Test
+    public void getCoordinateTest() throws IOException, JSONException {
+        ServizioOSM servizioOSM = new ServizioOSM();
+        Coordinate coordinate = servizioOSM.getCoordinate("Civitanova Marche");
+        assertTrue(coordinate.latitudine() > 43.3 && coordinate.latitudine() < 43.4);
+        assertTrue(coordinate.longitudine() > 13.7 && coordinate.longitudine() < 13.8);
+        coordinate = servizioOSM.getCoordinate("cAmErInO");
+        assertTrue(coordinate.latitudine() > 43.1 && coordinate.latitudine() < 43.2);
+        assertTrue(coordinate.longitudine() > 13.0 && coordinate.longitudine() < 13.1);
     }
 
 }

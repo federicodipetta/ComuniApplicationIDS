@@ -1,4 +1,4 @@
-package unicam.cs.ids.notifiche;
+package unicam.cs.ids.ruoli;
 
 public class Notifica {
 

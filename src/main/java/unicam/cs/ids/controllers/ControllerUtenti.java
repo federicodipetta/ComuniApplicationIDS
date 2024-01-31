@@ -1,8 +1,8 @@
 package unicam.cs.ids.controllers;
 
 import unicam.cs.ids.Comune;
-import unicam.cs.ids.notifiche.GestoreNotifiche;
-import unicam.cs.ids.notifiche.Notifica;
+import unicam.cs.ids.ruoli.GestoreNotifiche;
+import unicam.cs.ids.ruoli.Notifica;
 import unicam.cs.ids.ruoli.GestoreUtenti;
 import unicam.cs.ids.ruoli.Ruolo;
 import unicam.cs.ids.ruoli.RuoloComune;
