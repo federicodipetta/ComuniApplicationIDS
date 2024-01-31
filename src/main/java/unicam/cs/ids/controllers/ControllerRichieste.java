@@ -6,17 +6,17 @@ import unicam.cs.ids.richieste.RichiestaCommand;
 import unicam.cs.ids.richieste.RichiestaContenuto;
 import unicam.cs.ids.richieste.RichiestaEliminaContenuto;
 import unicam.cs.ids.richieste.Segnalazione;
-import unicam.cs.ids.ruoli.GestoreComunale;
-import unicam.cs.ids.ruoli.GestoreComuni;
+import unicam.cs.ids.ruoli.*;
 
 public class ControllerRichieste {
     GestoreComuni gestoreComuni;
-
+    GestoreUtenti gestoreUtenti;
     /**
      * Costruisce un ControllerRichieste.
      * @param gestoreComuni Il gestore dei comuni.
      */
-    public ControllerRichieste(GestoreComuni gestoreComuni) {
+    public ControllerRichieste(GestoreComuni gestoreComuni, GestoreUtenti gestoreUtenti) {
+        this.gestoreUtenti = gestoreUtenti;
         this.gestoreComuni = gestoreComuni;
     }
     /**
@@ -26,7 +26,7 @@ public class ControllerRichieste {
      * @return true se la richiesta è stata aggiunta, false altrimenti.
      */
     public boolean aggiungiRichiestaAggiunta(RichiestaContenuto richiestaContenuto, String idComune){
-        return true;
+        return aggiungiRichiestaGenerica(richiestaContenuto, idComune);
     }
 
     /**
@@ -35,17 +35,22 @@ public class ControllerRichieste {
      * @return le richieste di iscrizione ad un contest in formato JSON
      */
     public JSONArray getRichiesteContest(String utente){
-        return null;
+        return gestoreComuni.getGestoriComunali().stream()
+                .map(GestoreComunale::getGestoreRichieste)
+                .map(x->x.getDettagliRichiesteContest(gestoreUtenti.getUtenteById(utente)))
+                .collect(JSONArray::new, JSONArray::put, JSONArray::put);
     }
 
     /**
      * valuta una richiesta generica
      * @param richiestaCommand richiesta da valutare
-     * @param ccettazione true se la richiesta è accettata, false altrimenti
+     * @param accettazione true se la richiesta è accettata, false altrimenti
      * @return true se la richiesta è stata valutata, false altrimenti.
      */
-    public boolean valutaRichiesta(RichiestaCommand richiestaCommand, boolean ccettazione){
-        return true;
+    public boolean valutaRichiesta(RichiestaCommand richiestaCommand, boolean accettazione){
+        return gestoreComuni.getGestoriComunali().stream()
+                .map(GestoreComunale::getGestoreRichieste)
+                .anyMatch(x->x.valutaRichiesta(richiestaCommand, accettazione));
     }
 
     /**
@@ -53,8 +58,8 @@ public class ControllerRichieste {
      * @param segnalazione segnalazione da aggiungere
      * @return true se la segnalazione è stata aggiunta, false altrimenti.
      */
-    public boolean aggiungiSegnalazione(Segnalazione segnalazione){
-        return true;
+    public boolean aggiungiSegnalazione(Segnalazione segnalazione, String idComune){
+        return aggiungiRichiestaGenerica(segnalazione, idComune);
     }
 
     /**
@@ -62,8 +67,8 @@ public class ControllerRichieste {
      * @param richiestaEliminaContenuto richiesta da aggiungere
      * @return true se la richiesta è stata aggiunta, false altrimenti.
      */
-    public boolean aggiuntaRichiestaEliminazione(RichiestaEliminaContenuto richiestaEliminaContenuto){
-        return true;
+    public boolean aggiuntaRichiestaEliminazione(RichiestaEliminaContenuto richiestaEliminaContenuto, String idComune){
+        return aggiungiRichiestaGenerica(richiestaEliminaContenuto, idComune);;
     }
 
     /**
@@ -75,7 +80,7 @@ public class ControllerRichieste {
      *         quindi quelle legate al contest ad esempio.
      */
     public boolean aggiungiRichiesta(RichiestaCommand richiestaCommand, String idComune){
-        return true;
+        return aggiungiRichiestaGenerica(richiestaCommand, idComune);
     }
 
     /**
@@ -83,8 +88,17 @@ public class ControllerRichieste {
      * @param richiestaCommand richiesta da restituire
      * @return la richiesta in formato JSON
      */
-    public JSONObject getRichiesta(String richiestaCommand){
-        return null;
+    public JSONObject getRichiesta(RichiestaCommand richiestaCommand){
+        return gestoreComuni.getGestoriComunali().stream()
+                .map(GestoreComunale::getGestoreRichieste)
+                .map(x->x.getDettagliRichiesta(richiestaCommand))
+                .findFirst()
+                .orElse(null);
     }
 
+
+    private boolean aggiungiRichiestaGenerica(RichiestaCommand richiestaCommand, String idComune) {
+        return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune))
+                .getGestoreRichieste().aggiungiRichiesta(richiestaCommand);
+    }
 }
