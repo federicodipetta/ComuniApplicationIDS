@@ -1,6 +1,4 @@
-package unicam.cs.ids.notifiche;
-
-import unicam.cs.ids.ruoli.Utente;
+package unicam.cs.ids.ruoli;
 
 import java.util.HashMap;
 import java.util.List;
