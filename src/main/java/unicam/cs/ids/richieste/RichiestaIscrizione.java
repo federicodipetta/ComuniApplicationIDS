@@ -1,5 +1,6 @@
 package unicam.cs.ids.richieste;
 
+import org.json.JSONObject;
 import unicam.cs.ids.punti.Contest;
 import unicam.cs.ids.ruoli.Utente;
 
@@ -24,6 +25,27 @@ public class RichiestaIscrizione implements RichiestaCommand {
     public void esegui(boolean accetta) {
         if (accetta) {
             contest.aggiungiIscrizione(utente, file);
+        }
+    }
+
+    @Override
+    public JSONObject dettagliMinimi() {
+        try {
+            return new JSONObject().put("tipo", "iscrizione contest")
+                    .put("file", file.toString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public JSONObject dettagli() {
+        try {
+            return new JSONObject().put("tipo", "iscrizione contest")
+                    .put("file", file.toString())
+                    .put("utente", utente.toString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

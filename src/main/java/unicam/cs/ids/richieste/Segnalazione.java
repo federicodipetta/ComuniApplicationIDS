@@ -3,13 +3,12 @@ package unicam.cs.ids.richieste;
 import org.json.JSONException;
 import org.json.JSONObject;
 import unicam.cs.ids.punti.Contenuto;
-import unicam.cs.ids.ruoli.GestoreComunale;
 import unicam.cs.ids.stato.Stato;
 
 public class Segnalazione implements RichiestaCommand{
 
-    private String descrizione;
-    private Contenuto contenuto;
+    private final String descrizione;
+    private final Contenuto contenuto;
 
     /**
      * Costruttore di una segnalazione
@@ -27,6 +26,27 @@ public class Segnalazione implements RichiestaCommand{
         }
         //in caso non sia accettata andrebbe implementata la notificazione dell'utente
 
+    }
+
+    @Override
+    public JSONObject dettagliMinimi() {
+        try {
+            return new JSONObject().put("tipo", "segnalazione")
+                    .put("descrizione", descrizione);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public JSONObject dettagli() {
+        try {
+            return new JSONObject().put("tipo", "segnalazione")
+                    .put("descrizione", descrizione)
+                    .put("contenuto", contenuto.dettagli());
+        } catch (JSONException e) {
+            throw new RuntimeException();
+        }
     }
 
 

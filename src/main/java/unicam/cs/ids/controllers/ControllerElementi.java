@@ -6,9 +6,8 @@ import org.json.JSONObject;
 import unicam.cs.ids.Comune;
 import unicam.cs.ids.punti.Contenuto;
 import unicam.cs.ids.punti.Contest;
-import unicam.cs.ids.punti.Iscrizioni;
+import unicam.cs.ids.punti.Iscrizione;
 import unicam.cs.ids.punti.PuntoFisico;
-import unicam.cs.ids.ruoli.GestoreComunale;
 import unicam.cs.ids.ruoli.GestoreComuni;
 
 import java.util.List;
@@ -28,12 +27,12 @@ public class ControllerElementi {
                 .eliminaContenuto(contenuto, puntoFisico);
     }
 
-    public List<Iscrizioni> getIscrizioniVincenti(String idContest){
+    public List<Iscrizione> getIscrizioniVincenti(String idContest){
         //TODO : implementare
         return null;
     }
 
-    public List<Iscrizioni> getIscrizioniVincenti(String idContest, String idComune){
+    public List<Iscrizione> getIscrizioniVincenti(String idContest, String idComune){
         Comune comune = gestoreComunale.getComuneById(idComune);
         return gestoreComunale.getGestoreComunale(comune)
                 .getIscrizioniVincenti(gestoreComunale.getGestoreComunale(comune).getContestById(idContest));

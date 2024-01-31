@@ -17,52 +17,38 @@ import java.util.List;
  */
 public abstract class Contenuto implements ObserverTempo {
 
+    private final String id;
     private final String titolo;
     private final String testo;
     private final List<File> fileMultimediali;
-    private final int id;
     private Tempo tempo;
     private Stato stato;
 
-    public Contenuto(String titolo, String testo, List<File> fileMultimediali, int id) {
-        this.fileMultimediali = fileMultimediali;
-        this.testo = testo;
-        this.titolo = titolo;
+    public Contenuto(String id, String titolo, String testo, List<File> fileMultimediali) {
         this.id = id;
+        this.titolo = titolo;
+        this.testo = testo;
+        this.fileMultimediali = fileMultimediali;
         tempo = new SempreAttivo();
         stato = Stato.APERTO;
     }
 
-    public Contenuto(String titolo, String testo, List<File> fileMultimediali, int id, Tempo tempo) {
-        this.fileMultimediali = fileMultimediali;
-        this.testo = testo;
-        this.titolo = titolo;
+    public Contenuto(String id, String titolo, String testo, List<File> fileMultimediali, Tempo tempo) {
         this.id = id;
+        this.titolo = titolo;
+        this.testo = testo;
+        this.fileMultimediali = fileMultimediali;
         this.tempo = tempo;
         stato = SelettoreStato.nuovoStato(Stato.CHIUSO, tempo, LocalDateTime.now());
     }
-    public Contenuto(String titolo, String testo, List<File> fileMultimediali, int id, Tempo tempo, Stato stato) {
-        this.fileMultimediali = fileMultimediali;
-        this.testo = testo;
-        this.titolo = titolo;
+
+    public Contenuto(String id, String titolo, String testo, List<File> fileMultimediali, Tempo tempo, Stato stato) {
         this.id = id;
+        this.titolo = titolo;
+        this.testo = testo;
+        this.fileMultimediali = fileMultimediali;
         this.tempo = tempo;
         this.stato = stato;
-    }
-
-    /**
-     * cambia lo stato del contenuto.
-     * @param stato il nuovo stato.
-     */
-    public void setStato(Stato stato) {
-        this.stato = stato;
-    }
-
-    /**
-     * @return lo stato del contenuto.
-     */
-    public Stato getStato() {
-        return this.stato;
     }
 
     /**
@@ -95,28 +81,37 @@ public abstract class Contenuto implements ObserverTempo {
     public JSONObject dettagli()  {
         try {
             return new JSONObject()
+                    .put("id", id)
                     .put("titolo", titolo)
                     .put("testo", testo)
                     .put("fileMultimediali", fileMultimediali)
-                    .put("id", id)
-                    .put("tempo", tempo)
                     .put("stato", stato);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
     }
 
+    public JSONObject dettagliMinimi() {
+        try {
+            return new JSONObject()
+                    .put("id", id)
+                    .put("titolo", titolo)
+                    .put("stato", stato);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Contenuto contenuto)) return false;
-        return  id == contenuto.id;
+        return  id.equals(contenuto.id);
     }
 
     @Override
     public int hashCode() {
-        return id * 31 << 4;
+        return id.hashCode();
     }
 
     @Override
@@ -126,6 +121,29 @@ public abstract class Contenuto implements ObserverTempo {
                 ", titolo='" + titolo + '\'' +
                 ", testo='" + testo + '\'' +
                 ", fileMultimediali=" + fileMultimediali.size()+",";
+    }
+
+    /**
+     * Ritorna l'id del contenuto.
+     * @return l'id del contenuto.
+     */
+    public String getId() {
+        return this.id;
+    }
+
+    /**
+     * Cambia lo stato del contenuto.
+     * @param stato il nuovo stato.
+     */
+    public void setStato(Stato stato) {
+        this.stato = stato;
+    }
+
+    /**
+     * @return lo stato del contenuto.
+     */
+    public Stato getStato() {
+        return this.stato;
     }
 
 }
