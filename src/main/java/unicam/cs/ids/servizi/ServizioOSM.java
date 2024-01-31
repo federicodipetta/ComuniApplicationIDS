@@ -38,6 +38,7 @@ public class ServizioOSM implements IServizioOSM {
         return new URL(link).openConnection();
     }
 
+    @Override
     public Coordinate getCoordinate(String comune) throws IOException, JSONException {
         String link = "https://nominatim.openstreetmap.org/search.php?q=";
         link += comune.replace(" ", "+");
