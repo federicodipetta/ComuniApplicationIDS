@@ -68,7 +68,7 @@ public class ControllerRichieste {
      * @return true se la richiesta è stata aggiunta, false altrimenti.
      */
     public boolean aggiuntaRichiestaEliminazione(RichiestaEliminaContenuto richiestaEliminaContenuto, String idComune){
-        return aggiungiRichiestaGenerica(richiestaEliminaContenuto, idComune);;
+        return aggiungiRichiestaGenerica(richiestaEliminaContenuto, idComune);
     }
 
     /**
