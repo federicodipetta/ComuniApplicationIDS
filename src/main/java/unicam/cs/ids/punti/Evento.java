@@ -1,5 +1,6 @@
 package unicam.cs.ids.punti;
 
+import org.json.JSONObject;
 import unicam.cs.ids.ruoli.Utente;
 import unicam.cs.ids.tempo.Tempo;
 
@@ -42,6 +43,19 @@ public class Evento extends Contenuto {
     public boolean iscriviAll(Collection<Utente> utente) {
         return iscritti.addAll(utente);
     }
+
+    @Override
+    public JSONObject dettagli() {
+        try {
+            JSONObject dettagli = super.dettagli();
+            dettagli.put("iscritti", iscritti.size());
+            return dettagli;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

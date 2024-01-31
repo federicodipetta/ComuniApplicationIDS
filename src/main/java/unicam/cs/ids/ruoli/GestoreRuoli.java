@@ -37,7 +37,7 @@ public class GestoreRuoli {
      * @param ruoloComune La coppia ruolo-comune.
      * @return true se l'utente è stato associato al ruolo nel comune, false altrimenti.
      */
-    public boolean aggiungiUtenteRuoloComune(Utente utente, RuoloComune ruoloComune) {
+    public boolean setRuoloUtente(Utente utente, RuoloComune ruoloComune) {
         if(!mappaUtenteRuoliComune.containsKey(utente)) {
             Set<RuoloComune> insieme = new HashSet<>();
             insieme.add(ruoloComune);
