@@ -199,4 +199,11 @@ public class GestoreComunale {
                 .orElse(null);
     }
 
+    /**
+     * Questo metodo ritorna il gestore delle richieste.
+     * @return il gestore delle richieste.
+     */
+    public GestoreRichieste getGestoreRichieste() {
+        return gestoreRichieste;
+    }
 }

@@ -5,10 +5,11 @@ import org.json.JSONException;
 import unicam.cs.ids.Comune;
 import unicam.cs.ids.punti.Contenuto;
 import unicam.cs.ids.punti.Contest;
-import unicam.cs.ids.punti.Iscrizioni;
+import unicam.cs.ids.punti.Iscrizione;
 import unicam.cs.ids.punti.PuntoFisico;
 import unicam.cs.ids.ruoli.GestoreComuni;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerElementi {
@@ -31,12 +32,17 @@ public class ControllerElementi {
                 .eliminaContenuto(contenuto, puntoFisico);
     }
 
-    public List<Iscrizioni> getIscrizioniVincenti(String idContest){
-        //TODO : implementare
-        return null;
+    public List<Iscrizione> getIscrizioniVincenti(String idContest){
+        return gestoreComuni.getGestoriComunali().stream()
+                .filter(x->x.getContestById(idContest)!=null)
+                .findFirst()
+                .orElseThrow()
+                .getIscrizioniVincenti(gestoreComuni.getGestoreComunale(
+                                gestoreComuni.getComuneById(idContest)
+                        ).getContestById(idContest));
     }
 
-    public List<Iscrizioni> getIscrizioniVincenti(String idContest, String idComune){
+    public List<Iscrizione> getIscrizioniVincenti(String idContest, String idComune){
         Comune comune = gestoreComuni.getComuneById(idComune);
         return gestoreComuni.getGestoreComunale(comune)
                 .getIscrizioniVincenti(gestoreComuni.getGestoreComunale(comune).getContestById(idContest));
