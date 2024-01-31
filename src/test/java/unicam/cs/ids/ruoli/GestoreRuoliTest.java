@@ -21,12 +21,12 @@ public class GestoreRuoliTest {
     @Test
     public void testAggiungiUtenteRuoloComune() {
         GestoreRuoli gestoreRuoli = new GestoreRuoli();
-        assert gestoreRuoli.aggiungiUtenteRuoloComune(utente1, ruoloComune1);
-        assert gestoreRuoli.aggiungiUtenteRuoloComune(utente1, ruoloComune2);
-        assertFalse(gestoreRuoli.aggiungiUtenteRuoloComune(utente1, ruoloComune1));
-        assert gestoreRuoli.aggiungiUtenteRuoloComune(utente2, ruoloComune1);
-        assert gestoreRuoli.aggiungiUtenteRuoloComune(utente2, ruoloComune2);
-        assertFalse(gestoreRuoli.aggiungiUtenteRuoloComune(utente2, ruoloComune1));
+        assert gestoreRuoli.setRuoloUtente(utente1, ruoloComune1);
+        assert gestoreRuoli.setRuoloUtente(utente1, ruoloComune2);
+        assertFalse(gestoreRuoli.setRuoloUtente(utente1, ruoloComune1));
+        assert gestoreRuoli.setRuoloUtente(utente2, ruoloComune1);
+        assert gestoreRuoli.setRuoloUtente(utente2, ruoloComune2);
+        assertFalse(gestoreRuoli.setRuoloUtente(utente2, ruoloComune1));
     }
 
 }

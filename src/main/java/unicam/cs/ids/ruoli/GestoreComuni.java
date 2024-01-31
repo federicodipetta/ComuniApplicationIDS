@@ -19,20 +19,6 @@ public class GestoreComuni {
     }
 
     /**
-     * Restituisce un gestore comunale dato un comune
-     * @param comune il comune del gestore comunale da restituire
-     * @return il gestore comunale richiesto
-     */
-    public GestoreComunale getGestoreComunale(Comune comune) {
-        for (GestoreComunale gc : gestoriComunali) {
-            if (gc.getComune().equals(comune)) {
-                return gc;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Aggiunge un gestore comunale alla lista dei gestori comunali
      * @param comune il comune del gestore comunale da aggiungere
      * @return true se il gestore comunale è stato aggiunto, false altrimenti
@@ -48,14 +34,42 @@ public class GestoreComuni {
                 '}';
     }
 
-
+    /**
+     * Questo metodo restituisce un gestore comunale dato un id di comune.
+     * @param idComune l'id del comune del gestore comunale da restituire.
+     * @return il gestore comunale richiesto.
+     */
     public Comune getComuneById(String idComune) {
-            //TODO: implementare
+        for (GestoreComunale gc : gestoriComunali) {
+            if (gc.getComune().id().equals(idComune)) {
+                return gc.getComune();
+            }
+        }
         return null;
     }
 
+    /**
+     * Restituisce la lista dei comuni gestiti.
+     * @return la lista dei comuni gestiti.
+     */
     public Set<Comune> getComuni() {
-        //TODO: implementare
-        return new HashSet<>();
+        return gestoriComunali.stream()
+                .map(GestoreComunale::getComune)
+                .collect(Collectors.toSet());
     }
+
+    /**
+     * Restituisce un gestore comunale dato un comune
+     * @param comune il comune del gestore comunale da restituire
+     * @return il gestore comunale richiesto
+     */
+    public GestoreComunale getGestoreComunale(Comune comune) {
+        for (GestoreComunale gc : gestoriComunali) {
+            if (gc.getComune().equals(comune)) {
+                return gc;
+            }
+        }
+        return null;
+    }
+
 }
