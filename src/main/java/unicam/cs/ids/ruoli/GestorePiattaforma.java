@@ -38,8 +38,8 @@ public class GestorePiattaforma {
     @Override
     public String toString() {
         return "GestorePiattaforma{" +
-                gestoreUtenti.toString() +
-                ", " + gestoreComuni.toString() +
+                gestoreUtenti +
+                ", " + gestoreComuni +
                 '}';
     }
 

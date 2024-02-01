@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import unicam.cs.ids.punti.Contenuto;
 import unicam.cs.ids.stato.Stato;
 
-public class Segnalazione implements RichiestaCommand{
+public class Segnalazione extends RichiestaAstratta {
 
     private final String descrizione;
     private final Contenuto contenuto;
@@ -15,7 +15,8 @@ public class Segnalazione implements RichiestaCommand{
      * @param descrizione la descrizione della segnalazione
      * @param contenuto il contenuto che deve essere segnalato
      */
-    Segnalazione(String descrizione, Contenuto contenuto){
+    Segnalazione(String id, String descrizione, Contenuto contenuto){
+        super(id);
         this.descrizione = descrizione;
         this.contenuto = contenuto;
     }

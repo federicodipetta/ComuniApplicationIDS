@@ -15,6 +15,6 @@ public interface IServizioOSM {
      * @param coordinate Le coordinate del punto di cui si vogliono ottenere le informazioni.
      * @return Le informazioni, in formato JSON, ottenute da OSM riguardanti il punto dato.
      * */
-    public String getInfoPunto(Coordinate coordinate) throws IOException;
+    String getInfoPunto(Coordinate coordinate) throws IOException;
 
 }

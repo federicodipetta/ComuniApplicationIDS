@@ -55,19 +55,6 @@ public class Evento extends Contenuto {
         }
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Evento evento)) return false;
-        return super.equals(evento) && iscritti.equals(evento.iscritti);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode() + iscritti.hashCode();
-    }
-
     @Override
     public String toString() {
         return "Evento{" +

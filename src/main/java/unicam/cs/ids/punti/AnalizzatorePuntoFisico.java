@@ -3,7 +3,8 @@ package unicam.cs.ids.punti;
 import org.json.JSONException;
 import org.json.JSONObject;
 import unicam.cs.ids.Comune;
-import unicam.cs.ids.servizi.ServizioOSM;
+import unicam.cs.ids.servizi.IServizioOSM;
+
 import java.io.IOException;
 
 /**
@@ -11,10 +12,10 @@ import java.io.IOException;
  */
 public class AnalizzatorePuntoFisico implements IAnalizzatorePuntoFisico {
 
-    private final ServizioOSM servizioOSM;
+    private final IServizioOSM servizioOSM;
 
-    public AnalizzatorePuntoFisico() {
-        this.servizioOSM = new ServizioOSM();
+    public AnalizzatorePuntoFisico(IServizioOSM servizioOSM) {
+            this.servizioOSM = servizioOSM;
     }
 
     @Override

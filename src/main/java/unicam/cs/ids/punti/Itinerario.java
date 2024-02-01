@@ -34,18 +34,6 @@ public class Itinerario extends Contenuto{
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Itinerario itinerario)) return false;
-        return super.equals(itinerario) && contenuti.equals(itinerario.contenuti);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode() + contenuti.hashCode();
-    }
-
-    @Override
     public String toString() {
         return "Itinerario{" +
                 super.toString() + '\'' +

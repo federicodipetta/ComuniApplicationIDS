@@ -12,9 +12,9 @@ import java.util.Set;
 
 public class ControllerUtenti {
 
-    private GestoreUtenti gestoreUtenti;
+    private final GestoreUtenti gestoreUtenti;
 
-    private GestoreNotifiche gestoreNotifiche;
+    private final GestoreNotifiche gestoreNotifiche;
 
     /**
      * Costruisce un ControllerUtenti.
@@ -52,7 +52,7 @@ public class ControllerUtenti {
      * Metodo utilizzato per ottenere i comuni abilitati di un utente.
      * @param idUtente l'id dell'utente.
      * @param ruolo il ruolo dell'utente.
-     * @return Un Set contentente i comuni abilitati dell'utente.
+     * @return Un Set contenente i comuni abilitati dell'utente.
      */
     public Set<Comune> getComuniAbilitati(String idUtente, Ruolo ruolo) {
         return gestoreUtenti.getGestoreRuoli().getComuniAbilitati(gestoreUtenti.getUtenteById(idUtente), ruolo);
@@ -71,7 +71,7 @@ public class ControllerUtenti {
     /**
      * Metodo utilizzato per ottenere le notifiche di un utente.
      * @param idUtente l'id dell'utente.
-     * @return Un Set contentente le notifiche dell'utente.
+     * @return Un Set contenente le notifiche dell'utente.
      */
     public Set<Notifica> getNotifiche(String idUtente) {
     	return gestoreNotifiche.getNotifiche(gestoreUtenti.getUtenteById(idUtente));
