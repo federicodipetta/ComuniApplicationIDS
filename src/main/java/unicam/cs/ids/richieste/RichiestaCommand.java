@@ -24,4 +24,5 @@ public interface RichiestaCommand {
      * @return i dettagli della richiesta.
      */
     JSONObject dettagli();
+
 }

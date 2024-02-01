@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class GestoreNotifiche {
 
-    private Map<Utente, Set<Notifica>> mappaUtentiNotifiche;
+    private final Map<Utente, Set<Notifica>> mappaUtentiNotifiche;
 
     public GestoreNotifiche() {
         mappaUtentiNotifiche = new HashMap<>();
@@ -16,14 +16,14 @@ public class GestoreNotifiche {
     /**
      * Metodo usato per ottenere le notifiche di un utente.
      * @param utente l'utente di cui si vogliono ottenere le notifiche.
-     * @return Un Set contentente le notifiche dell'utente.
+     * @return Un Set contenente le notifiche dell'utente.
      */
     public Set<Notifica> getNotifiche(Utente utente) {
         return mappaUtentiNotifiche.get(utente);
     }
 
     /**
-     * Metodo usato per aggiungere una notifica ad un utente.
+     * Metodo usato per aggiungere una notifica a un utente.
      * @param utente l'utente a cui si vuole aggiungere la notifica.
      * @param notifica la notifica da aggiungere.
      * @return true se la notifica è stata aggiunta, false altrimenti.

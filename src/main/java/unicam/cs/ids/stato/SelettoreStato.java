@@ -17,7 +17,7 @@ public class SelettoreStato {
      * @return Stato aggiornato (o non) dell'oggetto.
      */
     public static Stato nuovoStato(Stato statoAttuale, Tempo tempo, LocalDateTime dataOra){
-        if(!statoAttuale.modificiabile()) return statoAttuale;
+        if(!statoAttuale.modificabile()) return statoAttuale;
         return tempo.attivato(dataOra) ?
                 Stato.APERTO
                 :

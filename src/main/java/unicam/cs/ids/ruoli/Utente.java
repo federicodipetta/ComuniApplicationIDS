@@ -11,12 +11,12 @@ public record Utente(String nomeUtente, String id) {
     public boolean equals(Object o) {
         if (o == this) return true;
         if (!(o instanceof Utente utente)) return false;
-        return utente.id().equals(id) && utente.nomeUtente().equals(nomeUtente);
+        return utente.id().equals(id);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode() + nomeUtente.hashCode();
+        return id.hashCode();
     }
 
     @Override

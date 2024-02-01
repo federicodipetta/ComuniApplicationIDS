@@ -19,16 +19,4 @@ public class PuntoInteresse extends Contenuto {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PuntoInteresse puntoInteresse)) return false;
-        return super.equals(puntoInteresse);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
 }

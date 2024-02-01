@@ -86,7 +86,7 @@ public class GestoreRichieste {
     /**
      * Questo metodo restituisce i dettagli di una richiesta legata a un contest.
      * @param richiesta la richiesta di cui si vogliono i dettagli.
-     * @return i dettagli della richiesta o null s eessa non è presente.
+     * @return i dettagli della richiesta o null s essa non è presente.
      */
     public JSONObject getDettagliRichiestaContest (RichiestaCommand richiesta) {
         if (richiesteIscrizione.containsValue(richiesta)) {

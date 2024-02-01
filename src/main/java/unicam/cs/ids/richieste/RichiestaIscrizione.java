@@ -9,13 +9,14 @@ import java.io.File;
 /**
  * Questa classe rappresenta una richiesta riguardante un'iscrizione.
  */
-public class RichiestaIscrizione implements RichiestaCommand {
+public class RichiestaIscrizione extends RichiestaAstratta {
 
     private final File file;
     private final Utente utente;
     private final Contest contest;
 
-    public RichiestaIscrizione(File file, Contest contest, Utente utente) {
+    public RichiestaIscrizione(String id, File file, Contest contest, Utente utente) {
+        super(id);
         this.file = file;
         this.contest = contest;
         this.utente = utente;
@@ -56,18 +57,6 @@ public class RichiestaIscrizione implements RichiestaCommand {
                 ", " + utente.toString() +
                 ", " + contest.toString() +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RichiestaIscrizione that)) return false;
-        return file.equals(that.file) && utente.equals(that.utente) && contest.equals(that.contest);
-    }
-
-    @Override
-    public int hashCode() {
-        return file.hashCode() + utente.hashCode() + contest.hashCode();
     }
 
 }

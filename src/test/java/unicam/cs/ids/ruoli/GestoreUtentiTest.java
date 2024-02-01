@@ -1,8 +1,6 @@
 package unicam.cs.ids.ruoli;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import unicam.cs.ids.Comune;
 import unicam.cs.ids.punti.Coordinate;
@@ -37,7 +35,7 @@ public class GestoreUtentiTest {
     public void testAggiungiUtente() {
         assert gestoreUtenti.aggiungiUtente(utente1);
         assertFalse(gestoreUtenti.aggiungiUtente(utente1));
-        assert (gestoreUtenti.getComuniAbilitati(utente1, Ruolo.TURISTA).isEmpty());
+        assert (gestoreUtenti.getGestoreRuoli().getComuniAbilitati(utente1, Ruolo.TURISTA).isEmpty());
     }
 
     @Test
@@ -46,7 +44,7 @@ public class GestoreUtentiTest {
         Comune civitanova = new Comune("Civitanova Marche", "MC", "1", new PuntoFisico(new Coordinate(43.308, 13.700), new ArrayList<>()));
         RuoloComune ruoloComune1 = new RuoloComune(civitanova, Ruolo.TURISTA);
         gestoreUtenti.setRuoloUtente(utente1, ruoloComune1);
-        assert (gestoreUtenti.getComuniAbilitati(utente1, Ruolo.TURISTA).contains(civitanova) && gestoreUtenti.getComuniAbilitati(utente1, Ruolo.TURISTA).size() == 1);
+        assert (gestoreUtenti.getGestoreRuoli().getComuniAbilitati(utente1, Ruolo.TURISTA).contains(civitanova) && gestoreUtenti.getGestoreRuoli().getComuniAbilitati(utente1, Ruolo.TURISTA).size() == 1);
 
     }
 
