@@ -18,10 +18,10 @@ public class ContenutoBuilderTest {
     @Test
     public void buildItinerarioTest() {
         ContenutoBuilder contenutoBuilder = new ContenutoBuilder();
-        contenutoBuilder.setStato(Stato.APERTO).setContenuto(new PuntoInteresse("titolo", "testo", null, 0))
-                .setTitolo("titolo").setTesto("testo").setId(0);
+        contenutoBuilder.setStato(Stato.APERTO).setContenuto(new PuntoInteresse("titolo", "testo", null, "0"))
+                .setTitolo("titolo").setTesto("testo").setId("0");
         assertTrue(contenutoBuilder.build() instanceof Itinerario);
-        assertEquals(contenutoBuilder.build(), new Itinerario("titolo", "testo", null, List.of(new PuntoInteresse("titolo", "testo", null, 0)), 0));
+        assertEquals(contenutoBuilder.build(), new Itinerario("titolo", "testo", null, List.of(new PuntoInteresse("titolo", "testo", null, "0")), "0"));
     }
     @Test
     public void buildPuntoInteresseTest() {
@@ -29,9 +29,9 @@ public class ContenutoBuilderTest {
         contenutoBuilder.setStato(Stato.APERTO)
                 .setTitolo("titolo")
                 .setTesto("testo")
-                .setId(0);
+                .setId("0");
         assertTrue(contenutoBuilder.build() instanceof PuntoInteresse);
-        assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null, 0));
+        assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null, "0"));
     }
 
     @Test
@@ -40,10 +40,10 @@ public class ContenutoBuilderTest {
         contenutoBuilder.setStato(Stato.APERTO)
                 .setTitolo("titolo")
                 .setTesto("testo")
-                .setId(0)
+                .setId("0")
                 .setTempo(new SempreAttivo());
         assertTrue(contenutoBuilder.build() instanceof PuntoInteresse);
-        assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null, 0));
+        assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null, "0"));
     }
 
     @Test
@@ -52,10 +52,10 @@ public class ContenutoBuilderTest {
         contenutoBuilder.setStato(Stato.APERTO)
                 .setTitolo("titolo")
                 .setTesto("testo")
-                .setId(0)
+                .setId("0")
                 .setTempo(new InsiemeOrari(List.of(new OrarioInizioFine(LocalDateTime.now(), LocalDateTime.now()))));
         assertTrue(contenutoBuilder.build() instanceof Evento);
-        assertEquals(contenutoBuilder.build(), new Evento("titolo", "testo", null, 0, new InsiemeOrari(List.of(new OrarioInizioFine(LocalDateTime.now(), LocalDateTime.now())))));
+        assertEquals(contenutoBuilder.build(), new Evento("titolo", "testo", null, "0", new InsiemeOrari(List.of(new OrarioInizioFine(LocalDateTime.now(), LocalDateTime.now())))));
     }
 
 
