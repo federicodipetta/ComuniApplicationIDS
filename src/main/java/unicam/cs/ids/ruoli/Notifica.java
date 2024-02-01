@@ -3,7 +3,6 @@ package unicam.cs.ids.ruoli;
 public class Notifica {
 
     private final String testo;
-
     private final String id;
 
     public Notifica(String testo, String id) {
@@ -22,17 +21,14 @@ public class Notifica {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof Notifica) {
-            Notifica notifica = (Notifica) o;
-            return notifica.getTesto().equals(testo);
-        } else {
-            return false;
-        }
+        if (this == o) return true;
+        if (!(o instanceof Notifica notifica)) return false;
+        return id.equals(notifica.id);
     }
 
     @Override
     public int hashCode() {
-        return testo.hashCode();
+        return id.hashCode();
     }
 
 }

@@ -15,7 +15,7 @@ public enum Stato {
      * Metodo che controlla se lo stato è modificabile.
      * @return true se lo stato è modificabile, false altrimenti.
      */
-    public boolean modificiabile(){
+    public boolean modificabile(){
         return switch (this) {
             case APERTO, CHIUSO -> true;
             case CONCLUSO, ELIMINATO -> false;

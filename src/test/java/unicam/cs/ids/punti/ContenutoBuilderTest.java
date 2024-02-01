@@ -7,11 +7,9 @@ import unicam.cs.ids.tempo.OrarioInizioFine;
 import unicam.cs.ids.tempo.SempreAttivo;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ContenutoBuilderTest {
 
@@ -20,6 +18,7 @@ public class ContenutoBuilderTest {
         ContenutoBuilder contenutoBuilder = new ContenutoBuilder();
         contenutoBuilder.setStato(Stato.APERTO).setContenuto(new PuntoInteresse("titolo", "testo", null, "0"))
                 .setTitolo("titolo").setTesto("testo").setId("0");
+        assertInstanceOf(Itinerario.class, contenutoBuilder.build());
         assertTrue(contenutoBuilder.build() instanceof Itinerario);
         assertEquals(contenutoBuilder.build(), new Itinerario("titolo", "testo", null, List.of(new PuntoInteresse("titolo", "testo", null, "0")), "0"));
     }
@@ -30,7 +29,9 @@ public class ContenutoBuilderTest {
                 .setTitolo("titolo")
                 .setTesto("testo")
                 .setId("0");
+        assertInstanceOf(PuntoInteresse.class, contenutoBuilder.build());
         assertTrue(contenutoBuilder.build() instanceof PuntoInteresse);
+
         assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null, "0"));
     }
 
@@ -42,6 +43,7 @@ public class ContenutoBuilderTest {
                 .setTesto("testo")
                 .setId("0")
                 .setTempo(new SempreAttivo());
+        assertInstanceOf(PuntoInteresse.class, contenutoBuilder.build());
         assertTrue(contenutoBuilder.build() instanceof PuntoInteresse);
         assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null, "0"));
     }
@@ -54,6 +56,7 @@ public class ContenutoBuilderTest {
                 .setTesto("testo")
                 .setId("0")
                 .setTempo(new InsiemeOrari(List.of(new OrarioInizioFine(LocalDateTime.now(), LocalDateTime.now()))));
+        assertInstanceOf(Evento.class, contenutoBuilder.build());
         assertTrue(contenutoBuilder.build() instanceof Evento);
         assertEquals(contenutoBuilder.build(), new Evento("titolo", "testo", null, "0", new InsiemeOrari(List.of(new OrarioInizioFine(LocalDateTime.now(), LocalDateTime.now())))));
     }

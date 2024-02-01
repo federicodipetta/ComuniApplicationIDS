@@ -3,6 +3,7 @@ package unicam.cs.ids.punti;
 import org.json.JSONException;
 import org.junit.Test;
 import unicam.cs.ids.Comune;
+import unicam.cs.ids.servizi.ServizioOSM;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class AnalizzatorePuntoFisicoTest {
         PuntoFisico puntoFisico = new PuntoFisico(new Coordinate(0.0, 0.0), new ArrayList<>()); // Non ci interessa, per ora, che il comune sia al suo interno.
         PuntoFisico scuola = new PuntoFisico(new Coordinate(43.3019444, 13.730555555555556), new ArrayList<>()); // Civitanova Marche.
         Comune comune = new Comune("Civitanova Marche", "Macerata", "1", puntoFisico);
-        IAnalizzatorePuntoFisico analizzatorePuntoFisico = new AnalizzatorePuntoFisico();
+        IAnalizzatorePuntoFisico analizzatorePuntoFisico = new AnalizzatorePuntoFisico(new ServizioOSM());
         assertTrue(analizzatorePuntoFisico.controllaPuntoFisico(scuola, comune));
         assertFalse(analizzatorePuntoFisico.controllaPuntoFisico(puntoFisico, comune));
         PuntoFisico puntoFisico2 = new PuntoFisico(new Coordinate(43.1397222, 13.068333333333333), new ArrayList<>()); // Camerino.
@@ -29,7 +30,7 @@ public class AnalizzatorePuntoFisicoTest {
     @Test
     public void controllaPuntoFisicoTest2() throws IOException, JSONException {
         PuntoFisico puntoFisico1 = new PuntoFisico(new Coordinate(43.7725, 11.256666666666666), new ArrayList<>()); // Firenze.
-        IAnalizzatorePuntoFisico analizzatorePuntoFisico = new AnalizzatorePuntoFisico();
+        IAnalizzatorePuntoFisico analizzatorePuntoFisico = new AnalizzatorePuntoFisico(new ServizioOSM());
         Comune firenze = new Comune("Firenze", "Firenze", "1", puntoFisico1);
         assertTrue(analizzatorePuntoFisico.controllaPuntoFisico(puntoFisico1, firenze));
         PuntoFisico puntoFisico2 = new PuntoFisico(new Coordinate(41.8908333, 12.492777777777777), new ArrayList<>()); // Roma.

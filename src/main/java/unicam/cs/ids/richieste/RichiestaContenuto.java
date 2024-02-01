@@ -8,13 +8,14 @@ import unicam.cs.ids.ruoli.GestoreComunale;
 /**
  * Questa classe rappresenta una richiesta riguardante un contenuto.
  */
-public class RichiestaContenuto implements RichiestaCommand {
+public class RichiestaContenuto extends RichiestaAstratta {
 
     private final Contenuto contenuto;
     private final PuntoFisico puntoFisico;
     private final GestoreComunale gestoreComunale;
 
-    public RichiestaContenuto(Contenuto contenuto, PuntoFisico puntoFisico, GestoreComunale gestoreComunale) {
+    public RichiestaContenuto(String id, Contenuto contenuto, PuntoFisico puntoFisico, GestoreComunale gestoreComunale) {
+        super(id);
         this.contenuto = contenuto;
         this.puntoFisico = puntoFisico;
         this.gestoreComunale = gestoreComunale;
@@ -49,19 +50,22 @@ public class RichiestaContenuto implements RichiestaCommand {
     }
 
     @Override
-    public String toString() {
-        return "Richiesta Contenuto: " + contenuto.toString() + " - " + puntoFisico.toString();
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (o == this) return true;
         if (!(o instanceof RichiestaContenuto richiesta)) return false;
         return richiesta.contenuto.equals(this.contenuto) && richiesta.puntoFisico.equals(this.puntoFisico);
     }
 
-    @Override
-    public int hashCode() {
-        return contenuto.hashCode() + puntoFisico.hashCode();
+    public Contenuto getContenuto() {
+        return contenuto;
     }
+
+    public PuntoFisico getPuntoFisico() {
+        return puntoFisico;
+    }
+
+    public GestoreComunale getGestoreComunale() {
+        return gestoreComunale;
+    }
+
 }

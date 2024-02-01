@@ -9,12 +9,13 @@ import java.util.List;
 /**
  * Questa classe rappresenta una richiesta riguardante un file.
  */
-public class RichiestaFile implements RichiestaCommand {
+public class RichiestaFile extends RichiestaAstratta {
 
     private final List<File> files;
     private final Contenuto contenuto;
 
-    public RichiestaFile(List<File> files, Contenuto contenuto) {
+    public RichiestaFile(String id, List<File> files, Contenuto contenuto) {
+        super(id);
         this.files = files;
         this.contenuto = contenuto;
     }
@@ -52,15 +53,4 @@ public class RichiestaFile implements RichiestaCommand {
         return "Richiesta File: " + contenuto.toString() + " - " + files.size();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof RichiestaFile richiesta)) return false;
-        return richiesta.contenuto.equals(this.contenuto) && richiesta.files.equals(this.files);
-    }
-
-    @Override
-    public int hashCode() {
-        return contenuto.hashCode() + files.hashCode();
-    }
 }
