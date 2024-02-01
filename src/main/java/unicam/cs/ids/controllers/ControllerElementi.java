@@ -9,7 +9,6 @@ import unicam.cs.ids.punti.Iscrizione;
 import unicam.cs.ids.punti.PuntoFisico;
 import unicam.cs.ids.ruoli.GestoreComuni;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerElementi {
@@ -48,7 +47,7 @@ public class ControllerElementi {
                 .getIscrizioniVincenti(gestoreComuni.getGestoreComunale(comune).getContestById(idContest));
     }
 
-    public JSONArray getContenuti(String idComune, PuntoFisico puntoFisico) throws JSONException {
+    public JSONArray getContenuti(String idComune, PuntoFisico puntoFisico) {
         return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune)).getDettagliContenuti(puntoFisico);
     }
 }

@@ -24,9 +24,9 @@ public class ControllerRichieste {
         this.gestoreComuni = gestoreComuni;
     }
     /**
-     * aggiunge una richiesta di aggiunta di un contenuto
-     * @param richiestaContenuto la richiesta da aggiungere
-     * @param idComune l'id del comune in cui aggiungerla
+     * Aggiunge una richiesta di aggiunta di un contenuto.
+     * @param richiestaContenuto la richiesta da aggiungere.
+     * @param idComune l'id del comune in cui aggiungerla.
      * @return true se la richiesta è stata aggiunta, false altrimenti.
      */
     public boolean aggiungiRichiestaAggiunta(RichiestaContenuto richiestaContenuto, String idComune){
@@ -34,9 +34,9 @@ public class ControllerRichieste {
     }
 
     /**
-     * restituisce le richieste di iscrizione ad un contest
-     * @param utente animatore del contest
-     * @return le richieste di iscrizione ad un contest in formato JSON
+     * Restituisce le richieste di iscrizione ad un contest.
+     * @param utente animatore del contest.
+     * @return le richieste di iscrizione a un contest in formato JSON.
      */
     public JSONArray getRichiesteContest(String utente){
         return gestoreComuni.getGestoriComunali().stream()
@@ -46,9 +46,9 @@ public class ControllerRichieste {
     }
 
     /**
-     * valuta una richiesta generica
-     * @param richiestaCommand richiesta da valutare
-     * @param accettazione true se la richiesta è accettata, false altrimenti
+     * Valuta una richiesta generica.
+     * @param richiestaCommand richiesta da valutare.
+     * @param accettazione true se la richiesta è accettata, false altrimenti.
      * @return true se la richiesta è stata valutata, false altrimenti.
      */
     public boolean valutaRichiesta(RichiestaCommand richiestaCommand, boolean accettazione){
@@ -58,8 +58,8 @@ public class ControllerRichieste {
     }
 
     /**
-     * aggiunge una segnalazione
-     * @param segnalazione segnalazione da aggiungere
+     * Aggiunge una segnalazione.
+     * @param segnalazione segnalazione da aggiungere.
      * @return true se la segnalazione è stata aggiunta, false altrimenti.
      */
     public boolean aggiungiSegnalazione(Segnalazione segnalazione, String idComune){
@@ -67,8 +67,8 @@ public class ControllerRichieste {
     }
 
     /**
-     * aggiunge una richiesta di eliminazione di un contenuto
-     * @param richiestaEliminaContenuto richiesta da aggiungere
+     * Aggiunge una richiesta di eliminazione di un contenuto.
+     * @param richiestaEliminaContenuto richiesta da aggiungere.
      * @return true se la richiesta è stata aggiunta, false altrimenti.
      */
     public boolean aggiuntaRichiestaEliminazione(RichiestaEliminaContenuto richiestaEliminaContenuto, String idComune){
@@ -76,9 +76,9 @@ public class ControllerRichieste {
     }
 
     /**
-     * la richiesta da aggiungere
-     * @param richiestaCommand la richiesta
-     * @param idComune il comune in cui aggiungerla
+     * La richiesta da aggiungere.
+     * @param richiestaCommand la richiesta.
+     * @param idComune il comune in cui aggiungerla.
      * @return true se la richiesta è stata aggiunta, false altrimenti.
      * @throws IllegalArgumentException se non è una richiesta normale,
      *         quindi quelle legate al contest ad esempio.
@@ -88,9 +88,9 @@ public class ControllerRichieste {
     }
 
     /**
-     * restituisce una richiesta
-     * @param richiestaCommand richiesta da restituire
-     * @return la richiesta in formato JSON
+     * Restituisce una richiesta.
+     * @param richiestaCommand richiesta da restituire.
+     * @return la richiesta in formato JSON.
      */
     public JSONObject getRichiesta(RichiestaCommand richiestaCommand){
         return gestoreComuni.getGestoriComunali().stream()

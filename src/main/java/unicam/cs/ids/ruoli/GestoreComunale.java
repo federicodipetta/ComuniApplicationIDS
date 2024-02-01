@@ -5,13 +5,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import unicam.cs.ids.Comune;
 import unicam.cs.ids.punti.*;
+import unicam.cs.ids.servizi.ServizioOSM;
 import unicam.cs.ids.stato.Stato;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Questa classe rappresenta un gestore comunale.
@@ -21,14 +19,14 @@ public class GestoreComunale {
     private final Comune comune;
     private final Set<Contest> contest;
     private final Set<PuntoFisico> puntiFisici;
-    private final AnalizzatorePuntoFisico analizzatorePuntoFisico;
+    private final IAnalizzatorePuntoFisico analizzatorePuntoFisico;
     private final GestoreRichieste gestoreRichieste;
 
     public GestoreComunale(Comune comune) {
         this.comune = comune;
         this.contest = new HashSet<>();
         this.puntiFisici = new HashSet<>();
-        this.analizzatorePuntoFisico = new AnalizzatorePuntoFisico();
+        this.analizzatorePuntoFisico = new ProxyAnalizzatorePuntoFisico(new AnalizzatorePuntoFisico(new ServizioOSM()));
         this.gestoreRichieste = new GestoreRichieste();
     }
 
@@ -73,7 +71,7 @@ public class GestoreComunale {
      */
     public List<Iscrizione> getIscrizioniVincenti(Contest contest) {
         return contest.getIscrizioni().entrySet().stream()
-                .filter(entry -> entry.getValue() == contest.getIscrizioni().values().stream().max(Integer::compareTo).get())
+                .filter(entry -> Objects.equals(entry.getValue(), contest.getIscrizioni().values().stream().max(Integer::compareTo).get()))
                 .map(Map.Entry::getKey)
                 .toList();
     }

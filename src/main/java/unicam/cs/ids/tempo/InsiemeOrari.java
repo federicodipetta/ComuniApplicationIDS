@@ -30,7 +30,7 @@ public class InsiemeOrari implements Tempo{
                                 this.orarioInizioFineList.get(i).inizio()
                                         : //controllo quale orario inizia prima e prendo quello
                                 this.orarioInizioFineList.get(i+1).inizio(),
-                               // quello che finisce dopo è sempre "i+1" perchè è ordinato
+                               // quello che finisce dopo è sempre "i+1" perché è ordinato
                                 this.orarioInizioFineList.get(i+1).fine()));
                 this.orarioInizioFineList.remove(i+1);
                 i--;

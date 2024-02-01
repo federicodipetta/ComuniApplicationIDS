@@ -5,13 +5,14 @@ import unicam.cs.ids.punti.Contenuto;
 import unicam.cs.ids.punti.PuntoFisico;
 import unicam.cs.ids.ruoli.GestoreComunale;
 
-public class RichiestaEliminaContenuto implements RichiestaCommand {
+public class RichiestaEliminaContenuto extends RichiestaAstratta {
 
     private final Contenuto contenuto;
     private final PuntoFisico puntoFisico;
     private final GestoreComunale gestoreComunale;
 
-    public RichiestaEliminaContenuto(Contenuto contenuto, PuntoFisico puntoFisico, GestoreComunale gestoreComunale) {
+    public RichiestaEliminaContenuto(String id, Contenuto contenuto, PuntoFisico puntoFisico, GestoreComunale gestoreComunale) {
+        super(id);
         this.contenuto = contenuto;
         this.puntoFisico = puntoFisico;
         this.gestoreComunale = gestoreComunale;
@@ -48,18 +49,6 @@ public class RichiestaEliminaContenuto implements RichiestaCommand {
     @Override
     public String toString() {
         return "Richiesta Eliminazione Contenuto: " + contenuto.toString() + " - " + puntoFisico.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof RichiestaEliminaContenuto richiesta)) return false;
-        return richiesta.contenuto.equals(this.contenuto) && richiesta.puntoFisico.equals(this.puntoFisico);
-    }
-
-    @Override
-    public int hashCode() {
-        return contenuto.hashCode() + puntoFisico.hashCode();
     }
 
 }

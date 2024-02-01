@@ -30,7 +30,7 @@ public class ContenutoBuilder {
     private List<Utente> iscritti;
 
     /**
-     * inzializza il builder con i valori di default.
+     * Inizializza il builder con i valori di default.
      */
     public ContenutoBuilder() {
         this.id = "";
@@ -46,10 +46,10 @@ public class ContenutoBuilder {
     }
 
     /**
-     * aggiunge il titolo tra i parametri del conenuto da costruire.
-     * @param titolo il titolo del contenuto
-     * @return questo builder
-     * @throws IllegalArgumentException se il titolo è nullo
+     * Aggiunge il titolo tra i parametri del contenuto da costruire.
+     * @param titolo il titolo del contenuto.
+     * @return questo builder.
+     * @throws IllegalArgumentException se il titolo è nullo.
      */
     public ContenutoBuilder setTitolo(String titolo){
         if (checkString(titolo))
@@ -59,10 +59,10 @@ public class ContenutoBuilder {
     }
 
     /**
-     * aggiunge il testo tra i parametri del conenuto da costruire.
-     * @param testo il testo del contenuto
-     * @return questo builder
-     * @throws IllegalArgumentException se il testo è nullo
+     * Aggiunge il testo tra i parametri del contenuto da costruire.
+     * @param testo il testo del contenuto.
+     * @return questo builder.
+     * @throws IllegalArgumentException se il testo è nullo.
      */
     public ContenutoBuilder setTesto(String testo){
         if (checkString(testo))
@@ -72,10 +72,10 @@ public class ContenutoBuilder {
     }
 
     /**
-     * aggiunge un file tra i parametri del conenuto da costruire.
-     * @param fileMultimediale il file da aggiungere
-     * @return  questo builder
-     * @throws IllegalArgumentException se il file è nullo
+     * Aggiunge un file tra i parametri del contenuto da costruire.
+     * @param fileMultimediale il file da aggiungere.
+     * @return  questo builder.
+     * @throws IllegalArgumentException se il file è nullo.
      */
     public ContenutoBuilder setFile(File fileMultimediale){
         if(addElementToList(this.fileMultimediali, fileMultimediale))
@@ -84,10 +84,10 @@ public class ContenutoBuilder {
     }
 
     /**
-     * aggiunge una lista di file tra i parametri del conenuto da costruire.
-     * @param fileMultimediali i file da aggiungere
-     * @return questo builder
-     * @throws IllegalArgumentException se la lista è nulla
+     * Aggiunge una lista di file tra i parametri del contenuto da costruire.
+     * @param fileMultimediali i file da aggiungere.
+     * @return questo builder.
+     * @throws IllegalArgumentException se la lista è nulla.
      */
     public ContenutoBuilder setFiles(Collection<File> fileMultimediali) {
         if(addElementToList(this.fileMultimediali, fileMultimediali))
@@ -96,10 +96,10 @@ public class ContenutoBuilder {
     }
 
     /**
-     * aggiunge un id tra i parametri del conenuto da costruire.
-     * @param id l'id del contenuto
-     * @return questo builder
-     * @throws IllegalArgumentException se l'id è negativo
+     * Aggiunge un id tra i parametri del contenuto da costruire.
+     * @param id l'id del contenuto.
+     * @return questo builder.
+     * @throws IllegalArgumentException se l'id è negativo.
      */
     public ContenutoBuilder setId(String id){
         if (checkString(id))
@@ -109,27 +109,23 @@ public class ContenutoBuilder {
     }
 
     /**
-     * aggiunge un tempo tra i parametri del conenuto da costruire.
-     * @param tempo il tempo del contenuto
-     * @return questo builder
-     * @throws IllegalArgumentException se il tempo è nullo
+     * Aggiunge un tempo tra i parametri del contenuto da costruire.
+     * @param tempo il tempo del contenuto.
+     * @return questo builder.
+     * @throws IllegalArgumentException se il tempo è nullo.
      */
     public ContenutoBuilder setTempo(Tempo tempo){
         if (tempo == null)
             throw new IllegalArgumentException("Tempo non valido");
         this.tempo = tempo;
-        if(tempo instanceof SempreAttivo){
-            tempoSettato = false;
-        }else{
-            tempoSettato = true;
-        }
+        tempoSettato = !(tempo instanceof SempreAttivo);
         return this;
     }
 
     /**
-     * aggiunge uno stato tra i parametri del conenuto da costruire.
-     * @param stato lo stato del contenuto
-     * @return questo builder
+     * Aggiunge uno stato tra i parametri del contenuto da costruire.
+     * @param stato lo stato del contenuto.
+     * @return questo builder.
      */
     public ContenutoBuilder setStato(Stato stato){
         if (stato == null) throw new IllegalArgumentException("Stato non valido");
@@ -138,9 +134,9 @@ public class ContenutoBuilder {
     }
 
     /**
-     * aggiunge una lista di contenuti tra i parametri del conenuto da costruire.
-     * @param contenuti i contenuti da aggiungere
-     * @return questo builder
+     * Aggiunge una lista di contenuti tra i parametri del contenuto da costruire.
+     * @param contenuti i contenuti da aggiungere.
+     * @return questo builder.
      */
     public ContenutoBuilder setContenuti(List<Contenuto> contenuti) {
         if(!addElementToList(this.contenuti, contenuti))
@@ -149,9 +145,9 @@ public class ContenutoBuilder {
     }
 
     /**
-     * aggiunge un contenuto tra i parametri del conenuto da costruire.
-     * @param contenuto il contenuto da aggiungere
-     * @return questo builder
+     * Aggiunge un contenuto tra i parametri del contenuto da costruire.
+     * @param contenuto il contenuto da aggiungere.
+     * @return questo builder.
      */
     public ContenutoBuilder setContenuto(Contenuto contenuto) {
         if (!addElementToList(this.contenuti, contenuto))
@@ -160,9 +156,9 @@ public class ContenutoBuilder {
     }
 
     /**
-     * aggiunge una lista di iscritti tra i parametri del conenuto da costruire.
-     * @param iscritti gli iscritti da aggiungere
-     * @return questo builder
+     * Aggiunge una lista di iscritti tra i parametri del contenuto da costruire.
+     * @param iscritti gli iscritti da aggiungere.
+     * @return questo builder.
      */
     public ContenutoBuilder setIscritti(List<Utente> iscritti) {
         if(!addElementToList(this.iscritti, iscritti))
@@ -171,9 +167,9 @@ public class ContenutoBuilder {
     }
 
     /**
-     * aggiunge un iscritto tra i parametri del conenuto da costruire.
-     * @param iscritto l'iscritto da aggiungere
-     * @return questo builder
+     * Aggiunge un iscritto tra i parametri del contenuto da costruire.
+     * @param iscritto l'iscritto da aggiungere.
+     * @return questo builder.
      */
     public ContenutoBuilder addIscritto(Utente iscritto) {
         if (!addElementToList(this.iscritti, iscritto))
@@ -183,16 +179,16 @@ public class ContenutoBuilder {
     }
 
     /**
-     * costruisce il contenuto con i parametri settati.
-     * @return il contenuto costruito
-     * @throws IllegalStateException se non sono stati settati tutti i parametri minimi
+     * Costruisce il contenuto con i parametri settati.
+     * @return il contenuto costruito.
+     * @throws IllegalStateException se non sono stati settati tutti i parametri minimi.
      */
     public Contenuto build() {
         if (checkString(titolo) || checkString(testo) || checkString(id) || stato == null) {
             throw new IllegalStateException("Non tutti i parametri minimi sono stati settati");
         }
         Contenuto c ;
-        //solo l'itinierario ha i contenuti
+        //solo l'itinerario ha i contenuti
         if(!this.contenuti.isEmpty())
             c = new Itinerario(titolo, testo, fileMultimediali,contenuti, id, tempo);
         //solo l'evento ha iscritti o tempo non sempre attivo
@@ -208,8 +204,8 @@ public class ContenutoBuilder {
     }
 
     /**
-     * resetta i parametri del contenuto da costruire.
-     * @return questo builder
+     * Resetta i parametri del contenuto da costruire.
+     * @return questo builder.
      */
     public ContenutoBuilder reset() {
         this.titolo = null;
