@@ -106,7 +106,21 @@ public class GestoreComunale {
      * @param puntoFisico il punto fisico a cui aggiungere il contenuto
      */
     public boolean aggiungiContenuto(Contenuto contenuto, PuntoFisico puntoFisico) {
-        return puntoFisico.getContenuti().add(contenuto);
+        if(puntoFisico.equals(this.comune.puntoComune())) return this.comune.puntoComune().getContenuti().add(contenuto);
+        if(this.puntiFisici.contains(puntoFisico)) {
+            return this.puntiFisici.stream()
+                    .filter(pf -> pf.equals(puntoFisico))
+                    .findFirst()
+                    .get() // E' presente.
+                    .getContenuti()
+                    .add(contenuto);
+        } else { // Il punto non e' presente.
+            if(analizzatorePuntoFisico.controllaPuntoFisico(puntoFisico, comune)) {
+                puntoFisico.getContenuti().add(contenuto);
+                return puntiFisici.add(puntoFisico);
+            }
+        }
+        return false;
     }
 
     /**
@@ -203,5 +217,9 @@ public class GestoreComunale {
      */
     public GestoreRichieste getGestoreRichieste() {
         return gestoreRichieste;
+    }
+
+    public Set<PuntoFisico> getPuntiFisici() {
+        return puntiFisici;
     }
 }

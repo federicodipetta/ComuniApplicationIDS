@@ -22,7 +22,7 @@ public class ProxyAnalizzatorePuntoFisico implements IAnalizzatorePuntoFisico {
     }
 
     @Override
-    public boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune) throws IOException, JSONException {
+    public boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune) {
         if(cache.containsKey(puntoFisico)) // Se il punto è in cache...
             return cache.get(puntoFisico).equals(comune.nome()); // Vedo se il comune è corretto.
         String nomeComune = getNomeComune(puntoFisico);
@@ -31,7 +31,7 @@ public class ProxyAnalizzatorePuntoFisico implements IAnalizzatorePuntoFisico {
     }
 
     @Override
-    public String getNomeComune(PuntoFisico puntoFisico) throws IOException, JSONException {
+    public String getNomeComune(PuntoFisico puntoFisico) {
         return analizzatorePuntoFisico.getNomeComune(puntoFisico);
     }
 }

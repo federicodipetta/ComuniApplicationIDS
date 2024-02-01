@@ -19,17 +19,24 @@ public class AnalizzatorePuntoFisico implements IAnalizzatorePuntoFisico {
     }
 
     @Override
-    public boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune) throws IOException, JSONException {
+    public boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune) {
         return getNomeComune(puntoFisico).equalsIgnoreCase(comune.nome().trim());
     }
 
     @Override
-    public String getNomeComune(PuntoFisico puntoFisico) throws IOException, JSONException {
-        JSONObject risultatoChiamata = new JSONObject(servizioOSM.getInfoPunto(puntoFisico.getCoordinate()));
-        JSONObject address = risultatoChiamata.getJSONObject("address");
-        if(address.has("city")) return address.getString("city").trim();
-        if(address.has("town")) return address.getString("town").trim();
-        return "";
+    public String getNomeComune(PuntoFisico puntoFisico) {
+        JSONObject risultatoChiamata = null;
+        try {
+            risultatoChiamata = new JSONObject(servizioOSM.getInfoPunto(puntoFisico.getCoordinate()));
+            JSONObject address = risultatoChiamata.getJSONObject("address");
+            if(address.has("city")) return address.getString("city").trim();
+            if(address.has("town")) return address.getString("town").trim();
+            return "";
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            return "";
+        }
     }
 
 }
