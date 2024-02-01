@@ -73,7 +73,7 @@ public class Contest implements ObserverTempo {
                 return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**

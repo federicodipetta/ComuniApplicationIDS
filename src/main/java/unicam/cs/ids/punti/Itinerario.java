@@ -13,12 +13,12 @@ public class Itinerario extends Contenuto{
 
     private final List<Contenuto> contenuti;
 
-    public Itinerario(String titolo, String testo, List<File> fileMultimediali, List<Contenuto> contenuti, int id) {
-        super(titolo, testo, fileMultimediali, id);
+    public Itinerario(String titolo, String testo, List<File> fileMultimediali, List<Contenuto> contenuti, String id) {
+        super(id, titolo, testo, fileMultimediali);
         this.contenuti = contenuti;
     }
-    public Itinerario(String titolo, String testo, List<File> fileMultimediali, List<Contenuto> contenuti, int id, Tempo tempo) {
-        super(titolo, testo, fileMultimediali, id, tempo);
+    public Itinerario(String titolo, String testo, List<File> fileMultimediali, List<Contenuto> contenuti, String id, Tempo tempo) {
+        super(id,titolo, testo, fileMultimediali, tempo);
         this.contenuti = contenuti;
     }
 
