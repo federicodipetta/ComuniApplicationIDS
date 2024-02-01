@@ -19,6 +19,7 @@ public class ContenutoBuilderTest {
         contenutoBuilder.setStato(Stato.APERTO).setContenuto(new PuntoInteresse("titolo", "testo", null, "0"))
                 .setTitolo("titolo").setTesto("testo").setId("0");
         assertInstanceOf(Itinerario.class, contenutoBuilder.build());
+        assertTrue(contenutoBuilder.build() instanceof Itinerario);
         assertEquals(contenutoBuilder.build(), new Itinerario("titolo", "testo", null, List.of(new PuntoInteresse("titolo", "testo", null, "0")), "0"));
     }
     @Test
@@ -29,6 +30,8 @@ public class ContenutoBuilderTest {
                 .setTesto("testo")
                 .setId("0");
         assertInstanceOf(PuntoInteresse.class, contenutoBuilder.build());
+        assertTrue(contenutoBuilder.build() instanceof PuntoInteresse);
+
         assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null, "0"));
     }
 
@@ -41,6 +44,7 @@ public class ContenutoBuilderTest {
                 .setId("0")
                 .setTempo(new SempreAttivo());
         assertInstanceOf(PuntoInteresse.class, contenutoBuilder.build());
+        assertTrue(contenutoBuilder.build() instanceof PuntoInteresse);
         assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null, "0"));
     }
 
@@ -53,6 +57,7 @@ public class ContenutoBuilderTest {
                 .setId("0")
                 .setTempo(new InsiemeOrari(List.of(new OrarioInizioFine(LocalDateTime.now(), LocalDateTime.now()))));
         assertInstanceOf(Evento.class, contenutoBuilder.build());
+        assertTrue(contenutoBuilder.build() instanceof Evento);
         assertEquals(contenutoBuilder.build(), new Evento("titolo", "testo", null, "0", new InsiemeOrari(List.of(new OrarioInizioFine(LocalDateTime.now(), LocalDateTime.now())))));
     }
 
