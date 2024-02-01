@@ -55,7 +55,7 @@ public class ControllerUtenti {
      * @return Un Set contentente i comuni abilitati dell'utente.
      */
     public Set<Comune> getComuniAbilitati(String idUtente, Ruolo ruolo) {
-        return gestoreUtenti.getComuniAbilitati(gestoreUtenti.getUtenteById(idUtente), ruolo);
+        return gestoreUtenti.getGestoreRuoli().getComuniAbilitati(gestoreUtenti.getUtenteById(idUtente), ruolo);
     }
 
     /**

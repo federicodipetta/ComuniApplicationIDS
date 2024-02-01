@@ -64,12 +64,13 @@ public class GestoreComuni {
      * @return il gestore comunale richiesto
      */
     public GestoreComunale getGestoreComunale(Comune comune) {
-        for (GestoreComunale gc : gestoriComunali) {
-            if (gc.getComune().equals(comune)) {
-                return gc;
-            }
-        }
-        return null;
+        return gestoriComunali.stream()
+                .filter(gc -> gc.getComune().equals(comune))
+                .findFirst()
+                .orElse(null);
     }
 
+    public Set<GestoreComunale> getGestoriComunali() {
+        return gestoriComunali;
+    }
 }
