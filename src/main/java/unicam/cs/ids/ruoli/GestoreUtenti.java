@@ -28,6 +28,15 @@ public class GestoreUtenti {
     }
 
     /**
+     * Rimuove un utente dalla lista degli utenti.
+     * @param utente l'utente da rimuovere.
+     * @return true se l'utente è stato rimosso, false altrimenti.
+     */
+    public boolean rimuoviUtente(Utente utente) {
+        return utenti.remove(utente);
+    }
+
+    /**
      * Associa a un utente la coppia ruolo-comune.
      * @param utente l'utente a cui si vuole associare il ruolo.
      * @param ruoloComune La coppia ruolo-comune.

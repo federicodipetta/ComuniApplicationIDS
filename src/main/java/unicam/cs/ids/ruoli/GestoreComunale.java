@@ -121,7 +121,7 @@ public class GestoreComunale {
         if (puntoFisico.getContenuti().contains(contenuto)) {
             puntoFisico.getContenuti().remove(contenuto);
             if (puntoFisico.getContenuti().isEmpty()) {
-                puntiFisici.remove(puntoFisico);
+                return puntiFisici.remove(puntoFisico);
             }
         }
         return false;
@@ -137,7 +137,7 @@ public class GestoreComunale {
             if (puntoFisico.getContenuti().contains(contenuto)) {
                 puntoFisico.getContenuti().remove(contenuto);
                 if (puntoFisico.getContenuti().isEmpty()) {
-                    puntiFisici.remove(puntoFisico);
+                    return puntiFisici.remove(puntoFisico);
                 }
             }
         }
@@ -152,7 +152,7 @@ public class GestoreComunale {
      * @return
      */
     public JSONArray getDettagliPuntiFisici() {
-        // TODO
+        // TODO: implementare
         return null;
     }
 
@@ -199,4 +199,11 @@ public class GestoreComunale {
                 .orElse(null);
     }
 
+    /**
+     * Questo metodo ritorna il gestore delle richieste.
+     * @return il gestore delle richieste.
+     */
+    public GestoreRichieste getGestoreRichieste() {
+        return gestoreRichieste;
+    }
 }
