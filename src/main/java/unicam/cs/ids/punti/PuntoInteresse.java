@@ -8,8 +8,8 @@ import java.util.List;
  */
 public class PuntoInteresse extends Contenuto {
 
-    public PuntoInteresse(String titolo, String testo, List<File> fileMultimediali, int id) {
-        super(titolo, testo, fileMultimediali, id);
+    public PuntoInteresse(String titolo, String testo, List<File> fileMultimediali, String id) {
+        super(id,titolo, testo, fileMultimediali);
     }
 
     @Override

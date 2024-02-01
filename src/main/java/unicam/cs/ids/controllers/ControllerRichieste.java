@@ -8,11 +8,15 @@ import unicam.cs.ids.richieste.RichiestaEliminaContenuto;
 import unicam.cs.ids.richieste.Segnalazione;
 import unicam.cs.ids.ruoli.*;
 
+/**
+ * Questa classe è un controller per le richieste.
+ */
 public class ControllerRichieste {
     GestoreComuni gestoreComuni;
     GestoreUtenti gestoreUtenti;
     /**
      * Costruisce un ControllerRichieste.
+     * @param gestoreUtenti Il gestore degli utenti.
      * @param gestoreComuni Il gestore dei comuni.
      */
     public ControllerRichieste(GestoreComuni gestoreComuni, GestoreUtenti gestoreUtenti) {
@@ -21,8 +25,8 @@ public class ControllerRichieste {
     }
     /**
      * aggiunge una richiesta di aggiunta di un contenuto
-     * @param richiestaContenuto
-     * @param idComune
+     * @param richiestaContenuto la richiesta da aggiungere
+     * @param idComune l'id del comune in cui aggiungerla
      * @return true se la richiesta è stata aggiunta, false altrimenti.
      */
     public boolean aggiungiRichiestaAggiunta(RichiestaContenuto richiestaContenuto, String idComune){

@@ -19,7 +19,7 @@ public class ContenutoBuilder {
 
     private List<File> fileMultimediali;
 
-    private int id;
+    private String id;
 
     private Tempo tempo;
 
@@ -33,7 +33,7 @@ public class ContenutoBuilder {
      * inzializza il builder con i valori di default.
      */
     public ContenutoBuilder() {
-        this.id = -1;
+        this.id = "";
         this.fileMultimediali = new LinkedList<>();
         this.contenuti = new LinkedList<>();
         this.tempo = new SempreAttivo();
@@ -42,7 +42,7 @@ public class ContenutoBuilder {
     }
 
      private boolean checkString(String stringa){
-        return stringa == null && stringa.equals("");
+        return stringa == null || stringa.isEmpty() || stringa.isBlank() ;
     }
 
     /**
@@ -101,8 +101,8 @@ public class ContenutoBuilder {
      * @return questo builder
      * @throws IllegalArgumentException se l'id è negativo
      */
-    public ContenutoBuilder setId(int id){
-        if (id < 0)
+    public ContenutoBuilder setId(String id){
+        if (checkString(id))
             throw new IllegalArgumentException("Id non valido");
         this.id = id;
         return this;
@@ -188,7 +188,7 @@ public class ContenutoBuilder {
      * @throws IllegalStateException se non sono stati settati tutti i parametri minimi
      */
     public Contenuto build() {
-        if (titolo == null || testo == null || id < 0 || stato == null) {
+        if (checkString(titolo) || checkString(testo) || checkString(id) || stato == null) {
             throw new IllegalStateException("Non tutti i parametri minimi sono stati settati");
         }
         Contenuto c ;
@@ -215,7 +215,7 @@ public class ContenutoBuilder {
         this.titolo = null;
         this.testo = null;
         this.fileMultimediali = new LinkedList<>();
-        this.id = -1;
+        this.id = "";
         this.tempo = new SempreAttivo();
         this.stato = null;
         this.contenuti = new LinkedList<>();
@@ -226,16 +226,10 @@ public class ContenutoBuilder {
 
 
     private <T> boolean addElementToList(Collection<T> collection, T element){
-        if (element == null) {
-            return false;
-        }
         return collection.add(element);
     }
 
     private <T> boolean addElementToList(Collection<T> collection, Collection<T> elements){
-        if (elements == null) {
-            return false;
-        }
         return collection.addAll(elements);
     }
 }

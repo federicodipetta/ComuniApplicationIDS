@@ -17,8 +17,8 @@ public class Evento extends Contenuto {
 
     private final Set<Utente> iscritti;
 
-    public Evento(String titolo, String testo, List<File> fileMultimediali, int id, Tempo tempo) {
-        super(titolo, testo, fileMultimediali, id, tempo);
+    public Evento(String titolo, String testo, List<File> fileMultimediali, String id, Tempo tempo) {
+        super(id,titolo, testo, fileMultimediali, tempo);
         this.iscritti = new HashSet<>();
     }
 
