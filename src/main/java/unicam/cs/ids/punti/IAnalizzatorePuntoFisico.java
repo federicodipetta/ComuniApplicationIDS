@@ -18,11 +18,11 @@ public interface IAnalizzatorePuntoFisico {
      * @throws IOException Se la chiamata al servizio OSM fallisce.
      * @throws JSONException Se la risposta del servizio OSM non è in formato JSON.
      */
-    boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune) throws IOException, JSONException;
+    boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune);
 
     /**
      * Restituisce il nome del comune in cui si trova il punto fisico.
      */
-    String getNomeComune(PuntoFisico puntoFisico) throws IOException, JSONException;
+    String getNomeComune(PuntoFisico puntoFisico);
 
 }

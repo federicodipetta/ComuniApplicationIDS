@@ -9,6 +9,7 @@ import unicam.cs.ids.punti.Iscrizione;
 import unicam.cs.ids.punti.PuntoFisico;
 import unicam.cs.ids.ruoli.GestoreComuni;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ControllerElementi {
