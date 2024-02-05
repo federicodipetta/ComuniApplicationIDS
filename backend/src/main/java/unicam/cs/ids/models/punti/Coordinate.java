@@ -16,7 +16,11 @@ public record Coordinate(
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Coordinate coordinate)) return false;
-        return latitudine.equals(coordinate.latitudine) && longitudine.equals(coordinate.longitudine);
+        Integer latitudineInt = (int) (latitudine * 1000);
+        Integer longitudineInt = (int) (longitudine * 1000);
+        Integer altraLatitudineInt = (int) (coordinate.latitudine * 1000);
+        Integer altraLongitudineInt = (int) (coordinate.longitudine * 1000);
+        return latitudineInt.equals(altraLatitudineInt) && longitudineInt.equals(altraLongitudineInt);
     }
 
     @Override

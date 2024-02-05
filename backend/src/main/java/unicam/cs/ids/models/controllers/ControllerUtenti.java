@@ -1,12 +1,7 @@
 package unicam.cs.ids.models.controllers;
 
 import unicam.cs.ids.models.Comune;
-import unicam.cs.ids.models.ruoli.GestoreNotifiche;
-import unicam.cs.ids.models.ruoli.Notifica;
-import unicam.cs.ids.models.ruoli.GestoreUtenti;
-import unicam.cs.ids.models.ruoli.Ruolo;
-import unicam.cs.ids.models.ruoli.RuoloComune;
-import unicam.cs.ids.models.ruoli.Utente;
+import unicam.cs.ids.models.ruoli.*;
 
 import java.util.Set;
 
@@ -15,6 +10,11 @@ public class ControllerUtenti {
     private final GestoreUtenti gestoreUtenti;
 
     private final GestoreNotifiche gestoreNotifiche;
+
+    public ControllerUtenti() {
+        this.gestoreUtenti = GestorePiattaforma.getInstance().getGestoreUtenti();
+        this.gestoreNotifiche = new GestoreNotifiche();
+    }
 
     /**
      * Costruisce un ControllerUtenti.
@@ -85,6 +85,14 @@ public class ControllerUtenti {
      */
     public boolean rimuoviNotifica(String idUtente, Notifica notifica) {
     	return gestoreNotifiche.rimuoviNotifica(gestoreUtenti.getUtenteById(idUtente), notifica);
+    }
+
+    public boolean setRuoloUtente(String idUtente, String idComune, String ruolo) {
+        Comune comune = GestorePiattaforma.getInstance().getGestoreComuni().getComuneById(idComune);
+        Utente utente = gestoreUtenti.getUtenteById(idUtente);
+        Ruolo ruoloUtente = Ruolo.getRuolo(ruolo);
+        if(comune == null || utente == null || ruoloUtente == null) return false;
+        return gestoreUtenti.setRuoloUtente(utente, new RuoloComune(comune, ruoloUtente));
     }
 
 }
