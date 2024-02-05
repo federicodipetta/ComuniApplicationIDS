@@ -16,7 +16,8 @@ public class ContenutoBuilderTest {
     @Test
     public void buildItinerarioTest() {
         ContenutoBuilder contenutoBuilder = new ContenutoBuilder();
-        contenutoBuilder.setStato(Stato.APERTO).setContenuto(new PuntoInteresse("titolo", "testo", null, "0"))
+        contenutoBuilder.setStato(Stato.APERTO).setContenuto(
+                new PuntoInteresse("titolo", "testo", null, "0"), true)
                 .setTitolo("titolo").setTesto("testo").setId("0");
         assertInstanceOf(Itinerario.class, contenutoBuilder.build());
         assertTrue(contenutoBuilder.build() instanceof Itinerario);

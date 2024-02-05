@@ -2,10 +2,7 @@ package unicam.cs.ids.models.controllers;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import unicam.cs.ids.models.richieste.RichiestaCommand;
-import unicam.cs.ids.models.richieste.RichiestaContenuto;
-import unicam.cs.ids.models.richieste.RichiestaEliminaContenuto;
-import unicam.cs.ids.models.richieste.Segnalazione;
+import unicam.cs.ids.models.richieste.*;
 import unicam.cs.ids.models.ruoli.*;
 
 /**
@@ -56,8 +53,9 @@ public class ControllerRichieste {
      * @param richiestaCommand richiesta da valutare.
      * @param accettazione true se la richiesta è accettata, false altrimenti.
      * @return true se la richiesta è stata valutata, false altrimenti.
+     * @see GestoreRichieste#valutaRichiesta(RichiestaAstratta, String,boolean)  fanno una funzione simile ma questo metodo è meno efficente
      */
-    public boolean valutaRichiesta(RichiestaCommand richiestaCommand, boolean accettazione){
+    public boolean valutaRichiesta(RichiestaAstratta richiestaCommand, boolean accettazione){
         return gestoreComuni.getGestoriComunali().stream()
                 .map(GestoreComunale::getGestoreRichieste)
                 .anyMatch(x->x.valutaRichiesta(richiestaCommand, accettazione));
@@ -89,8 +87,20 @@ public class ControllerRichieste {
      * @throws IllegalArgumentException se non è una richiesta normale,
      *         quindi quelle legate al contest ad esempio.
      */
-    public boolean aggiungiRichiesta(RichiestaCommand richiestaCommand, String idComune){
+    public boolean aggiungiRichiesta(RichiestaAstratta richiestaCommand, String idComune){
         return aggiungiRichiestaGenerica(richiestaCommand, idComune);
+    }
+
+    /**
+     * Aggiunge una richiesta di iscrizione ad un contest.
+     * @param richiestaIscrizione richiesta da aggiungere.
+     * @param idComune comune in cui aggiungere la richiesta.
+     * @return true se la richiesta è stata aggiunta, false altrimenti.
+     */
+    public boolean aggiungiRichiestaIscrizione(RichiestaIscrizione richiestaIscrizione, String idComune){
+        return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune))
+                .getGestoreRichieste().aggiungiRichiestaContest(richiestaIscrizione,richiestaIscrizione.getAnimatore());
+
     }
 
     /**
@@ -106,8 +116,20 @@ public class ControllerRichieste {
                 .orElse(null);
     }
 
+    /**
+     * valuta una richiesta
+     * @param richiestaAstratta richiesta da valutare
+     * @param idComune comune in cui valutare la richiesta
+     * @param accetazione true se la richiesta è accettata, false altrimenti.
+     * @return true se la richiesta è stata valutata, false altrimenti.
+     * @see GestoreRichieste#valutaRichiesta(RichiestaAstratta, boolean) fanno una funzione simile ma questo metodo è più efficente
+     */
+    public boolean valutaRichiesta(RichiestaAstratta richiestaAstratta, String idComune, boolean accetazione){
+        return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune))
+                .getGestoreRichieste().valutaRichiesta(richiestaAstratta, accetazione);
+    }
 
-    private boolean aggiungiRichiestaGenerica(RichiestaCommand richiestaCommand, String idComune) {
+    private boolean aggiungiRichiestaGenerica(RichiestaAstratta richiestaCommand, String idComune) {
         return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune))
                 .getGestoreRichieste().aggiungiRichiesta(richiestaCommand);
     }

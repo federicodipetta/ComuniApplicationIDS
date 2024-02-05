@@ -1,5 +1,7 @@
 package unicam.cs.ids.models.punti;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.util.List;
 
@@ -8,7 +10,7 @@ import java.util.List;
  */
 public class PuntoInteresse extends Contenuto {
 
-    public PuntoInteresse(String titolo, String testo, List<File> fileMultimediali, String id) {
+    public PuntoInteresse(String titolo, String testo, List<MultipartFile> fileMultimediali, String id) {
         super(id,titolo, testo, fileMultimediali);
     }
 

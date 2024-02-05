@@ -6,31 +6,23 @@ import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.Tempo;
 import java.util.List;
 
-public class ContenutoDto {
+public record ContenutoDto (
 
-    private final String titolo;
+    String titolo,
 
-    private final String testo;
+     String testo,
 
-    private final String id;
+    String id,
 
-    private final String tempo;
+    String tempo,
 
-    private Stato stato;
+    Stato stato,
 
-    private final List<Contenuto> contenuti;
+    List<Contenuto> contenuti,
 
-    private final List<Utente> iscritti;
+    List<Utente> iscritti,
+    boolean ordianto){
 
-    public ContenutoDto(String titolo, String testo, String id, String tempo, Stato stato, List<Contenuto> contenuti, List<Utente> iscritti) {
-        this.titolo = titolo;
-        this.testo = testo;
-        this.id = id;
-        this.tempo = tempo;
-        this.stato = stato;
-        this.contenuti = contenuti;
-        this.iscritti = iscritti;
-    }
 
 
     public String getTitolo() {
