@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import unicam.cs.ids.dtos.ComuneDto;
 import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.controllers.ControllerComuni;
-import unicam.cs.ids.models.punti.AnalizzatorePuntoFisico;
-import unicam.cs.ids.models.punti.IAnalizzatorePuntoFisico;
 import unicam.cs.ids.models.punti.PuntoFisico;
 import unicam.cs.ids.models.servizi.ServizioOSM;
 import unicam.cs.ids.view.View;

@@ -94,10 +94,15 @@ public class GestoreComunale {
      * @param puntoFisico il punto fisico
      * @return i dettagli dei contenuti del punto fisico
      */
-    public JSONArray getDettagliContenuti(PuntoFisico puntoFisico) {
-        return puntoFisico.getContenuti().stream()
-                .map(Contenuto::dettagli)
-                .collect(JSONArray::new, JSONArray::put, JSONArray::put);
+    public List<Contenuto> getDettagliContenuti(PuntoFisico puntoFisico) {
+        if(puntoFisico.equals(this.comune.puntoComune())) return this.comune.puntoComune().getContenuti();
+        return this.puntiFisici.stream()
+                .filter(pf -> pf.equals(puntoFisico))
+                .findFirst()
+                .orElse(null)
+                .getContenuti()
+                .stream()
+                .toList();
     }
 
     /**

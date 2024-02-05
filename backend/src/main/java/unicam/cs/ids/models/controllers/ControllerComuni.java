@@ -14,7 +14,7 @@ public class ControllerComuni {
      * Costruisce un ControllerComuni.
      */
     public ControllerComuni() {
-        this.gestorePiattaforma = new GestorePiattaforma();
+        this.gestorePiattaforma = GestorePiattaforma.getInstance();
     }
 
     /**

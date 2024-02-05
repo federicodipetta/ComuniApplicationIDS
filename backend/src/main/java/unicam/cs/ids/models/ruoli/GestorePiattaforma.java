@@ -9,12 +9,26 @@ import java.util.Set;
  */
 public class GestorePiattaforma {
 
+    private static GestorePiattaforma instance = null;
+
     private final GestoreUtenti gestoreUtenti;
+
+    public GestoreComuni getGestoreComuni() {
+        return gestoreComuni;
+    }
+
     private final GestoreComuni gestoreComuni;
 
-    public GestorePiattaforma() {
+    private GestorePiattaforma() {
         gestoreUtenti = new GestoreUtenti();
         gestoreComuni = new GestoreComuni();
+    }
+
+    public static GestorePiattaforma getInstance() {
+        if (instance == null) {
+            instance = new GestorePiattaforma();
+        }
+        return instance;
     }
 
     /**
@@ -45,6 +59,10 @@ public class GestorePiattaforma {
 
     public Set<Comune> getComuni() {
         return gestoreComuni.getComuni();
+    }
+
+    public GestoreUtenti getGestoreUtenti() {
+        return gestoreUtenti;
     }
 
 }

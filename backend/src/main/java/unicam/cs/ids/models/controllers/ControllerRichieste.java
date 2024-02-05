@@ -14,6 +14,12 @@ import unicam.cs.ids.models.ruoli.*;
 public class ControllerRichieste {
     GestoreComuni gestoreComuni;
     GestoreUtenti gestoreUtenti;
+
+    public ControllerRichieste() {
+        this.gestoreComuni = GestorePiattaforma.getInstance().getGestoreComuni();
+        this.gestoreUtenti = GestorePiattaforma.getInstance().getGestoreUtenti();
+    }
+
     /**
      * Costruisce un ControllerRichieste.
      * @param gestoreUtenti Il gestore degli utenti.
