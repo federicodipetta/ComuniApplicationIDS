@@ -44,11 +44,6 @@ public record ContenutoDto (
     public Stato getStato() {
         return stato;
     }
-
-    public void setStato(Stato stato) {
-        this.stato = stato;
-    }
-
     public List<Contenuto> getContenuti() {
         return contenuti;
     }

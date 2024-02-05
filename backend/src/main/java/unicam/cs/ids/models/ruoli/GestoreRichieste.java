@@ -73,7 +73,7 @@ public class GestoreRichieste {
                                 .filter(x -> x.getId().equals(id))
                                 .findFirst()
                                 .orElse(null)
-                )
+                );
 
     }
 
