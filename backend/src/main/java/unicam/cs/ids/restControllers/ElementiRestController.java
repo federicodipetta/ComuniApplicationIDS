@@ -56,7 +56,7 @@ public class ElementiRestController {
                 .setTesto(wrapper.contenuto().getTesto())
                 .setIscritti(wrapper.contenuto().getIscritti())
                 .setStato(wrapper.contenuto().getStato())
-                .setContenuti(wrapper.contenuto().getContenuti())
+                .setContenuti(wrapper.contenuto().contenuti(), wrapper.contenuto().ordianto())
                 .build();
         boolean risultato = controllerElementi.eliminaContenuto(contenuto, idComune, wrapper.puntoFisico());
         if(risultato) return new ResponseEntity<>("Contenuto eliminato correttamente.", HttpStatus.OK);

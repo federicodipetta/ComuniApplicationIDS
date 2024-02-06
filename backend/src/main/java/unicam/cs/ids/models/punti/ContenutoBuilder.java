@@ -1,5 +1,6 @@
 package unicam.cs.ids.models.punti;
 
+import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.ruoli.Utente;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.SempreAttivo;
@@ -17,7 +18,7 @@ public class ContenutoBuilder {
 
     private String testo;
 
-    private List<File> fileMultimediali;
+    private List<MultipartFile> fileMultimediali;
 
     private String id;
 
@@ -29,6 +30,8 @@ public class ContenutoBuilder {
 
     private List<Utente> iscritti;
 
+    private boolean ordianto;
+
     /**
      * Inizializza il builder con i valori di default.
      */
@@ -39,6 +42,7 @@ public class ContenutoBuilder {
         this.tempo = new SempreAttivo();
         this.iscritti = new LinkedList<>();
         this.stato = null;
+        this.ordianto= false;
     }
 
      private boolean checkString(String stringa){
@@ -77,7 +81,7 @@ public class ContenutoBuilder {
      * @return  questo builder.
      * @throws IllegalArgumentException se il file è nullo.
      */
-    public ContenutoBuilder setFile(File fileMultimediale){
+    public ContenutoBuilder setFile(MultipartFile fileMultimediale){
         if(addElementToList(this.fileMultimediali, fileMultimediale))
             throw new IllegalArgumentException("File non valido");
         return this;
@@ -89,7 +93,7 @@ public class ContenutoBuilder {
      * @return questo builder.
      * @throws IllegalArgumentException se la lista è nulla.
      */
-    public ContenutoBuilder setFiles(Collection<File> fileMultimediali) {
+    public ContenutoBuilder setFiles(Collection<MultipartFile> fileMultimediali) {
         if(addElementToList(this.fileMultimediali, fileMultimediali))
             throw new IllegalArgumentException("File non valido");
         return this;
@@ -138,7 +142,8 @@ public class ContenutoBuilder {
      * @param contenuti i contenuti da aggiungere.
      * @return questo builder.
      */
-    public ContenutoBuilder setContenuti(List<Contenuto> contenuti) {
+    public ContenutoBuilder setContenuti(List<Contenuto> contenuti, boolean ordianto) {
+        this.ordianto= ordianto;
         if(!addElementToList(this.contenuti, contenuti))
             throw new IllegalArgumentException("Contenuti non validi");
         return this;
@@ -149,7 +154,8 @@ public class ContenutoBuilder {
      * @param contenuto il contenuto da aggiungere.
      * @return questo builder.
      */
-    public ContenutoBuilder setContenuto(Contenuto contenuto) {
+    public ContenutoBuilder setContenuto(Contenuto contenuto, boolean ordianto) {
+        this.ordianto= ordianto;
         if (!addElementToList(this.contenuti, contenuto))
             throw new IllegalArgumentException("Contenuto non valido");
         return this;
@@ -216,6 +222,7 @@ public class ContenutoBuilder {
         this.stato = null;
         this.contenuti = new LinkedList<>();
         this.iscritti = new LinkedList<>();
+        this.ordianto= false;
         return this;
     }
 

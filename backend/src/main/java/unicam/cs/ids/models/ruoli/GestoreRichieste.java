@@ -3,6 +3,7 @@ package unicam.cs.ids.models.ruoli;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import unicam.cs.ids.models.richieste.RichiestaAstratta;
 import unicam.cs.ids.models.richieste.RichiestaCommand;
 
 import java.util.HashMap;
@@ -12,8 +13,8 @@ import java.util.Set;
 
 public class GestoreRichieste {
 
-    private static Set<RichiestaCommand> richiesteBase;
-    private static Map<Utente, RichiestaCommand> richiesteIscrizione;
+    private static Set<RichiestaAstratta> richiesteBase;
+    private static Map<Utente, RichiestaAstratta> richiesteIscrizione;
 
     public GestoreRichieste () {
         richiesteBase = new HashSet<>();
@@ -25,7 +26,7 @@ public class GestoreRichieste {
      * @param richiesta la richiesta da aggiungere.
      * @return true se la richiesta è stata aggiunta correttamente, false altrimenti.
      */
-    public boolean aggiungiRichiesta(RichiestaCommand richiesta) {
+    public boolean aggiungiRichiesta(RichiestaAstratta richiesta) {
         return richiesteBase.add(richiesta);
     }
 
@@ -35,7 +36,7 @@ public class GestoreRichieste {
      * @param utente l'animatore che ha la richiesta associata
      * @return true se la richiesta è stata aggiunta correttamente, false altrimenti.
      */
-    public boolean aggiungiRichiestaContest(RichiestaCommand richiesta, Utente utente) {
+    public boolean aggiungiRichiestaContest(RichiestaAstratta richiesta, Utente utente) {
         return richiesteIscrizione.put(utente,richiesta) == null;
     }
 
@@ -45,7 +46,7 @@ public class GestoreRichieste {
      * @param valutazione la valutazione da assegnare alla richiesta.
      * @return true se la richiesta è stata valutata correttamente, false altrimenti.
      */
-    public boolean valutaRichiesta(RichiestaCommand richiesta, boolean valutazione) {
+    public boolean valutaRichiesta(RichiestaAstratta richiesta, boolean valutazione) {
         if (richiesteBase.contains(richiesta)) {
             richiesta.esegui(valutazione);
             richiesteBase.remove(richiesta);
@@ -61,6 +62,19 @@ public class GestoreRichieste {
             return true;
         }
         return false;
+    }
+
+    public RichiestaAstratta getRichiestaById(String id){
+        return richiesteBase.stream()
+                .filter(x -> x.getId().equals(id))
+                .findFirst()
+                .orElse(
+                        richiesteIscrizione.values().stream()
+                                .filter(x -> x.getId().equals(id))
+                                .findFirst()
+                                .orElse(null)
+                );
+
     }
 
     public JSONArray getDettagliRichiesteContest(Utente utente) {
@@ -106,5 +120,7 @@ public class GestoreRichieste {
         }
         return null;
     }
+
+
 
 }

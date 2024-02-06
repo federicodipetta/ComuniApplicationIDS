@@ -15,7 +15,7 @@ public class Segnalazione extends RichiestaAstratta {
      * @param descrizione la descrizione della segnalazione
      * @param contenuto il contenuto che deve essere segnalato
      */
-    Segnalazione(String id, String descrizione, Contenuto contenuto){
+    public Segnalazione(String id, String descrizione, Contenuto contenuto){
         super(id);
         this.descrizione = descrizione;
         this.contenuto = contenuto;

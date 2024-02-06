@@ -1,6 +1,7 @@
 package unicam.cs.ids.models.punti;
 
 import org.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.ruoli.Utente;
 import unicam.cs.ids.models.tempo.Tempo;
 
@@ -17,7 +18,7 @@ public class Evento extends Contenuto {
 
     private final Set<Utente> iscritti;
 
-    public Evento(String titolo, String testo, List<File> fileMultimediali, String id, Tempo tempo) {
+    public Evento(String titolo, String testo, List<MultipartFile> fileMultimediali, String id, Tempo tempo) {
         super(id,titolo, testo, fileMultimediali, tempo);
         this.iscritti = new HashSet<>();
     }

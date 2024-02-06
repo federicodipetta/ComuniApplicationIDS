@@ -2,6 +2,7 @@ package unicam.cs.ids.models.punti;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.ruoli.Utente;
 import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
@@ -53,7 +54,7 @@ public class Contest implements ObserverTempo {
      * @param file il file che l'utente vuole iscrivere al contest.
      * @return true se l'iscrizione è stata aggiunta, false altrimenti.
      */
-    public boolean aggiungiIscrizione(Utente utente, File file) {
+    public boolean aggiungiIscrizione(Utente utente, MultipartFile file) {
         if (stato == Stato.APERTO) {
             iscrizioni.put(new Iscrizione(utente, this, file), 0);
             return true;
