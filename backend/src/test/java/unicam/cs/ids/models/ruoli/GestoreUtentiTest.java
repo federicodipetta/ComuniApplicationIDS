@@ -7,6 +7,7 @@ import unicam.cs.ids.models.punti.Coordinate;
 import unicam.cs.ids.models.punti.PuntoFisico;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static org.junit.Assert.assertFalse;
 
@@ -25,8 +26,8 @@ public class GestoreUtentiTest {
         GestoreUtenti gestoreUtenti = new GestoreUtenti();
         Utente utente1 = new Utente("utente1", "1");
         Utente utente2 = new Utente("utente2", "2");
-        Comune civitanova = new Comune("Civitanova Marche", "MC", "1", new PuntoFisico(new Coordinate(43.308, 13.700), new ArrayList<>()));
-        Comune camerino = new Comune("Camerino", "MC", "2", new PuntoFisico(new Coordinate(43.135, 13.067), new ArrayList<>()));
+        Comune civitanova = new Comune("Civitanova Marche", "MC", "1", new PuntoFisico(new Coordinate(43.308, 13.700), new HashSet<>()));
+        Comune camerino = new Comune("Camerino", "MC", "2", new PuntoFisico(new Coordinate(43.135, 13.067), new HashSet<>()));
         RuoloComune ruoloComune1 = new RuoloComune(civitanova, Ruolo.TURISTA);
         RuoloComune ruoloComune2 = new RuoloComune(camerino, Ruolo.CONTRIBUTOR_AUTORIZZATO);
     }
@@ -41,7 +42,7 @@ public class GestoreUtentiTest {
     @Test
     public void testSetRuoloUtente() {
         Utente utente1 = new Utente("utente1", "1");
-        Comune civitanova = new Comune("Civitanova Marche", "MC", "1", new PuntoFisico(new Coordinate(43.308, 13.700), new ArrayList<>()));
+        Comune civitanova = new Comune("Civitanova Marche", "MC", "1", new PuntoFisico(new Coordinate(43.308, 13.700), new HashSet<>()));
         RuoloComune ruoloComune1 = new RuoloComune(civitanova, Ruolo.TURISTA);
         gestoreUtenti.setRuoloUtente(utente1, ruoloComune1);
         assert (gestoreUtenti.getGestoreRuoli().getComuniAbilitati(utente1, Ruolo.TURISTA).contains(civitanova) && gestoreUtenti.getGestoreRuoli().getComuniAbilitati(utente1, Ruolo.TURISTA).size() == 1);

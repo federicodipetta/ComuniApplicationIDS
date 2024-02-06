@@ -9,13 +9,14 @@ import unicam.cs.ids.models.punti.PuntoFisico;
 import unicam.cs.ids.models.stato.Stato;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class ElementiControllerTest {
 
     @Test
     public void testAggiungiContenuto() {
         Comune comune = new Comune("Milano", "Milano", "0",
-                new PuntoFisico(new Coordinate( 45.4641945, 9.1896349), new ArrayList<>()));
+                new PuntoFisico(new Coordinate( 45.4641945, 9.1896349), new HashSet<>()));
         ControllerElementi controllerElementi = new ControllerElementi();
         ContenutoBuilder builder = new ContenutoBuilder();
         Contenuto contenuto = builder

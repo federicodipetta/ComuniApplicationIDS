@@ -5,6 +5,8 @@ import org.json.JSONObject;
 import unicam.cs.ids.models.richieste.*;
 import unicam.cs.ids.models.ruoli.*;
 
+import java.util.Collection;
+
 /**
  * Questa classe è un controller per le richieste.
  */
@@ -129,8 +131,20 @@ public class ControllerRichieste {
                 .getGestoreRichieste().valutaRichiesta(richiestaAstratta, accetazione);
     }
 
+
+    public Collection<RichiestaAstratta> getRichieste(String idComune){
+        return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune))
+                .getGestoreRichieste().getRichieste();
+    }
+
+    public RichiestaAstratta getRichiesta(String id, String idComune){
+        return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune))
+                .getGestoreRichieste().getRichiestaById(id);
+    }
+
     private boolean aggiungiRichiestaGenerica(RichiestaAstratta richiestaCommand, String idComune) {
         return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune))
                 .getGestoreRichieste().aggiungiRichiesta(richiestaCommand);
     }
+
 }

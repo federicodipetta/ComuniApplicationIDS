@@ -17,7 +17,6 @@ import java.util.HashSet;
 
 @RestController
 @RequestMapping("/api/v0/elementi")
-@CrossOrigin(origins = "http://localhost:4200")
 public class ElementiRestController {
 
     private final ControllerElementi controllerElementi = new ControllerElementi();
