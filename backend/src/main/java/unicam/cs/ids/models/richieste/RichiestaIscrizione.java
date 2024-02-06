@@ -1,6 +1,7 @@
 package unicam.cs.ids.models.richieste;
 
 import org.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.punti.Contest;
 import unicam.cs.ids.models.ruoli.Utente;
 
@@ -11,11 +12,11 @@ import java.io.File;
  */
 public class RichiestaIscrizione extends RichiestaAstratta {
 
-    private final File file;
+    private final MultipartFile file;
     private final Utente utente;
     private final Contest contest;
 
-    public RichiestaIscrizione(String id, File file, Contest contest, Utente utente) {
+    public RichiestaIscrizione(String id, MultipartFile file, Contest contest, Utente utente) {
         super(id);
         this.file = file;
         this.contest = contest;
@@ -59,4 +60,7 @@ public class RichiestaIscrizione extends RichiestaAstratta {
                 '}';
     }
 
+    public Utente getAnimatore() {
+        return contest.getAnimatore();
+    }
 }

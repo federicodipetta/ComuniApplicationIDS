@@ -1,6 +1,7 @@
 package unicam.cs.ids.models.punti;
 
 import org.json.JSONException;
+import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.ObserverTempo;
@@ -20,11 +21,11 @@ public abstract class Contenuto implements ObserverTempo {
     private final String id;
     private final String titolo;
     private final String testo;
-    private final List<File> fileMultimediali;
+    private final List<MultipartFile> fileMultimediali;
     private Tempo tempo;
     private Stato stato;
 
-    public Contenuto(String id, String titolo, String testo, List<File> fileMultimediali) {
+    public Contenuto(String id, String titolo, String testo, List<MultipartFile> fileMultimediali) {
         this.id = id;
         this.titolo = titolo;
         this.testo = testo;
@@ -33,7 +34,7 @@ public abstract class Contenuto implements ObserverTempo {
         stato = Stato.APERTO;
     }
 
-    public Contenuto(String id, String titolo, String testo, List<File> fileMultimediali, Tempo tempo) {
+    public Contenuto(String id, String titolo, String testo, List<MultipartFile> fileMultimediali, Tempo tempo) {
         this.id = id;
         this.titolo = titolo;
         this.testo = testo;
@@ -42,7 +43,7 @@ public abstract class Contenuto implements ObserverTempo {
         stato = SelettoreStato.nuovoStato(Stato.CHIUSO, tempo, LocalDateTime.now());
     }
 
-    public Contenuto(String id, String titolo, String testo, List<File> fileMultimediali, Tempo tempo, Stato stato) {
+    public Contenuto(String id, String titolo, String testo, List<MultipartFile> fileMultimediali, Tempo tempo, Stato stato) {
         this.id = id;
         this.titolo = titolo;
         this.testo = testo;
@@ -65,7 +66,7 @@ public abstract class Contenuto implements ObserverTempo {
      * @param file i file da aggiungere.
      * @return true se i file sono stato aggiunto, false altrimenti.
      */
-    public boolean aggiungiFile(List<File> file) {
+    public boolean aggiungiFile(List<MultipartFile> file) {
         return fileMultimediali.addAll(file);
     }
 

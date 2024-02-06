@@ -1,6 +1,7 @@
 package unicam.cs.ids.models.richieste;
 
 import org.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.punti.Contenuto;
 
 import java.io.File;
@@ -11,10 +12,10 @@ import java.util.List;
  */
 public class RichiestaFile extends RichiestaAstratta {
 
-    private final List<File> files;
+    private final List<MultipartFile> files;
     private final Contenuto contenuto;
 
-    public RichiestaFile(String id, List<File> files, Contenuto contenuto) {
+    public RichiestaFile(String id, List<MultipartFile> files, Contenuto contenuto) {
         super(id);
         this.files = files;
         this.contenuto = contenuto;

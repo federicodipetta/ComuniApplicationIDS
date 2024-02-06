@@ -1,5 +1,6 @@
 package unicam.cs.ids.models.punti;
 
+import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.ruoli.Utente;
 
 import java.io.File;
@@ -8,9 +9,9 @@ public class Iscrizione {
 
     private final Utente iscritto;
     private final Contest contest;
-    private final File file;
+    private final MultipartFile file;
 
-    public Iscrizione(Utente iscritto, Contest contest, File file) {
+    public Iscrizione(Utente iscritto, Contest contest, MultipartFile file) {
         this.iscritto = iscritto;
         this.contest = contest;
         this.file = file;
