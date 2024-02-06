@@ -6,10 +6,7 @@ import org.json.JSONObject;
 import unicam.cs.ids.models.richieste.RichiestaAstratta;
 import unicam.cs.ids.models.richieste.RichiestaCommand;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class GestoreRichieste {
 
@@ -119,6 +116,10 @@ public class GestoreRichieste {
             return richiesta.dettagli();
         }
         return null;
+    }
+
+    public Collection<RichiestaAstratta> getRichieste() {
+        return richiesteBase;
     }
 
 

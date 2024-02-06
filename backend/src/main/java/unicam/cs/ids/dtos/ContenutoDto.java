@@ -10,7 +10,7 @@ public record ContenutoDto (
 
     String titolo,
 
-     String testo,
+    String testo,
 
     String id,
 

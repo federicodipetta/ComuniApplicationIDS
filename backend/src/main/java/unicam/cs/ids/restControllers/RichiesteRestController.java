@@ -93,6 +93,16 @@ public class RichiesteRestController {
 
     }
 
+    @GetMapping("/")
+    public ResponseEntity<Object> getRichieste(@PathParam("id") String id){
+        return new ResponseEntity<>(controllerRichieste.getRichieste(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getRichiesta")
+    public ResponseEntity<Object> getRichiesta(@PathParam("id") String id,@PathParam("idR") String idR){
+        return new ResponseEntity<>(controllerRichieste.getRichiesta(id,idR), HttpStatus.OK);
+    }
+
 
 
 }
