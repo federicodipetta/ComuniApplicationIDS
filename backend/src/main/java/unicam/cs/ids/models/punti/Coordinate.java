@@ -7,19 +7,19 @@ import unicam.cs.ids.view.View;
  * Classe per rappresentare le coordinate geografiche di un punto.
  */
 public record Coordinate(
-        @JsonView(View.Dettagli.class)
+        @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
         Double latitudine,
-        @JsonView(View.Dettagli.class)
+        @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
         Double longitudine) {
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Coordinate coordinate)) return false;
-        Integer latitudineInt = (int) (latitudine * 1000);
-        Integer longitudineInt = (int) (longitudine * 1000);
-        Integer altraLatitudineInt = (int) (coordinate.latitudine * 1000);
-        Integer altraLongitudineInt = (int) (coordinate.longitudine * 1000);
+        Integer latitudineInt = (int) (latitudine * 10000);
+        Integer longitudineInt = (int) (longitudine * 10000);
+        Integer altraLatitudineInt = (int) (coordinate.latitudine * 10000);
+        Integer altraLongitudineInt = (int) (coordinate.longitudine * 10000);
         return latitudineInt.equals(altraLatitudineInt) && longitudineInt.equals(altraLongitudineInt);
     }
 

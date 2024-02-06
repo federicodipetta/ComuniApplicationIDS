@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+        @for (contenuto of contenuti; track $index) {
+            <div class="card mt-3 bg-dark text-white">
+                <div class="card-body">
+                    <h5 class="card-title">{{contenuto.titolo}}</h5>
+                    <span class="badge bg-primary me-3">{{contenuto.stato}}</span>
+                    <a [routerLink]="[contenuto.id]" class="btn btn-primary"> Vai ai dettagli del contenuto </a>
+                </div>
+            </div>
+        }
+    </div>
+  </div>
+</div>

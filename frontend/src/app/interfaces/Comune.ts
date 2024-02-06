@@ -1,10 +1,10 @@
-import { PuntoFisico } from "./PuntoFisico";
+import { PuntoFisicoMinimo } from "./PuntoFisico";
 
 export interface Comune {
     id: string;
     nome: string;
     provincia: string;
-    puntoComune: PuntoFisico;
+    puntoComune: PuntoFisicoMinimo;
 }
 
 export interface ComuneAdd {

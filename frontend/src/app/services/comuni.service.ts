@@ -7,7 +7,6 @@ import { Comune, ComuneAdd } from '../interfaces/Comune';
   providedIn: 'root'
 })
 export class ComuniService {
-  baseUrl = 'http://localhost:8080/api/v0/comuni';
 
   constructor(private http: HttpClient) { }
 
@@ -16,6 +15,6 @@ export class ComuniService {
   }
 
   addComune(comune: ComuneAdd) {
-    return this.http.post('http://localhost:8080/api/v0/comuni', comune)
+    return this.http.post('http://localhost:8080/api/v0/comuni/add', comune)
   }
 }

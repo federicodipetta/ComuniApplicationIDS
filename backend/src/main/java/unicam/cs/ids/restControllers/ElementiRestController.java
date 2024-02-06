@@ -1,5 +1,6 @@
 package unicam.cs.ids.restControllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,12 +9,15 @@ import unicam.cs.ids.dtos.ContestDto;
 import unicam.cs.ids.dtos.PuntoFisicoDto;
 import unicam.cs.ids.models.controllers.ControllerElementi;
 import unicam.cs.ids.models.punti.*;
+import unicam.cs.ids.view.View;
 import unicam.cs.ids.wrappers.ContenutoPuntoFisicoWrapper;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 @RestController
 @RequestMapping("/api/v0/elementi")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ElementiRestController {
 
     private final ControllerElementi controllerElementi = new ControllerElementi();
@@ -70,11 +74,22 @@ public class ElementiRestController {
         return new ResponseEntity<>(controllerElementi.getIscrizioniVincenti(idContest, idComune), HttpStatus.OK);
     }
 
+    @JsonView(View.DettagliMinimi.class)
     @GetMapping("/getContenuti")
-    public ResponseEntity<Object> getContenuti(@PathParam("id") String id, @RequestBody PuntoFisicoDto puntoFisicoDto) {
-        System.out.println("Punto fisico: " +  puntoFisicoDto.latitudine() + " " + puntoFisicoDto.longitudine());
-        PuntoFisico puntoFisico1 = new PuntoFisico(new Coordinate(puntoFisicoDto.latitudine(), puntoFisicoDto.longitudine()), new ArrayList<>());
+    public ResponseEntity<Object> getContenuti(@PathParam("id") String id, @PathParam("lat") String lat, @PathParam("lon") String lon) {
+        PuntoFisico puntoFisico1 = new PuntoFisico(new Coordinate(Double.parseDouble(lat), Double.parseDouble(lon)), new HashSet<>());
         return new ResponseEntity<>(controllerElementi.getContenuti(id, puntoFisico1), HttpStatus.OK);
+    }
+
+    @GetMapping("/getContenuto")
+    public ResponseEntity<Object> getContenuto(@PathParam("idComune") String idComune, @PathParam("idContenuto") String idContenuto) {
+        return new ResponseEntity<>(controllerElementi.getContenuto(idComune, idContenuto), HttpStatus.OK);
+    }
+
+    @GetMapping("/getPunti")
+    @JsonView(View.DettagliMinimi.class)
+    public ResponseEntity<Object> getPunti(@PathParam("id") String id) {
+        return new ResponseEntity<>(controllerElementi.getPunti(id), HttpStatus.OK);
     }
 
 }

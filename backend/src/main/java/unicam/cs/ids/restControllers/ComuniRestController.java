@@ -13,6 +13,7 @@ import unicam.cs.ids.view.View;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 @RestController
@@ -36,7 +37,7 @@ public class ComuniRestController {
                         comune.id(),
                         new PuntoFisico(
                                 servizioOSM.getCoordinate(comune.nome()),
-                                new ArrayList<>()
+                                new HashSet<>()
                         )
                 )
         );

@@ -1,13 +1,16 @@
 package unicam.cs.ids.models.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.json.JSONArray;
 import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.punti.*;
 import unicam.cs.ids.models.ruoli.GestoreComuni;
 import unicam.cs.ids.models.ruoli.GestorePiattaforma;
+import unicam.cs.ids.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ControllerElementi {
     GestoreComuni gestoreComuni;
@@ -49,7 +52,16 @@ public class ControllerElementi {
                 .getIscrizioniVincenti(gestoreComuni.getGestoreComunale(comune).getContestById(idContest));
     }
 
-    public List<Contenuto> getContenuti(String idComune, PuntoFisico puntoFisico) {
+    public Set<Contenuto> getContenuti(String idComune, PuntoFisico puntoFisico) {
         return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune)).getDettagliContenuti(puntoFisico);
     }
+
+    public List<PuntoFisico> getPunti(String idComune) {
+        return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune)).getPuntiFisici().stream().toList();
+    }
+
+    public Contenuto getContenuto(String idComune, String idContenuto) {
+        return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune)).getContenutoById(idContenuto);
+    }
+
 }

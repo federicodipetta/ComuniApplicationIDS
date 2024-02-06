@@ -10,6 +10,7 @@ import unicam.cs.ids.models.stato.Stato;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Questa classe rappresenta un gestore comunale.
@@ -94,15 +95,13 @@ public class GestoreComunale {
      * @param puntoFisico il punto fisico
      * @return i dettagli dei contenuti del punto fisico
      */
-    public List<Contenuto> getDettagliContenuti(PuntoFisico puntoFisico) {
+    public Set<Contenuto> getDettagliContenuti(PuntoFisico puntoFisico) {
         if(puntoFisico.equals(this.comune.puntoComune())) return this.comune.puntoComune().getContenuti();
-        return this.puntiFisici.stream()
+        return new HashSet<>(this.puntiFisici.stream()
                 .filter(pf -> pf.equals(puntoFisico))
                 .findFirst()
-                .orElse(null)
-                .getContenuti()
-                .stream()
-                .toList();
+                .orElseThrow()
+                .getContenuti());
     }
 
     /**
@@ -225,6 +224,8 @@ public class GestoreComunale {
     }
 
     public Set<PuntoFisico> getPuntiFisici() {
-        return puntiFisici;
+        HashSet<PuntoFisico> set = new HashSet<>(puntiFisici);
+        set.add(comune.puntoComune());
+        return set;
     }
 }
