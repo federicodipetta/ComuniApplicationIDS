@@ -1,5 +1,6 @@
 package unicam.cs.ids.models.punti;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.json.JSONException;
 import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
@@ -7,6 +8,7 @@ import unicam.cs.ids.models.tempo.ObserverTempo;
 import unicam.cs.ids.models.tempo.SempreAttivo;
 import unicam.cs.ids.models.tempo.Tempo;
 import org.json.JSONObject;
+import unicam.cs.ids.view.View;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -17,11 +19,17 @@ import java.util.List;
  */
 public abstract class Contenuto implements ObserverTempo {
 
+    @JsonView(View.DettagliMinimi.class)
     private final String id;
+    @JsonView(View.DettagliMinimi.class)
     private final String titolo;
+    @JsonView(View.Dettagli.class)
     private final String testo;
+    @JsonView(View.Dettagli.class)
     private final List<File> fileMultimediali;
+    @JsonView(View.Dettagli.class)
     private Tempo tempo;
+    @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private Stato stato;
 
     public Contenuto(String id, String titolo, String testo, List<File> fileMultimediali) {

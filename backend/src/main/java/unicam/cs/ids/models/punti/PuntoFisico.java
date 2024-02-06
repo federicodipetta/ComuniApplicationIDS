@@ -4,23 +4,24 @@ import com.fasterxml.jackson.annotation.JsonView;
 import unicam.cs.ids.view.View;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Classe per rappresentare un punto fisico.
  */
 public class PuntoFisico {
-    @JsonView(View.Dettagli.class)
-
+    @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private final Coordinate coordinate;
 
-    private final List<Contenuto> contenuti;
+    @JsonView(View.Dettagli.class)
+    private final Set<Contenuto> contenuti;
 
     /**
      * Costruttore di un punto fisico.
      * @param coordinate le coordinate del punto fisico
      * @param contenuti i contenuti del punto fisico
      */
-    public PuntoFisico(Coordinate coordinate, List<Contenuto> contenuti) {
+    public PuntoFisico(Coordinate coordinate, Set<Contenuto> contenuti) {
         if(coordinate == null || contenuti == null)
             throw new NullPointerException("coordinate o contenuti nulli");
         this.coordinate = coordinate;
@@ -51,8 +52,13 @@ public class PuntoFisico {
         return coordinate;
     }
 
-    public List<Contenuto> getContenuti() {
+    public Set<Contenuto> getContenuti() {
         return contenuti;
+    }
+
+    @JsonView(View.DettagliMinimi.class)
+    public int getNumeroContenuti() {
+        return contenuti.size();
     }
 
 }
