@@ -1,5 +1,6 @@
 package unicam.cs.ids.restControllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,12 @@ import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.dtos.*;
 import unicam.cs.ids.mappers.RichiesteMapper;
 import unicam.cs.ids.models.controllers.ControllerRichieste;
+import unicam.cs.ids.models.richieste.RichiestaAstratta;
+import unicam.cs.ids.view.View;
+
+import java.util.Collection;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v0/richieste")
 public class RichiesteRestController {
@@ -92,9 +99,9 @@ public class RichiesteRestController {
             return new ResponseEntity<>("Errore nella valutazione della richiesta", HttpStatus.BAD_REQUEST);
 
     }
-
-    @GetMapping("/")
-    public ResponseEntity<Object> getRichieste(@PathParam("id") String id){
+    @JsonView(View.DettagliMinimi.class)
+    @GetMapping("")
+    public ResponseEntity<Collection<RichiestaAstratta>> getRichieste(@PathParam("id") String id){
         return new ResponseEntity<>(controllerRichieste.getRichieste(id), HttpStatus.OK);
     }
 

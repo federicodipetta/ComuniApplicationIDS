@@ -1,6 +1,35 @@
-<nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Comuni Application</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" routerLink="/home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/punti', idc]">Comuni</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/add-comune">Aggiungi Comune</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/add-contenuto">Aggiungi Contenuti</a>
+            </li>
 
+        </ul>
+
+        <div class="form-group col-md-1  ">
+            <label for="comuneSelect">Select Comune</label>
+            <select class="form-control" id="comuneSelect" [(ngModel)]="idc" (change)="onChange()">
+                <option *ngFor="let comune of comuni" [value]="comune.id">{{ comune.nome }}</option>
+            </select>
+        </div>
+    </div>
 </nav>
-
+<br>
+<br>
 
 <router-outlet></router-outlet>

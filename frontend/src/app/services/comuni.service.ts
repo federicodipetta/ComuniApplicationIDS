@@ -15,6 +15,6 @@ export class ComuniService {
   }
 
   addComune(comune: ComuneAdd) {
-    return this.http.post('http://localhost:8080/api/v0/comuni/add', comune)
+    return this.http.post('/api/v0/comuni/add', comune)
   }
 }
