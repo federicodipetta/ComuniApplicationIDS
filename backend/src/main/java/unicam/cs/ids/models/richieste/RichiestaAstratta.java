@@ -1,7 +1,10 @@
 package unicam.cs.ids.models.richieste;
 
-public abstract class RichiestaAstratta implements RichiestaCommand {
+import com.fasterxml.jackson.annotation.JsonView;
+import unicam.cs.ids.view.View;
 
+public abstract class RichiestaAstratta implements RichiestaCommand {
+    @JsonView(View.DettagliMinimi.class)
     private final String id;
 
     public RichiestaAstratta(String id) {
