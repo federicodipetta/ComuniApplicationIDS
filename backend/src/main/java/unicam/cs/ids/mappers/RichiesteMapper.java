@@ -19,7 +19,7 @@ public class RichiesteMapper {
             RichiestaContenutoAggiuntaDto richiestaContenutoDto, String idComune){
 
         return new RichiestaContenuto(richiestaContenutoDto.id(),
-                ContenutoMapper.mapContenuto(richiestaContenutoDto.contenuto()),
+                ContenutoMapper.mapContenutoRichiesta(richiestaContenutoDto.contenuto()),
                 PuntoFisicoMapper.mapPuntoFisico(richiestaContenutoDto.puntoFisico()),
                 getGestoreComunale(idComune)
         );

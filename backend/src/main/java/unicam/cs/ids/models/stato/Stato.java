@@ -8,6 +8,7 @@ public enum Stato {
     APERTO,
     CHIUSO,
     CONCLUSO,
+    DA_ACCETTARE,
     ELIMINATO;
 
 
@@ -18,7 +19,7 @@ public enum Stato {
     public boolean modificabile(){
         return switch (this) {
             case APERTO, CHIUSO -> true;
-            case CONCLUSO, ELIMINATO -> false;
+            case CONCLUSO, ELIMINATO,DA_ACCETTARE -> false;
         };
     }
 
@@ -29,6 +30,7 @@ public enum Stato {
             case CHIUSO -> "Chiuso";
             case CONCLUSO -> "Concluso";
             case ELIMINATO -> "Eliminato";
+            case DA_ACCETTARE -> "Da accettare";
         };
     }
 }
