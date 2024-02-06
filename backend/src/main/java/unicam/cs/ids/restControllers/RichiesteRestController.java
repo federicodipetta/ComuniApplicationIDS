@@ -105,9 +105,10 @@ public class RichiesteRestController {
         return new ResponseEntity<>(controllerRichieste.getRichieste(id), HttpStatus.OK);
     }
 
+    @JsonView(View.Dettagli.class)
     @GetMapping("/getRichiesta")
     public ResponseEntity<Object> getRichiesta(@PathParam("id") String id,@PathParam("idR") String idR){
-        return new ResponseEntity<>(controllerRichieste.getRichiesta(id,idR), HttpStatus.OK);
+        return new ResponseEntity<>(controllerRichieste.getRichiesta(idR,id), HttpStatus.OK);
     }
 
 

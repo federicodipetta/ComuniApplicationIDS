@@ -153,4 +153,8 @@ public abstract class Contenuto implements ObserverTempo {
         return this.stato;
     }
 
+    public Tempo getTempo() {
+        return tempo;
+    }
+
 }
