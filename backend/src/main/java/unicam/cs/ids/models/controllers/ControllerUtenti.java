@@ -1,10 +1,12 @@
 package unicam.cs.ids.models.controllers;
 
+import org.springframework.stereotype.Service;
 import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.ruoli.*;
 
 import java.util.Set;
 
+@Service
 public class ControllerUtenti {
 
     private final GestoreUtenti gestoreUtenti;

@@ -1,11 +1,12 @@
-import { Contenuto } from "./Contenuto";
+import { ContenutoDettagliato, ContenutoMinimo } from "./Contenuto";
 import { Coordinate } from "./Coordinate";
 
-export interface PuntoFisico {
+export interface PuntoFisicoMinimo {
     coordinate: Coordinate;
+    numeroContenuti: number;
 }
 
-export interface PuntoFisicoDettagli {
+export interface PuntoFisicoDettagliato {
     coordinate: Coordinate;
-    contenuti: Contenuto[];
+    contenuti: ContenutoMinimo[];
 }
