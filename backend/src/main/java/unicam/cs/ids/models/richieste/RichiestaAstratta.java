@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import unicam.cs.ids.view.View;
 
 public abstract class RichiestaAstratta implements RichiestaCommand {
-    @JsonView(View.DettagliMinimi.class)
+    @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private final String id;
 
     public RichiestaAstratta(String id) {

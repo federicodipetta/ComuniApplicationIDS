@@ -6,6 +6,7 @@ import { ContenutiComponent } from './contenuti/contenuti.component';
 import { ContenutidettaglioComponent } from './contenutidettaglio/contenutidettaglio.component';
 import { AddComuneComponent } from './add-comune/add-comune.component';
 import { AddContenutiComponent } from './add-contenuti/add-contenuti.component';
+import { RichiestaComponent } from './richiesta/richiesta.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -15,6 +16,7 @@ export const routes: Routes = [
     { path: 'punti/:idComune/:lat/:lon/:idContenuto', component: ContenutidettaglioComponent },
     { path: 'punti/:id/:lat/:lon', component: ContenutiComponent },
     { path: 'punti/:id', component: PuntiComponent },//l'id è l'id del comune
-    { path: 'richiesta/:id', component: RichiesteComponent },//l'id è l'id del comune
+    { path: 'richieste/:id/:idRichiesta', component: RichiestaComponent },
+    { path: 'richieste/:id', component: RichiesteComponent },//l'id è l'id del comune
     { path: '**', component: HomeComponent }
 ];

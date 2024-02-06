@@ -1,12 +1,29 @@
 import { Component } from '@angular/core';
+import { RichiesteService } from '../services/richieste.service';
+import { Richiesta } from '../interfaces/Richiesta';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-richieste',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './richieste.component.html',
   styleUrl: './richieste.component.scss'
 })
+
 export class RichiesteComponent {
 
+  richieste: Richiesta[] = [];
+  id: string = "0";
+
+  constructor(private service: RichiesteService, activatedRoute: ActivatedRoute) {
+    activatedRoute.params.subscribe(params => {
+      this.id = params['id'];
+      this.service.getRichieste(params['id']).subscribe(
+        risposta => {
+          this.richieste = risposta;
+          console.log(this.richieste);
+        });
+    });
+  } 
 }

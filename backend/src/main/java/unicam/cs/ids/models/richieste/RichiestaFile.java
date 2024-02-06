@@ -1,8 +1,10 @@
 package unicam.cs.ids.models.richieste;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.punti.Contenuto;
+import unicam.cs.ids.view.View;
 
 import java.io.File;
 import java.util.List;
@@ -12,8 +14,10 @@ import java.util.List;
  */
 public class RichiestaFile extends RichiestaAstratta {
 
-    private final List<MultipartFile> files;
+    @JsonView({View.Dettagli.class})
     private final Contenuto contenuto;
+    @JsonView(View.Dettagli.class)
+    private final List<MultipartFile> files;
 
     public RichiestaFile(String id, List<MultipartFile> files, Contenuto contenuto) {
         super(id);
