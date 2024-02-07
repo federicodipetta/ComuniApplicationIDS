@@ -55,7 +55,7 @@ public class ControllerRichieste {
      * @param richiestaCommand richiesta da valutare.
      * @param accettazione true se la richiesta è accettata, false altrimenti.
      * @return true se la richiesta è stata valutata, false altrimenti.
-     * @see GestoreRichieste#valutaRichiesta(RichiestaAstratta, String,boolean)  fanno una funzione simile ma questo metodo è meno efficente
+     * @see GestoreRichieste#valutaRichiesta(RichiestaAstratta, boolean) (RichiestaAstratta, String, boolean) fanno una funzione simile ma questo metodo è meno efficente
      */
     public boolean valutaRichiesta(RichiestaAstratta richiestaCommand, boolean accettazione){
         return gestoreComuni.getGestoriComunali().stream()
@@ -94,7 +94,7 @@ public class ControllerRichieste {
     }
 
     /**
-     * Aggiunge una richiesta di iscrizione ad un contest.
+     * Aggiunge una richiesta di iscrizione a un contest.
      * @param richiestaIscrizione richiesta da aggiungere.
      * @param idComune comune in cui aggiungere la richiesta.
      * @return true se la richiesta è stata aggiunta, false altrimenti.
@@ -119,16 +119,16 @@ public class ControllerRichieste {
     }
 
     /**
-     * valuta una richiesta
+     * Valuta una richiesta
      * @param richiestaAstratta richiesta da valutare
      * @param idComune comune in cui valutare la richiesta
-     * @param accetazione true se la richiesta è accettata, false altrimenti.
+     * @param accettazione true se la richiesta è accettata, false altrimenti.
      * @return true se la richiesta è stata valutata, false altrimenti.
      * @see GestoreRichieste#valutaRichiesta(RichiestaAstratta, boolean) fanno una funzione simile ma questo metodo è più efficente
      */
-    public boolean valutaRichiesta(RichiestaAstratta richiestaAstratta, String idComune, boolean accetazione){
+    public boolean valutaRichiesta(RichiestaAstratta richiestaAstratta, String idComune, boolean accettazione){
         return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune))
-                .getGestoreRichieste().valutaRichiesta(richiestaAstratta, accetazione);
+                .getGestoreRichieste().valutaRichiesta(richiestaAstratta, accettazione);
     }
 
 

@@ -35,7 +35,7 @@ public class RichiestaContenuto extends RichiestaAstratta {
             contenuto.setStato(SelettoreStato.nuovoStato(Stato.APERTO, contenuto.getTempo(), LocalDateTime.now()));
             gestoreComunale.aggiungiContenuto(contenuto, puntoFisico);
         }
-        contenuto.setStato(Stato.ELIMINATO);
+        else { contenuto.setStato(Stato.ELIMINATO); }
     }
 
     @Override

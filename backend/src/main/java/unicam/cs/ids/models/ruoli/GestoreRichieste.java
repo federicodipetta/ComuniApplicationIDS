@@ -24,6 +24,8 @@ public class GestoreRichieste {
      * @return true se la richiesta è stata aggiunta correttamente, false altrimenti.
      */
     public boolean aggiungiRichiesta(RichiestaAstratta richiesta) {
+        if (richiesteBase.stream().anyMatch(x -> x.equals(richiesta)))
+            return false;
         return richiesteBase.add(richiesta);
     }
 
@@ -112,9 +114,8 @@ public class GestoreRichieste {
      * @return i dettagli della richiesta o null se essa non è presente.
      */
     public JSONObject getDettagliRichiesta (RichiestaCommand richiesta) {
-        if (richiesteBase.contains(richiesta)) {
+        if (richiesteBase.contains(richiesta))
             return richiesta.dettagli();
-        }
         return null;
     }
 

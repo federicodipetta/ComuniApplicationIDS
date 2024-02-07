@@ -1,8 +1,6 @@
 package unicam.cs.ids.models.ruoli;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import unicam.cs.ids.models.Comune;
-import unicam.cs.ids.view.View;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +23,8 @@ public class GestoreComuni {
      * @return true se il gestore comunale è stato aggiunto, false altrimenti
      */
     public boolean aggiungiComune(Comune comune) {
+        if(gestoriComunali.stream().anyMatch(gc -> gc.getComune().equals(comune)))
+            return false;
         return gestoriComunali.add(new GestoreComunale(comune));
     }
 
