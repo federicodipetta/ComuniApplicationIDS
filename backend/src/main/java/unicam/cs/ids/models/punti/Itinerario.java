@@ -1,26 +1,37 @@
 package unicam.cs.ids.models.punti;
 
+import jakarta.persistence.*;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
-import unicam.cs.ids.models.tempo.Tempo;
+import unicam.cs.ids.models.tempo.TempoAstratto;
 
-import java.io.File;
 import java.util.List;
 
 /**
  * Questa classe rappresenta un itinerario.
  */
+@Entity
+@DiscriminatorValue("Itinerario")
 public class Itinerario extends Contenuto{
+    @ManyToMany
+    @JoinTable(
+            name = "itinerario_contenuti",
+            joinColumns = @JoinColumn(name = "itinerario_id"),
+            inverseJoinColumns = @JoinColumn(name = "contenuto_id")
+    )
+    private  List<Contenuto> contenuti;
 
-    private final List<Contenuto> contenuti;
-
-    public Itinerario(String titolo, String testo, List<MultipartFile> fileMultimediali, List<Contenuto> contenuti, String id) {
-        super(id, titolo, testo, fileMultimediali);
+    public Itinerario(String titolo, String testo, List<MultipartFile> fileMultimediali, List<Contenuto> contenuti) {
+        super(titolo, testo, fileMultimediali);
         this.contenuti = contenuti;
     }
-    public Itinerario(String titolo, String testo, List<MultipartFile> fileMultimediali, List<Contenuto> contenuti, String id, Tempo tempo) {
-        super(id,titolo, testo, fileMultimediali, tempo);
+    public Itinerario(String titolo, String testo, List<MultipartFile> fileMultimediali, List<Contenuto> contenuti,  TempoAstratto tempo) {
+        super(titolo, testo, fileMultimediali, tempo);
         this.contenuti = contenuti;
+    }
+
+    public Itinerario() {
+
     }
 
     @Override

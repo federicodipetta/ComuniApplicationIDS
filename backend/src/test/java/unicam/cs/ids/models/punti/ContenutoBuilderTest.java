@@ -17,11 +17,11 @@ public class ContenutoBuilderTest {
     public void buildItinerarioTest() {
         ContenutoBuilder contenutoBuilder = new ContenutoBuilder();
         contenutoBuilder.setStato(Stato.APERTO).setContenuto(
-                new PuntoInteresse("titolo", "testo", null, "0"), true)
+                new PuntoInteresse("titolo", "testo", null), true)
                 .setTitolo("titolo").setTesto("testo").setId("0");
         assertInstanceOf(Itinerario.class, contenutoBuilder.build());
         assertTrue(contenutoBuilder.build() instanceof Itinerario);
-        assertEquals(contenutoBuilder.build(), new Itinerario("titolo", "testo", null, List.of(new PuntoInteresse("titolo", "testo", null, "0")), "0"));
+        assertEquals(contenutoBuilder.build(), new Itinerario("titolo", "testo", null, List.of(new PuntoInteresse("titolo", "testo", null)), new SempreAttivo()));
     }
     @Test
     public void buildPuntoInteresseTest() {
@@ -33,7 +33,7 @@ public class ContenutoBuilderTest {
         assertInstanceOf(PuntoInteresse.class, contenutoBuilder.build());
         assertTrue(contenutoBuilder.build() instanceof PuntoInteresse);
 
-        assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null, "0"));
+        assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class ContenutoBuilderTest {
                 .setTempo(new SempreAttivo());
         assertInstanceOf(PuntoInteresse.class, contenutoBuilder.build());
         assertTrue(contenutoBuilder.build() instanceof PuntoInteresse);
-        assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null, "0"));
+        assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class ContenutoBuilderTest {
                 .setTempo(new InsiemeOrari(List.of(new OrarioInizioFine(LocalDateTime.now(), LocalDateTime.now()))));
         assertInstanceOf(Evento.class, contenutoBuilder.build());
         assertTrue(contenutoBuilder.build() instanceof Evento);
-        assertEquals(contenutoBuilder.build(), new Evento("titolo", "testo", null, "0", new InsiemeOrari(List.of(new OrarioInizioFine(LocalDateTime.now(), LocalDateTime.now())))));
+        assertEquals(contenutoBuilder.build(), new Evento("titolo", "testo", null, new InsiemeOrari(List.of(new OrarioInizioFine(LocalDateTime.now(), LocalDateTime.now())))));
     }
 
 

@@ -1,11 +1,11 @@
 package unicam.cs.ids.models.punti;
 
+import jakarta.persistence.*;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.ruoli.Utente;
-import unicam.cs.ids.models.tempo.Tempo;
+import unicam.cs.ids.models.tempo.TempoAstratto;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -14,14 +14,21 @@ import java.util.Set;
 /**
  * Classe per rappresentare un evento.
  */
+@Entity
+@DiscriminatorValue("Evento")
 public class Evento extends Contenuto {
+    @ManyToMany(cascade = CascadeType.ALL)
+    private  Set<Utente> iscritti;
 
-    private final Set<Utente> iscritti;
-
-    public Evento(String titolo, String testo, List<MultipartFile> fileMultimediali, String id, Tempo tempo) {
-        super(id,titolo, testo, fileMultimediali, tempo);
+    public Evento(String titolo, String testo, List<MultipartFile> fileMultimediali, TempoAstratto tempo) {
+        super(titolo, testo, fileMultimediali, tempo);
         this.iscritti = new HashSet<>();
     }
+
+    public Evento() {
+
+    }
+
 
     /**
      * Metodo per iscrivere un utente all'evento.

@@ -31,6 +31,7 @@ export class AddContenutiComponent {
     id: new FormControl(''),
     titolo: new FormControl(''),
     descrizione: new FormControl(''),
+    punto: new FormControl('')
     latitudine: new FormControl(''),
     longitudine: new FormControl(''),
   });

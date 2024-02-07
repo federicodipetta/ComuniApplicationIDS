@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class SegnalazioneTest {
     @Test
     public void testEsegui() {
-        Contenuto contenuto = new PuntoInteresse("nome", "questo punto cerrà segnalato a breve", new ArrayList<>(),"1");
+        Contenuto contenuto = new PuntoInteresse("nome", "questo punto cerrà segnalato a breve", new ArrayList<>());
         Segnalazione segnalazione = new Segnalazione("0","testo",contenuto);
         segnalazione.esegui(true);
         assertEquals(contenuto.getStato(), Stato.ELIMINATO);

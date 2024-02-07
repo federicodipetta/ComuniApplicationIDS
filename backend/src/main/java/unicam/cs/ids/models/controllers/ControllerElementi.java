@@ -2,21 +2,43 @@ package unicam.cs.ids.models.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.punti.*;
 import unicam.cs.ids.models.ruoli.GestoreComuni;
 import unicam.cs.ids.models.ruoli.GestorePiattaforma;
+import unicam.cs.ids.models.stato.Stato;
+import unicam.cs.ids.models.tempo.SempreAttivo;
+import unicam.cs.ids.repositorys.ContenutiRepository;
+import unicam.cs.ids.repositorys.PuntiFisiciRepository;
 import unicam.cs.ids.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
+@Service
 public class ControllerElementi {
     GestoreComuni gestoreComuni;
-
+    ContenutiRepository contenutiRepository;
+    PuntiFisiciRepository repo;
     public ControllerElementi() {
+    }
+    @Autowired
+    public ControllerElementi(ContenutiRepository contenutiRepository, PuntiFisiciRepository repo) throws JSONException {
+
         this.gestoreComuni = GestorePiattaforma.getInstance().getGestoreComuni();
+        this.contenutiRepository = contenutiRepository;
+        PuntoInteresse municipio= new PuntoInteresse("Municipio", "Sede del comune", new ArrayList<>());
+        this.contenutiRepository.save(
+                new PuntoInteresse("Piazza", "Piazza principale", new ArrayList<>()));
+        this.contenutiRepository.save(municipio);
+        Contenuto c = this.contenutiRepository.findAll().iterator().next();
+        Itinerario it = new Itinerario("Itinerario", "Itinerario turistico", new ArrayList<>(), new ArrayList<>(List.of(c)), new SempreAttivo());
+        this.contenutiRepository.save(it);
+        this.repo = repo;
+        this.repo.save(new PuntoFisico(new Coordinate(1.0, 1.0), Set.of(municipio)));
     }
 
     public ControllerElementi(GestoreComuni gestoreComuni) {

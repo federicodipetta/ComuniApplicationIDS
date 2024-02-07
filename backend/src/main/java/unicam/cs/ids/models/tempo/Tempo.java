@@ -1,10 +1,13 @@
 package unicam.cs.ids.models.tempo;
 
+import jakarta.persistence.Inheritance;
+
 import java.time.LocalDateTime;
 
 /**
  * Questa interfaccia rappresenta il tempo in cui è attivo un contenuto
  */
+
 public interface Tempo {
 
     /**

@@ -4,9 +4,8 @@ import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.ruoli.Utente;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.SempreAttivo;
-import unicam.cs.ids.models.tempo.Tempo;
+import unicam.cs.ids.models.tempo.TempoAstratto;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class ContenutoBuilder {
 
     private String id;
 
-    private Tempo tempo;
+    private TempoAstratto tempo;
 
     private Stato stato;
 
@@ -106,8 +105,6 @@ public class ContenutoBuilder {
      * @throws IllegalArgumentException se l'id è negativo.
      */
     public ContenutoBuilder setId(String id){
-        if (checkString(id))
-            throw new IllegalArgumentException("Id non valido");
         this.id = id;
         return this;
     }
@@ -118,7 +115,7 @@ public class ContenutoBuilder {
      * @return questo builder.
      * @throws IllegalArgumentException se il tempo è nullo.
      */
-    public ContenutoBuilder setTempo(Tempo tempo){
+    public ContenutoBuilder setTempo(TempoAstratto tempo){
         if (tempo == null)
             throw new IllegalArgumentException("Tempo non valido");
         this.tempo = tempo;
@@ -190,20 +187,20 @@ public class ContenutoBuilder {
      * @throws IllegalStateException se non sono stati settati tutti i parametri minimi.
      */
     public Contenuto build() {
-        if (checkString(titolo) || checkString(testo) || checkString(id) || stato == null) {
+        if (checkString(titolo) || checkString(testo) ||  stato == null) {
             throw new IllegalStateException("Non tutti i parametri minimi sono stati settati");
         }
         Contenuto c ;
         //solo l'itinerario ha i contenuti
         if(!this.contenuti.isEmpty())
-            c = new Itinerario(titolo, testo, fileMultimediali,contenuti, id, tempo);
+            c = new Itinerario(titolo, testo, fileMultimediali,contenuti,tempo);
         //solo l'evento ha iscritti o tempo non sempre attivo
         else if(tempoSettato) {
-            Evento e = new Evento(titolo, testo, fileMultimediali, id, tempo);
+            Evento e = new Evento(titolo, testo, fileMultimediali, tempo);
             e.iscriviAll(iscritti);
             c = e;
         }else
-            c = new PuntoInteresse(titolo, testo, fileMultimediali, id);
+            c = new PuntoInteresse(titolo, testo, fileMultimediali);
         if(stato != null)
             c.setStato(stato);
         return c;

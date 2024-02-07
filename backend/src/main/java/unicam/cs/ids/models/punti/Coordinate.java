@@ -1,16 +1,36 @@
 package unicam.cs.ids.models.punti;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.Embeddable;
 import unicam.cs.ids.view.View;
+
+import java.io.Serializable;
 
 /**
  * Classe per rappresentare le coordinate geografiche di un punto.
  */
-public record Coordinate(
-        @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
-        Double latitudine,
-        @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
-        Double longitudine) {
+@Embeddable
+public final class Coordinate implements Serializable {
+    @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
+    private  Double latitudine;
+    @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
+    private  Double longitudine;
+
+    /**
+     *
+     */
+    public Coordinate(
+            @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
+            Double latitudine,
+            @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
+            Double longitudine) {
+        this.latitudine = latitudine;
+        this.longitudine = longitudine;
+    }
+
+    public Coordinate() {
+
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -35,5 +55,16 @@ public record Coordinate(
                 ", longitudine=" + longitudine +
                 '}';
     }
+
+    @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
+    public Double latitudine() {
+        return latitudine;
+    }
+
+    @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
+    public Double longitudine() {
+        return longitudine;
+    }
+
 
 }
