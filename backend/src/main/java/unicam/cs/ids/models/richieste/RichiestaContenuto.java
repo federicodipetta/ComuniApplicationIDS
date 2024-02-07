@@ -1,16 +1,24 @@
 package unicam.cs.ids.models.richieste;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.json.JSONObject;
 import unicam.cs.ids.models.punti.Contenuto;
 import unicam.cs.ids.models.punti.PuntoFisico;
 import unicam.cs.ids.models.ruoli.GestoreComunale;
+import unicam.cs.ids.models.stato.SelettoreStato;
+import unicam.cs.ids.models.stato.Stato;
+import unicam.cs.ids.view.View;
+
+import java.time.LocalDateTime;
 
 /**
  * Questa classe rappresenta una richiesta riguardante un contenuto.
  */
 public class RichiestaContenuto extends RichiestaAstratta {
 
+    @JsonView({View.Dettagli.class})
     private final Contenuto contenuto;
+    @JsonView({View.Dettagli.class})
     private final PuntoFisico puntoFisico;
     private final GestoreComunale gestoreComunale;
 
@@ -24,8 +32,10 @@ public class RichiestaContenuto extends RichiestaAstratta {
     @Override
     public void esegui(boolean accetta) {
         if (accetta) {
+            contenuto.setStato(SelettoreStato.nuovoStato(Stato.APERTO, contenuto.getTempo(), LocalDateTime.now()));
             gestoreComunale.aggiungiContenuto(contenuto, puntoFisico);
         }
+        contenuto.setStato(Stato.ELIMINATO);
     }
 
     @Override

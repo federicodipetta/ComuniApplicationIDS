@@ -1,13 +1,21 @@
 package unicam.cs.ids.models.richieste;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.json.JSONObject;
 import unicam.cs.ids.models.punti.Contenuto;
 import unicam.cs.ids.models.punti.PuntoFisico;
 import unicam.cs.ids.models.ruoli.GestoreComunale;
+import unicam.cs.ids.models.stato.SelettoreStato;
+import unicam.cs.ids.models.stato.Stato;
+import unicam.cs.ids.view.View;
+
+import java.time.LocalDateTime;
 
 public class RichiestaEliminaContenuto extends RichiestaAstratta {
 
+    @JsonView({View.Dettagli.class})
     private final Contenuto contenuto;
+    @JsonView({View.Dettagli.class})
     private final PuntoFisico puntoFisico;
     private final GestoreComunale gestoreComunale;
 
@@ -21,6 +29,7 @@ public class RichiestaEliminaContenuto extends RichiestaAstratta {
     @Override
     public void esegui(boolean accetta) {
         if (accetta) {
+            contenuto.setStato(Stato.ELIMINATO);
             gestoreComunale.eliminaContenuto(contenuto);
         }
     }

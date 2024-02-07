@@ -1,1 +1,4 @@
-<p>richieste works!</p>
+@for (richiesta of richieste; track $index) {
+    {{richiesta.id}}
+    <a [routerLink] = "['/richieste', this.id, richiesta.id]"> Dettagli </a>
+}
