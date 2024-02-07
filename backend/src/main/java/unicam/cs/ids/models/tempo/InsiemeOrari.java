@@ -1,5 +1,7 @@
 package unicam.cs.ids.models.tempo;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,9 +12,12 @@ import java.util.List;
  * gli orari sono rappresentati da un oggetto {@link OrarioInizioFine}
  * che contiene un orario di inizio e uno di fine.
  */
-public class InsiemeOrari implements Tempo{
+@Entity
+@DiscriminatorValue("InsiemeOrari")
+public class InsiemeOrari extends TempoAstratto{
+    @ElementCollection
+    private  List<OrarioInizioFine> orarioInizioFineList;
 
-    private final List<OrarioInizioFine> orarioInizioFineList;
 
     /**
      * Costruttore di un insieme di orari
@@ -36,6 +41,10 @@ public class InsiemeOrari implements Tempo{
                 i--;
             }
         }
+    }
+
+    public InsiemeOrari() {
+
     }
 
 
@@ -78,5 +87,6 @@ public class InsiemeOrari implements Tempo{
     public List<OrarioInizioFine> getOrarioInizioFineList() {
         return orarioInizioFineList;
     }
+
 
 }

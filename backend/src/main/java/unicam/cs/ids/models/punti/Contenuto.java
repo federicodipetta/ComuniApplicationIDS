@@ -1,14 +1,16 @@
 package unicam.cs.ids.models.punti;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.json.JSONException;
 import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.ObserverTempo;
 import unicam.cs.ids.models.tempo.SempreAttivo;
-import unicam.cs.ids.models.tempo.Tempo;
 import org.json.JSONObject;
+import unicam.cs.ids.models.tempo.TempoAstratto;
 import unicam.cs.ids.view.View;
 
 import java.io.File;
@@ -17,22 +19,31 @@ import java.util.List;
 /**
  * Classe per rappresentare un generale contenuto di un punto fisico.
  */
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo")
 public abstract class Contenuto implements ObserverTempo {
 
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @JsonView(View.DettagliMinimi.class)
-    private final String id;
+    private  String id;
     @JsonView(View.DettagliMinimi.class)
-    private final String titolo;
+    private  String titolo;
     @JsonView(View.Dettagli.class)
-    private final String testo;
+    private  String testo;
     @JsonView(View.Dettagli.class)
-    private final List<MultipartFile> fileMultimediali;
-    private Tempo tempo;
+    @Transient
+    private  List<MultipartFile> fileMultimediali;
+    @OneToOne(cascade = CascadeType.ALL)
+    private TempoAstratto tempo;
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private Stato stato;
 
-    public Contenuto(String id, String titolo, String testo, List<MultipartFile> fileMultimediali) {
-        this.id = id;
+
+
+    public Contenuto(String titolo, String testo, List<MultipartFile> fileMultimediali) {
         this.titolo = titolo;
         this.testo = testo;
         this.fileMultimediali = fileMultimediali;
@@ -40,7 +51,7 @@ public abstract class Contenuto implements ObserverTempo {
         stato = Stato.APERTO;
     }
 
-    public Contenuto(String id, String titolo, String testo, List<MultipartFile> fileMultimediali, Tempo tempo) {
+    public Contenuto(String titolo, String testo, List<MultipartFile> fileMultimediali, TempoAstratto tempo) {
         this.id = id;
         this.titolo = titolo;
         this.testo = testo;
@@ -49,13 +60,17 @@ public abstract class Contenuto implements ObserverTempo {
         stato = SelettoreStato.nuovoStato(Stato.CHIUSO, tempo, LocalDateTime.now());
     }
 
-    public Contenuto(String id, String titolo, String testo, List<MultipartFile> fileMultimediali, Tempo tempo, Stato stato) {
+    public Contenuto(String titolo, String testo, List<MultipartFile> fileMultimediali, TempoAstratto tempo, Stato stato) {
         this.id = id;
         this.titolo = titolo;
         this.testo = testo;
         this.fileMultimediali = fileMultimediali;
         this.tempo = tempo;
         this.stato = stato;
+    }
+
+    public Contenuto() {
+
     }
 
     /**

@@ -1,11 +1,33 @@
 package unicam.cs.ids.models.ruoli;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  * Questa classe rappresenta un utente.
- * @param nomeUtente il nome dell'utente.
- * @param id l'id dell'utente.
  */
-public record Utente(String nomeUtente, String id) {
+@Entity
+public final class Utente {
+    private  String nomeUtente;
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private  String id;
+
+    /**
+     * @param nomeUtente il nome dell'utente.
+     * @param id         l'id dell'utente.
+     */
+    public Utente(String nomeUtente, String id) {
+        this.nomeUtente = nomeUtente;
+        this.id = id;
+    }
+
+    public Utente() {
+
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -23,5 +45,14 @@ public record Utente(String nomeUtente, String id) {
     public String toString() {
         return nomeUtente + " (" + id + ")";
     }
+
+    public String nomeUtente() {
+        return nomeUtente;
+    }
+
+    public String id() {
+        return id;
+    }
+
 
 }
