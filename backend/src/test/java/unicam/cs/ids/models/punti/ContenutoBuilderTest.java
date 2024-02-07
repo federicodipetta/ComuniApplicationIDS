@@ -33,7 +33,7 @@ public class ContenutoBuilderTest {
         assertInstanceOf(PuntoInteresse.class, contenutoBuilder.build());
         assertTrue(contenutoBuilder.build() instanceof PuntoInteresse);
 
-        assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null, "0"));
+        assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class ContenutoBuilderTest {
                 .setTempo(new SempreAttivo());
         assertInstanceOf(PuntoInteresse.class, contenutoBuilder.build());
         assertTrue(contenutoBuilder.build() instanceof PuntoInteresse);
-        assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null, "0"));
+        assertEquals(contenutoBuilder.build(), new PuntoInteresse("titolo", "testo", null));
     }
 
     @Test
