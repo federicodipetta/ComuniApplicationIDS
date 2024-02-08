@@ -19,9 +19,12 @@ import java.util.Collection;
 @RequestMapping("/api/v0/richieste")
 public class RichiesteRestController {
     private ControllerRichieste controllerRichieste;
+
+    private RichiesteMapper richiesteMapper;
     @Autowired
-    public RichiesteRestController(ControllerRichieste controllerRichieste) {
+    public RichiesteRestController(ControllerRichieste controllerRichieste, RichiesteMapper richiesteMapper) {
         this.controllerRichieste = controllerRichieste;
+        this.richiesteMapper = richiesteMapper;
     }
     @PostMapping("/contenuti/aggiungi")
     public ResponseEntity<Object> aggiungiRichiestaAggiunta(@RequestBody RichiestaContenutoAggiuntaDto richiestaContenutoDto
@@ -56,7 +59,7 @@ public class RichiesteRestController {
         boolean response = controllerRichieste.aggiungiRichiestaIscrizione(
                 RichiesteMapper.mapRichiestaIscrizione(iscrizioneDto, file,id),
                 id);
-
+      
         if(response)
             return new ResponseEntity<>("Richiesta aggiunta correttamente", HttpStatus.OK);
         else 

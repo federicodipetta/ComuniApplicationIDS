@@ -33,7 +33,7 @@ public class RichiestaEliminaContenuto extends RichiestaAstratta {
         this.puntoFisico = puntoFisico;
       ;
     }
-
+  
     public RichiestaEliminaContenuto() { }
 
     @Override

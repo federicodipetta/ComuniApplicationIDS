@@ -1,13 +1,29 @@
 package unicam.cs.ids.models.ruoli;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
 public class Notifica {
 
-    private final String testo;
-    private final String id;
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
-    public Notifica(String testo, String id) {
+
+    private String testo;
+
+
+    public Notifica(String testo) {
         this.testo = testo;
         this.id = id;
+    }
+
+    public Notifica() {
+
     }
 
     public String getTesto() {

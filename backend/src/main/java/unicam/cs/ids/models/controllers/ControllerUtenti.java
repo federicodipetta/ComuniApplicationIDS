@@ -1,5 +1,6 @@
 package unicam.cs.ids.models.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.ruoli.*;
@@ -23,6 +24,7 @@ public class ControllerUtenti {
      * @param gestoreUtenti Il gestore degli utenti.
      * @param gestoreNotifiche Il gestore delle notifiche.
      */
+    @Autowired
     public ControllerUtenti(GestoreUtenti gestoreUtenti, GestoreNotifiche gestoreNotifiche) {
         this.gestoreUtenti = gestoreUtenti;
         this.gestoreNotifiche = gestoreNotifiche;
@@ -81,12 +83,13 @@ public class ControllerUtenti {
 
     /**
      * Metodo utilizzato per rimuovere una notifica di un utente.
-     * @param idUtente l'id dell'utente.
-     * @param notifica la notifica da rimuovere.
+     *
+     * @param idUtente   l'id dell'utente.
+     * @param idNotifica la notifica da rimuovere.
      * @return true se la notifica è stata rimossa, false altrimenti.
      */
-    public boolean rimuoviNotifica(String idUtente, Notifica notifica) {
-    	return gestoreNotifiche.rimuoviNotifica(gestoreUtenti.getUtenteById(idUtente), notifica);
+    public boolean rimuoviNotifica(String idUtente, String idNotifica) {
+    	return gestoreNotifiche.rimuoviNotifica(gestoreUtenti.getUtenteById(idUtente), idNotifica);
     }
 
     public boolean setRuoloUtente(String idUtente, String idComune, String ruolo) {

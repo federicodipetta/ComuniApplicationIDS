@@ -1,8 +1,10 @@
 package unicam.cs.ids.restControllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import unicam.cs.ids.configurazioni.GestorePiattaformaBuilder;
 import unicam.cs.ids.dtos.ComuneDto;
 import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.controllers.ControllerComuni;
@@ -16,10 +18,11 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/v0/comuni")
 public class ComuniRestController {
+    private ControllerComuni controllerComuni;
 
-    private ControllerComuni controllerComuni = new ControllerComuni();
-
-    public ComuniRestController() {
+    @Autowired
+    public ComuniRestController(GestorePiattaformaBuilder builder) {
+        controllerComuni = new ControllerComuni(builder);
     }
 
     @JsonView(View.Dettagli.class)
@@ -31,7 +34,6 @@ public class ComuniRestController {
     @PostMapping("/add")
     public ResponseEntity<String> addComune(@RequestBody ComuneDto comune) {
         boolean bool = false;
-
         try {
             ServizioOSM servizioOSM = new ServizioOSM();
             bool = this.controllerComuni.aggiungiComune(
