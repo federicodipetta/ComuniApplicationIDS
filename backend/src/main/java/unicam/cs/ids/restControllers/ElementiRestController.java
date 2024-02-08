@@ -6,13 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unicam.cs.ids.dtos.ContestDto;
-import unicam.cs.ids.dtos.PuntoFisicoDto;
 import unicam.cs.ids.models.controllers.ControllerElementi;
 import unicam.cs.ids.models.punti.*;
 import unicam.cs.ids.view.View;
 import unicam.cs.ids.wrappers.ContenutoPuntoFisicoWrapper;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 @RestController
@@ -40,7 +38,7 @@ public class ElementiRestController {
 
     @PostMapping("/aggiungiContest")
     public ResponseEntity<Object> aggiungiContest(ContestDto contest, @PathParam("id") String idComune) {
-        Contest con = new Contest(contest.getAnimatore(), contest.getTitolo(), contest.getDescrizione(), contest.getTempo(), contest.getPuntoFisico(), contest.getId());
+        Contest con = new Contest(contest.getAnimatore(), contest.getTitolo(), contest.getDescrizione(), contest.getTempo(), contest.getPuntoFisico());
         boolean risultato = controllerElementi.aggiungiContest(con, idComune);
         if(risultato) return new ResponseEntity<>("Contest aggiunto correttamente.", HttpStatus.OK);
         else return new ResponseEntity<>("Errore nell'aggiunta del contest.", HttpStatus.BAD_REQUEST);

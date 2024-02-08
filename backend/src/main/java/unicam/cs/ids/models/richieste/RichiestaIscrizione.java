@@ -3,6 +3,7 @@ package unicam.cs.ids.models.richieste;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.punti.Contest;
+import unicam.cs.ids.models.punti.Iscrizione;
 import unicam.cs.ids.models.ruoli.Utente;
 
 import java.io.File;
@@ -26,7 +27,7 @@ public class RichiestaIscrizione extends RichiestaAstratta {
     @Override
     public void esegui(boolean accetta) {
         if (accetta) {
-            contest.aggiungiIscrizione(utente, file);
+            contest.aggiungiIscrizione(new Iscrizione(utente, contest, file));
         }
     }
 
