@@ -233,13 +233,13 @@ public class ContenutoBuilder {
 
     private <T> boolean addElementToList(Collection<T> collection, T element){
         if (element !=null)
-            return collection.add(element);
+             collection.add(element);
         return true;
     }
 
     private <T> boolean addElementToList(Collection<T> collection, Collection<T> elements){
-        if(elements != null)
-            return collection.addAll(elements);
+        if(elements != null )
+            collection.addAll(elements);
         return true;
     }
 }
