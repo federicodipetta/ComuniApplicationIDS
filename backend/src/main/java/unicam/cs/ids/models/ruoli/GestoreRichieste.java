@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import unicam.cs.ids.models.richieste.RichiestaAstratta;
 import unicam.cs.ids.models.richieste.RichiestaCommand;
+import unicam.cs.ids.repositorys.RichiesteRepository;
 
 import java.util.*;
 
@@ -13,7 +14,9 @@ public class GestoreRichieste {
     private static Set<RichiestaAstratta> richiesteBase;
     private static Map<Utente, RichiestaAstratta> richiesteIscrizione;
 
-    public GestoreRichieste () {
+    private RichiesteRepository richiesteRepository;
+
+    public GestoreRichieste (RichiesteRepository richiesteRepository) {
         richiesteBase = new HashSet<>();
         richiesteIscrizione = new HashMap<>();
     }
@@ -24,6 +27,7 @@ public class GestoreRichieste {
      * @return true se la richiesta è stata aggiunta correttamente, false altrimenti.
      */
     public boolean aggiungiRichiesta(RichiestaAstratta richiesta) {
+        this.richiesteRepository.save(richiesta);
         return richiesteBase.add(richiesta);
     }
 

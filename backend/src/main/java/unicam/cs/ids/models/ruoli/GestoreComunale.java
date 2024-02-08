@@ -7,10 +7,7 @@ import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.punti.*;
 import unicam.cs.ids.models.servizi.ServizioOSM;
 import unicam.cs.ids.models.stato.Stato;
-import unicam.cs.ids.repositorys.ComuniRepository;
-import unicam.cs.ids.repositorys.ContenutiRepository;
-import unicam.cs.ids.repositorys.ContestRepository;
-import unicam.cs.ids.repositorys.PuntiFisiciRepository;
+import unicam.cs.ids.repositorys.*;
 
 import java.util.*;
 
@@ -33,7 +30,11 @@ public class GestoreComunale {
 
     private PuntiFisiciRepository puntiFisiciRepository;
 
-    public GestoreComunale(ComuniRepository comuniRepository, Comune comune, ContestRepository contestRepository, PuntiFisiciRepository puntiFisiciRepository, ContenutiRepository contenutiRepository) {
+    private RichiesteRepository richiesteRepository;
+
+    public GestoreComunale(ComuniRepository comuniRepository, Comune comune, ContestRepository contestRepository,
+                           PuntiFisiciRepository puntiFisiciRepository, ContenutiRepository contenutiRepository,
+                           RichiesteRepository richiesteRepository) {
         this.contestRepository = contestRepository;
         this.contenutiRepository = contenutiRepository;
         this.puntiFisiciRepository = puntiFisiciRepository;
@@ -42,7 +43,7 @@ public class GestoreComunale {
         this.contest = new HashSet<>();
         this.puntiFisici = new HashSet<>();
         this.analizzatorePuntoFisico = new ProxyAnalizzatorePuntoFisico(new AnalizzatorePuntoFisico(new ServizioOSM()));
-        this.gestoreRichieste = new GestoreRichieste();
+        this.gestoreRichieste = new GestoreRichieste(richiesteRepository);
     }
 
     /**
