@@ -10,23 +10,19 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 public final class Utente {
-    private  String nomeUtente;
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private  String id;
 
-    /**
-     * @param nomeUtente il nome dell'utente.
-     */
+    private  String nomeUtente;
+
     public Utente(String nomeUtente) {
         this.nomeUtente = nomeUtente;
-        this.id = id;
     }
 
-    public Utente() {
-
-    }
+    public Utente() { }
 
     @Override
     public boolean equals(Object o) {

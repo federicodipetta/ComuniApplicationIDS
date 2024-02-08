@@ -1,11 +1,11 @@
 package unicam.cs.ids.models;
+
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.context.annotation.Bean;
 import unicam.cs.ids.models.punti.PuntoFisico;
 import unicam.cs.ids.view.View;
 
