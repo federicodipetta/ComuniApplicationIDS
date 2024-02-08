@@ -71,10 +71,13 @@ public class GestoreComunale {
      * @return le iscrizioni vincenti del contest.
      */
     public List<Iscrizione> getIscrizioniVincenti(Contest contest) {
-        return contest.getIscrizioni().entrySet().stream()
-                .filter(entry -> Objects.equals(entry.getValue(), contest.getIscrizioni().values().stream().max(Integer::compareTo).get()))
-                .map(Map.Entry::getKey)
-                .toList();
+        int max = contest.getIscrizioni().stream()
+                .mapToInt(Iscrizione::getPunti)
+                .max()
+                .orElse(0);
+        return contest.getIscrizioni().stream()
+                .filter(iscrizione -> iscrizione.getPunti() == max)
+                .collect(Collectors.toList());
     }
 
     /**
