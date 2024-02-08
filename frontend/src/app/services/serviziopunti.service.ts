@@ -8,9 +8,9 @@ import { ContenutoMinimo } from '../interfaces/Contenuto';
 })
 export class ServiziopuntiService {
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
-  public getPunti(number: number) {
+  public getPunti(number: string) {
     return this.httpClient.get<PuntoFisicoMinimo[]>('/api/v0/elementi/getPunti?id=' + number);
   }
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComuniService } from '../services/comuni.service';
+import { TendinaService } from '../services/tendina.service';
 
 @Component({
   selector: 'app-add-comune',
@@ -18,13 +19,23 @@ export class AddComuneComponent {
       id: new FormControl(''),
     }
   )
-  constructor(private comuniService: ComuniService) {
+  constructor(private comuniService: ComuniService, private tendina: TendinaService) {
 
   }
 
 
   addComune() {
     console.log(this.formgroup.value);
-    this.comuniService.addComune(this.formgroup.value).subscribe();
+    this.comuniService.addComune(this.formgroup.value).subscribe(
+      data => {
+        console.log(data);
+        this.tendina.fetchMenuData();
+      },
+      error => {
+        this.tendina.fetchMenuData();
+        console.error('Errore durante il recupero dei dati del menu:', error);
+      }
+    );
+
   }
 }
