@@ -1,0 +1,126 @@
+package unicam.cs.ids.models.ruoli;
+
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import unicam.cs.ids.models.richieste.RichiestaAstratta;
+import unicam.cs.ids.models.richieste.RichiestaCommand;
+import unicam.cs.ids.repositorys.RichiesteRepository;
+
+import java.util.*;
+
+public class GestoreRichieste {
+
+    private static Map<Utente, RichiestaAstratta> richiesteIscrizione;
+
+    private RichiesteRepository richiesteRepository;
+
+    private String idComune;
+
+
+    public GestoreRichieste (RichiesteRepository richiesteRepository,String idComune) {
+        this.idComune = idComune;
+        this.richiesteRepository = richiesteRepository;
+        richiesteIscrizione = new HashMap<>();
+    }
+
+
+    /**
+     * Questo metodo aggiunge una richiesta non legata a contest.
+     * @param richiesta la richiesta da aggiungere.
+     * @return true se la richiesta è stata aggiunta correttamente, false altrimenti.
+     */
+    public boolean aggiungiRichiesta(RichiestaAstratta richiesta) {
+        richiesta.setIdc(idComune);
+        this.richiesteRepository.save(richiesta);
+        return true;
+    }
+
+    /**
+     * Questo metodo aggiunge una richiesta legata a contest.
+     * @param richiesta la richiesta da aggiungere.
+     * @param utente l'animatore che ha la richiesta associata
+     * @return true se la richiesta è stata aggiunta correttamente, false altrimenti.
+     */
+    public boolean aggiungiRichiestaContest(RichiestaAstratta richiesta, Utente utente) {
+        // TODO: implementare il salvataggio della richiesta
+        return richiesteIscrizione.put(utente,richiesta) == null;
+    }
+
+
+    /**
+     * Questo metodo valuta una richiesta se presente nel gestore.
+     * @param richiesta la richiesta da valutare.
+     * @param valutazione la valutazione da assegnare alla richiesta.
+     * @return true se la richiesta è stata valutata correttamente, false altrimenti.
+     */
+    public boolean valutaRichiesta(RichiestaAstratta richiesta, boolean valutazione) {
+        if (this.richiesteRepository.existsById(richiesta.getId())) {
+            this.richiesteRepository.getReferenceById(richiesta.getId()).esegui(valutazione);
+            this.richiesteRepository.delete(richiesta);
+            return true;
+        }
+        return false;
+        //TODO: implementare valutazione richieste iscrizione
+    }
+
+
+    public RichiestaAstratta getRichiestaById(String id){
+        if(this.richiesteRepository.existsById(id))
+            return this.richiesteRepository.getReferenceById(id);
+        return null;
+    }
+
+
+    @Override
+    public String toString() {
+        return "GestoreRichieste{" +
+                "richiesteBase=" + this.richiesteRepository.findAll().stream().filter(richiesta -> richiesta.getIdc().equals(this.idComune)).count() +
+                ", richiesteIscrizione=" + richiesteIscrizione.size() +
+                '}';
+    }
+
+
+    public Collection<RichiestaAstratta> getRichieste() {
+        return this.richiesteRepository.findAll().stream().filter(richiesta -> richiesta.getIdc().equals(this.idComune)).toList();
+    }
+
+
+
+    public JSONArray getDettagliRichiesteContest(Utente utente) {
+        // METODO DEPRECATO
+        try {
+            return new JSONArray(richiesteIscrizione.entrySet().stream()
+                    .filter(entry -> entry.getKey().equals(utente))
+                    .map(Map.Entry::getValue)
+                    .map(RichiestaCommand::dettagliMinimi)
+                    .toArray());
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
+    /**
+     * Questo metodo restituisce i dettagli di una richiesta legata a un contest.
+     * @param richiesta la richiesta di cui si vogliono i dettagli.
+     * @return i dettagli della richiesta o null s essa non è presente.
+     */
+    public JSONObject getDettagliRichiestaContest (RichiestaCommand richiesta) {
+        // Sostituito con json view, deprecato
+        if (richiesteIscrizione.containsValue(richiesta)) {
+            return richiesta.dettagli();
+        }
+        return null;
+    }
+
+    /**
+     * Questo metodo restituisce i dettagli di una richiesta non legata a un contest.
+     * @param richiesta la richiesta di cui si vogliono i dettagli.
+     * @return i dettagli della richiesta o null se essa non è presente.
+     */
+    public JSONObject getDettagliRichiesta (RichiestaCommand richiesta) {
+        // Sostituito dalle json view, deprecato
+        return null;
+    }
+
+}

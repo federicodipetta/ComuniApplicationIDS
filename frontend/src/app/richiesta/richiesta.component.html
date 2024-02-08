@@ -1,0 +1,17 @@
+<div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card text-black mt-3">
+                    <div class="card-body">
+                        <h2 class="card-subtitle mb-2"> {{richiesta.contenuto.titolo}} </h2>
+                        <p class="card-text"> {{richiesta.contenuto.testo}} </p>
+                        <span class="badge bg-primary"> {{richiesta.contenuto.stato}} </span>
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-secondary me-3" (click)="onClick(false)">Rifiuta</button>
+                            <button class="btn btn-primary" (click)="onClick(true)">Approva</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

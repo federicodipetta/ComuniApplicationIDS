@@ -1,0 +1,490 @@
+{
+	"info": {
+		"_postman_id": "cb2d60ee-1302-4bbf-bdae-7463736f819c",
+		"name": "progetto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31463923",
+		"_collection_link": "https://dark-robot-609143.postman.co/workspace/My-Workspace~0ed32c56-2535-4402-80c8-b87cfa93acf7/collection/31463923-cb2d60ee-1302-4bbf-bdae-7463736f819c?action=share&source=collection_link&creator=31463923"
+	},
+	"item": [
+		{
+			"name": "utenti",
+			"item": [
+				{
+					"name": "aggiungiUtente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeUtente\": \"utenteDiProva\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v0/utenti/aggiungiUtente",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"utenti",
+								"aggiungiUtente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rimuoviUtente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v0/utenti/rimuoviUtente?id=ed42c935-494b-42d9-b43c-5bbe39716ba9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"utenti",
+								"rimuoviUtente"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "ed42c935-494b-42d9-b43c-5bbe39716ba9"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "elementi",
+			"item": [
+				{
+					"name": "api/v0/elementi/aggiungiContenuto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contenuto\": {\r\n        \"titolo\": \"Sagra delle tagliatelle.\",\r\n        \"testo\": \"Realizzata con la pasta fresca della città.\",\r\n        \"stato\": \"APERTO\"\r\n    },\r\n    \"puntoFisico\": {\r\n        \"coordinate\": {\r\n            \"latitudine\": 43.11111,\r\n            \"longitudine\": 13.11111\r\n        },\r\n        \"contenuti\": []\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v0/elementi/aggiungiContenuto?id=f345c04c-fef8-4d53-961d-afab3be5380f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"elementi",
+								"aggiungiContenuto"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "f345c04c-fef8-4d53-961d-afab3be5380f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v0/elementi/getPunti",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v0/elementi/getPunti?id=f376be54-fda7-445e-98d8-b3457e778ade",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"elementi",
+								"getPunti"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "f376be54-fda7-445e-98d8-b3457e778ade"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v0/elementi/getcontenuti",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v0/elementi/getContenuti?id=6b977795-d54c-4c90-aeee-aa22466788f3&lat=0.0&lon=0.0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"elementi",
+								"getContenuti"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "6b977795-d54c-4c90-aeee-aa22466788f3"
+								},
+								{
+									"key": "lat",
+									"value": "0.0"
+								},
+								{
+									"key": "lon",
+									"value": "0.0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v0/elementi/getContenuto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v0/elementi/getContenuto?idComune=4cdb99df-6f56-4b66-adb2-210e74ee8654&idContenuto=f16989fe-0c4d-4ac4-9a25-24522828577b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"elementi",
+								"getContenuto"
+							],
+							"query": [
+								{
+									"key": "idComune",
+									"value": "4cdb99df-6f56-4b66-adb2-210e74ee8654"
+								},
+								{
+									"key": "idContenuto",
+									"value": "f16989fe-0c4d-4ac4-9a25-24522828577b"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comuni",
+			"item": [
+				{
+					"name": "api/v0/comuni/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v0/comuni/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"comuni",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v0/comuni/add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\" : \"Camerino\",\r\n    \"provincia\" : \"Macerata\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v0/comuni/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"comuni",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "richieste",
+			"item": [
+				{
+					"name": "aggiungiRichiestaAggiunta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contenuto\": {\r\n        \"titolo\": \"Festa della spada.\",\r\n        \"testo\": \"Festa medievale nella città.\",\r\n        \"stato\": \"APERTO\"\r\n    },\r\n    \"puntoFisico\": {\r\n        \"latitudine\": 43.123,\r\n        \"longitudine\": 13.123\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v0/richieste/contenuti/aggiungi?id=29f9620b-499b-4101-81da-1f78e94ce706",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"richieste",
+								"contenuti",
+								"aggiungi"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "29f9620b-499b-4101-81da-1f78e94ce706"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "valutaRichiesta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"fb6fc4d8-6c22-4429-922f-c422a4bc2455\",\r\n    \"risposta\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v0/richieste/valuta?id=b0d01149-4f93-427d-8e5a-a7ae1b874ef5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"richieste",
+								"valuta"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "b0d01149-4f93-427d-8e5a-a7ae1b874ef5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "aggiungiRichiestaEliminazione",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idContenuto\": \"0363ec06-2c52-47a6-8646-efe1a86288de\",\r\n    \"puntoFisico\": {\r\n        \"latitudine\": 43.1357641,\r\n        \"longitudine\": 13.0683092\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v0/richieste/contenuti/eliminazione?id=afa85fdb-b58a-4443-bbc1-5019543297d7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"richieste",
+								"contenuti",
+								"eliminazione"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "afa85fdb-b58a-4443-bbc1-5019543297d7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRichieste",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v0/richieste?id=b0d01149-4f93-427d-8e5a-a7ae1b874ef5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"richieste"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "b0d01149-4f93-427d-8e5a-a7ae1b874ef5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRichiesta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v0/richieste/getRichiesta?id=8d02e062-2009-4b70-bdd8-bfc03f655781&idR=4355f465-2434-4372-8e23-5595f8d9e848",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"richieste",
+								"getRichiesta"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "8d02e062-2009-4b70-bdd8-bfc03f655781"
+								},
+								{
+									"key": "idR",
+									"value": "4355f465-2434-4372-8e23-5595f8d9e848"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+        @for (punto of punti; track $index) {
+            <div class="card bg-dark text-white mt-3">
+                <div class="card-body">
+                  <p class="card-text">Latitudine: {{punto.coordinate.latitudine}}</p>
+                  <p class="card-text">Longitudine: {{punto.coordinate.longitudine}}</p>
+                  <p class="card-text">Numero di contenuti: {{punto.numeroContenuti}}</p>
+                  <a [routerLink]="['/punti', id, punto.coordinate.latitudine, punto.coordinate.longitudine]" class="btn btn-primary"> Vai ai dettagli del punto </a>
+                </div>
+            </div>
+        }
+  </div>
+</div>
