@@ -50,7 +50,7 @@ public class UtentiRestController {
 
     @PostMapping("/addNotifica")
     public ResponseEntity<Object> addNotifica(@PathParam("id") String id, @RequestBody NotificaDto notifica) {
-        boolean risultato = controllerUtenti.invioNotifica(id, new Notifica(notifica.testo(), notifica.id()));
+        boolean risultato = controllerUtenti.invioNotifica(id, new Notifica(notifica.testo()));
         if(risultato) return new ResponseEntity<>("Notifica aggiunta correttamente.", HttpStatus.OK);
         else return new ResponseEntity<>("Errore nell'aggiunta della notifica.", HttpStatus.BAD_REQUEST);
     }
@@ -62,7 +62,7 @@ public class UtentiRestController {
 
     @DeleteMapping("/rimuoviNotifica")
     public ResponseEntity<Object> rimuoviNotifica(@PathParam("id") String id, @PathParam("idNotifica") String idNotifica) {
-        boolean risultato = controllerUtenti.rimuoviNotifica(id, new Notifica("", idNotifica));
+        boolean risultato = controllerUtenti.rimuoviNotifica(id, idNotifica);
         if(risultato) return new ResponseEntity<>("Notifica rimossa correttamente.", HttpStatus.OK);
         else return new ResponseEntity<>("Errore nella rimozione della notifica.", HttpStatus.BAD_REQUEST);
     }

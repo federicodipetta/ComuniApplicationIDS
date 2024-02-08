@@ -1,6 +1,9 @@
 package unicam.cs.ids.mappers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import unicam.cs.ids.configurazioni.GestorePiattaformaBuilder;
 import unicam.cs.ids.dtos.*;
 import unicam.cs.ids.models.richieste.*;
 import unicam.cs.ids.models.ruoli.GestoreComunale;
@@ -8,14 +11,17 @@ import unicam.cs.ids.models.ruoli.GestorePiattaforma;
 
 import java.util.List;
 
+@Component
 public class RichiesteMapper {
 
+    private GestorePiattaforma gestorePiattaforma;
 
-
-    public RichiesteMapper() {
+    @Autowired
+    public RichiesteMapper(GestorePiattaforma gestorePiattaforma) {
+        this.gestorePiattaforma = gestorePiattaforma;
     }
 
-    public static RichiestaContenuto mapRichiestaAggiunta(
+    public RichiestaContenuto mapRichiestaAggiunta(
             RichiestaContenutoAggiuntaDto richiestaContenutoDto, String idComune){
 
         return new RichiestaContenuto(
@@ -25,7 +31,7 @@ public class RichiesteMapper {
     }
 
 
-    public static RichiestaEliminaContenuto mapRichiestaEliminaContenuto(
+    public RichiestaEliminaContenuto mapRichiestaEliminaContenuto(
             RichiestaEliminazioneDto richiestaEliminazioneDto,String idComune){
 
             return new RichiestaEliminaContenuto(
@@ -36,20 +42,20 @@ public class RichiesteMapper {
 
     }
 
-    public static RichiestaIscrizione mapRichiestaIscrizione(IscrizioneDto iscrizioneDto, MultipartFile file, String idComune){
+    public RichiestaIscrizione mapRichiestaIscrizione(IscrizioneDto iscrizioneDto, MultipartFile file, String idComune){
         return new RichiestaIscrizione(
                 file,
                 getGestoreComunale(idComune).getContestById(iscrizioneDto.idContest()),
-                GestorePiattaforma.getInstance().getGestoreUtenti().getUtenteById(iscrizioneDto.idUtente())
+               this.gestorePiattaforma.getGestoreUtenti().getUtenteById(iscrizioneDto.idUtente())
         );
     }
 
 
-    public static RichiestaAstratta richiestaCommand(String comune, String id){
+    public RichiestaAstratta richiestaCommand(String comune, String id){
         return getGestoreComunale(comune).getGestoreRichieste().getRichiestaById(id);
     }
 
-    public static RichiestaFile mapRichiestaFile(RichiestaFileDto richiestaFileDto, MultipartFile file, String idComune){
+    public RichiestaFile mapRichiestaFile(RichiestaFileDto richiestaFileDto, MultipartFile file, String idComune){
         return new RichiestaFile(
                 richiestaFileDto.id(),
                 List.of(file),
@@ -57,7 +63,7 @@ public class RichiesteMapper {
         );
     }
 
-    public static Segnalazione mapSegnalazione(String idComune, SegnalazioneDto segnalazioneDto){
+    public Segnalazione mapSegnalazione(String idComune, SegnalazioneDto segnalazioneDto){
         return new Segnalazione(
                 segnalazioneDto.id(),
                 segnalazioneDto.descrizione(),
@@ -67,10 +73,10 @@ public class RichiesteMapper {
 
 
 
-    private static GestoreComunale getGestoreComunale(String idComune) {
+    private GestoreComunale getGestoreComunale(String idComune) {
 
-        return GestorePiattaforma.getInstance().getGestoreComuni().getGestoreComunale(
-                GestorePiattaforma.getInstance().getGestoreComuni().getComuneById(idComune)
+        return this.gestorePiattaforma.getGestoreComuni().getGestoreComunale(
+                this.gestorePiattaforma.getGestoreComuni().getComuneById(idComune)
         );
 
     }

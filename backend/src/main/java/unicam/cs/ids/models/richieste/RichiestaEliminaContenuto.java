@@ -33,7 +33,6 @@ public class RichiestaEliminaContenuto extends RichiestaAstratta {
     }
 
     public RichiestaEliminaContenuto() {
-
     }
 
     @Override

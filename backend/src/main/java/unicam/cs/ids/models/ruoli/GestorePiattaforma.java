@@ -61,13 +61,13 @@ public class GestorePiattaforma {
         this.contestRepository = builder.getContestRepository();
         this.puntiFisiciRepository = builder.getPuntiFisiciRepository();
         this.utentiRepository = builder.getUtentiRepository();
-        this.gestoreUtenti = new GestoreUtenti();
+        this.gestoreUtenti = new GestoreUtenti(utentiRepository);
         this.gestoreComuni = new GestoreComuni(comuniRepository, contestRepository, puntiFisiciRepository, contenutiRepository,richiesteRepository);
         this.instance = this;
     }
 
     public GestorePiattaforma() {
-        this.gestoreUtenti = new GestoreUtenti();
+        this.gestoreUtenti = new GestoreUtenti(utentiRepository);
         this.gestoreComuni = new GestoreComuni(comuniRepository, contestRepository, puntiFisiciRepository, contenutiRepository,richiesteRepository);
     }
     public static GestorePiattaforma getInstance(GestorePiattaformaBuilder builder) {

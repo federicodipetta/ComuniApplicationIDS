@@ -1,11 +1,16 @@
 package unicam.cs.ids.models.ruoli;
 
+import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Service
 public class GestoreNotifiche {
+
+    // TODO: le notifiche non sono persistite.
 
     private final Map<Utente, Set<Notifica>> mappaUtentiNotifiche;
 
@@ -52,15 +57,16 @@ public class GestoreNotifiche {
 
     /**
      * Metodo usato per rimuovere una notifica da un utente.
-     * @param utente l'utente a cui si vuole rimuovere la notifica.
-     * @param notifica la notifica da rimuovere.
+     *
+     * @param utente     l'utente a cui si vuole rimuovere la notifica.
+     * @param idNotifica la notifica da rimuovere.
      * @return true se la notifica è stata rimossa, false altrimenti.
      */
-    public boolean rimuoviNotifica(Utente utente, Notifica notifica) {
+    public boolean rimuoviNotifica(Utente utente, String idNotifica) {
         if(!mappaUtentiNotifiche.containsKey(utente)) {
             return false;
         } else {
-            return mappaUtentiNotifiche.get(utente).remove(notifica);
+            return mappaUtentiNotifiche.get(utente).remove(idNotifica);
         }
     }
 

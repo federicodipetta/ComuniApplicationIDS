@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
  */
 public class GestoreRuoli {
 
+    // TODO: i ruoli non sono disponibili.
+
     private final Map<Utente, Set<RuoloComune>> mappaUtenteRuoliComune;
 
     public GestoreRuoli() {
