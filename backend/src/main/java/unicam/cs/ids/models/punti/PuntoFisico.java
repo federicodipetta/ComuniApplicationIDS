@@ -2,6 +2,7 @@ package unicam.cs.ids.models.punti;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
+import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.view.View;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class PuntoFisico {
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = false)
     private  Set<Contenuto> contenuti;
 
+    private String idc;
     /**
      * Costruttore di un punto fisico.
      * @param coordinate le coordinate del punto fisico
@@ -73,4 +75,11 @@ public class PuntoFisico {
         return contenuti.size();
     }
 
+    public String getIdc() {
+        return idc;
+    }
+
+    public void setIdc(String idc) {
+        this.idc = idc;
+    }
 }

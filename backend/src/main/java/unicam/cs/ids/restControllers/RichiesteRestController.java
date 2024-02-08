@@ -2,6 +2,7 @@ package unicam.cs.ids.restControllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.websocket.server.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v0/richieste")
 public class RichiesteRestController {
-    private ControllerRichieste controllerRichieste = new ControllerRichieste();
-    public RichiesteRestController() {
+    private ControllerRichieste controllerRichieste;
+    @Autowired
+    public RichiesteRestController(ControllerRichieste controllerRichieste) {
+        this.controllerRichieste = controllerRichieste;
     }
     @PostMapping("/contenuti/aggiungi")
     public ResponseEntity<Object> aggiungiRichiestaAggiunta(@RequestBody RichiestaContenutoAggiuntaDto richiestaContenutoDto

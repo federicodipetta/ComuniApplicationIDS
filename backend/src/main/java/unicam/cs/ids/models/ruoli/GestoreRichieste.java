@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import unicam.cs.ids.models.richieste.RichiestaAstratta;
 import unicam.cs.ids.models.richieste.RichiestaCommand;
+import unicam.cs.ids.repositorys.RichiesteRepository;
 
 import java.util.*;
 
@@ -13,7 +14,11 @@ public class GestoreRichieste {
     private static Set<RichiestaAstratta> richiesteBase;
     private static Map<Utente, RichiestaAstratta> richiesteIscrizione;
 
-    public GestoreRichieste () {
+    private RichiesteRepository richiesteRepository;
+    private String idComune;
+    public GestoreRichieste (RichiesteRepository richiesteRepository,String idComune) {
+        this.idComune = idComune;
+        this.richiesteRepository = richiesteRepository;
         richiesteBase = new HashSet<>();
         richiesteIscrizione = new HashMap<>();
     }
@@ -24,7 +29,9 @@ public class GestoreRichieste {
      * @return true se la richiesta è stata aggiunta correttamente, false altrimenti.
      */
     public boolean aggiungiRichiesta(RichiestaAstratta richiesta) {
-        return richiesteBase.add(richiesta);
+        richiesta.setIdc(idComune);
+        this.richiesteRepository.save(richiesta);
+        return true;
     }
 
     /**
@@ -34,6 +41,7 @@ public class GestoreRichieste {
      * @return true se la richiesta è stata aggiunta correttamente, false altrimenti.
      */
     public boolean aggiungiRichiestaContest(RichiestaAstratta richiesta, Utente utente) {
+        // TODO: implementare il salvataggio della richiesta
         return richiesteIscrizione.put(utente,richiesta) == null;
     }
 
@@ -44,37 +52,21 @@ public class GestoreRichieste {
      * @return true se la richiesta è stata valutata correttamente, false altrimenti.
      */
     public boolean valutaRichiesta(RichiestaAstratta richiesta, boolean valutazione) {
-        if (richiesteBase.contains(richiesta)) {
-            richiesta.esegui(valutazione);
-            richiesteBase.remove(richiesta);
-            return true;
-        }
-        if(richiesteIscrizione.containsValue(richiesta)) {
-            richiesta.esegui(valutazione);
-            richiesteIscrizione.remove(richiesteIscrizione.entrySet().stream()
-                    .filter(entry -> entry.getValue().equals(richiesta))
-                    .map(Map.Entry::getKey)
-                    .findFirst()
-                    .orElse(null), richiesta);
-            return true;
-        }
-        return false;
+        this.richiesteRepository.getReferenceById(richiesta.getId()).esegui(valutazione);
+        this.richiesteRepository.delete(richiesta);
+
+        //TODO: implementare valutazione richieste iscrizione
+        return true;
     }
 
     public RichiestaAstratta getRichiestaById(String id){
-        return richiesteBase.stream()
-                .filter(x -> x.getId().equals(id))
-                .findFirst()
-                .orElse(
-                        richiesteIscrizione.values().stream()
-                                .filter(x -> x.getId().equals(id))
-                                .findFirst()
-                                .orElse(null)
-                );
-
+        if(this.richiesteRepository.existsById(id))
+            return this.richiesteRepository.getReferenceById(id);
+        return null;
     }
 
     public JSONArray getDettagliRichiesteContest(Utente utente) {
+
         try {
             return new JSONArray(richiesteIscrizione.entrySet().stream()
                     .filter(entry -> entry.getKey().equals(utente))
@@ -100,6 +92,7 @@ public class GestoreRichieste {
      * @return i dettagli della richiesta o null s essa non è presente.
      */
     public JSONObject getDettagliRichiestaContest (RichiestaCommand richiesta) {
+        // Sostituito con json view
         if (richiesteIscrizione.containsValue(richiesta)) {
             return richiesta.dettagli();
         }
@@ -112,14 +105,12 @@ public class GestoreRichieste {
      * @return i dettagli della richiesta o null se essa non è presente.
      */
     public JSONObject getDettagliRichiesta (RichiestaCommand richiesta) {
-        if (richiesteBase.contains(richiesta)) {
-            return richiesta.dettagli();
-        }
+        // Sostituito dalle json view.
         return null;
     }
 
     public Collection<RichiestaAstratta> getRichieste() {
-        return richiesteBase;
+        return this.richiesteRepository.findAll();
     }
 
 
