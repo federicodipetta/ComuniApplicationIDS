@@ -2,26 +2,26 @@ package unicam.cs.ids.restControllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.websocket.server.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unicam.cs.ids.dtos.ContestDto;
-import unicam.cs.ids.dtos.PuntoFisicoDto;
 import unicam.cs.ids.models.controllers.ControllerElementi;
 import unicam.cs.ids.models.punti.*;
 import unicam.cs.ids.view.View;
 import unicam.cs.ids.wrappers.ContenutoPuntoFisicoWrapper;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 @RestController
 @RequestMapping("/api/v0/elementi")
 public class ElementiRestController {
 
-    private final ControllerElementi controllerElementi = new ControllerElementi();
-
-    public ElementiRestController() {
+    private final ControllerElementi controllerElementi ;
+    @Autowired
+    public ElementiRestController(ControllerElementi controllerElementi) {
+        this.controllerElementi = controllerElementi;
     }
 
     @PostMapping("/aggiungiContenuto")
@@ -40,7 +40,7 @@ public class ElementiRestController {
 
     @PostMapping("/aggiungiContest")
     public ResponseEntity<Object> aggiungiContest(ContestDto contest, @PathParam("id") String idComune) {
-        Contest con = new Contest(contest.getAnimatore(), contest.getTitolo(), contest.getDescrizione(), contest.getTempo(), contest.getPuntoFisico(), contest.getId());
+        Contest con = new Contest(contest.getAnimatore(), contest.getTitolo(), contest.getDescrizione(), contest.getTempo(), contest.getPuntoFisico());
         boolean risultato = controllerElementi.aggiungiContest(con, idComune);
         if(risultato) return new ResponseEntity<>("Contest aggiunto correttamente.", HttpStatus.OK);
         else return new ResponseEntity<>("Errore nell'aggiunta del contest.", HttpStatus.BAD_REQUEST);
@@ -81,6 +81,7 @@ public class ElementiRestController {
     }
 
     @GetMapping("/getContenuto")
+    @JsonView(View.Dettagli.class)
     public ResponseEntity<Object> getContenuto(@PathParam("idComune") String idComune, @PathParam("idContenuto") String idContenuto) {
         return new ResponseEntity<>(controllerElementi.getContenuto(idComune, idContenuto), HttpStatus.OK);
     }

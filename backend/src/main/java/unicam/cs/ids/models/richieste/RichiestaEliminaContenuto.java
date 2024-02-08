@@ -1,33 +1,45 @@
 package unicam.cs.ids.models.richieste;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import org.json.JSONObject;
 import unicam.cs.ids.models.punti.Contenuto;
 import unicam.cs.ids.models.punti.PuntoFisico;
 import unicam.cs.ids.models.ruoli.GestoreComunale;
-import unicam.cs.ids.models.stato.SelettoreStato;
+import unicam.cs.ids.models.ruoli.GestorePiattaforma;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.view.View;
-
-import java.time.LocalDateTime;
-
+@Entity
+@DiscriminatorValue("RichiestaEliminaContenuto")
 public class RichiestaEliminaContenuto extends RichiestaAstratta {
 
     @JsonView({View.Dettagli.class})
-    private final Contenuto contenuto;
+    @OneToOne
+    private Contenuto contenuto;
     @JsonView({View.Dettagli.class})
-    private final PuntoFisico puntoFisico;
-    private final GestoreComunale gestoreComunale;
+    @OneToOne
+    private PuntoFisico puntoFisico;
+    @Transient
+    private GestoreComunale gestoreComunale;
 
-    public RichiestaEliminaContenuto(String id, Contenuto contenuto, PuntoFisico puntoFisico, GestoreComunale gestoreComunale) {
-        super(id);
+    public RichiestaEliminaContenuto(String id, Contenuto contenuto, PuntoFisico puntoFisico) {
+        super();
         this.contenuto = contenuto;
         this.puntoFisico = puntoFisico;
-        this.gestoreComunale = gestoreComunale;
+      ;
+    }
+
+    public RichiestaEliminaContenuto() {
+
     }
 
     @Override
     public void esegui(boolean accetta) {
+        this.gestoreComunale = GestorePiattaforma.getInstance().getGestoreComuni().getGestoreComunale(
+                GestorePiattaforma.getInstance().getGestoreComuni().getComuneById(super.getIdc()));
         if (accetta) {
             contenuto.setStato(Stato.ELIMINATO);
             gestoreComunale.eliminaContenuto(contenuto);

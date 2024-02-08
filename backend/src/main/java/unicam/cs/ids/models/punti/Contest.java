@@ -1,5 +1,10 @@
 package unicam.cs.ids.models.punti;
 
+
+import com.fasterxml.jackson.annotation.JsonView;
+
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,36 +12,55 @@ import unicam.cs.ids.models.ruoli.Utente;
 import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.ObserverTempo;
-import unicam.cs.ids.models.tempo.Tempo;
+import unicam.cs.ids.models.tempo.TempoAstratto;
+import unicam.cs.ids.view.View;
+ 
 
-import java.io.File;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Classe per rappresentare un contest.
  */
+@Entity
 public class Contest implements ObserverTempo {
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private  String id;
+    @ManyToOne
 
-    private final String id;
-    private final Utente animatore;
-    private final Map<Iscrizione, Integer> iscrizioni;
-    private final String titolo;
-    private final String descrizione;
-    private Tempo tempo;
+    private  Utente animatore;
+
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,orphanRemoval = false)
+    private Set<Iscrizione> iscrizioni;
+
+    private  String titolo;
+
+    private  String descrizione;
+    @OneToOne(cascade = CascadeType.ALL)
+    private TempoAstratto tempo;
+
     private Stato stato;
-    private final PuntoFisico puntoFisico;
+    @ManyToOne
+    private  PuntoFisico puntoFisico;
 
-    public Contest (Utente animatore, String titolo, String descrizione, Tempo tempo, PuntoFisico puntoFisico, String id) {
+    public Contest (Utente animatore, String titolo, String descrizione, TempoAstratto tempo, PuntoFisico puntoFisico) {
         this.animatore = animatore;
-        this.iscrizioni = new HashMap<>();
+        this.iscrizioni = new HashSet<>();
         this.titolo = titolo;
         this.tempo = tempo;
         this.descrizione = descrizione;
         this.puntoFisico = puntoFisico;
         this.stato = SelettoreStato.nuovoStato(Stato.CHIUSO, tempo, LocalDateTime.now());
-        this.id = id;
+    }
+
+    public Contest() {
+
     }
 
     /**
@@ -54,9 +78,9 @@ public class Contest implements ObserverTempo {
      * @param file il file che l'utente vuole iscrivere al contest.
      * @return true se l'iscrizione è stata aggiunta, false altrimenti.
      */
-    public boolean aggiungiIscrizione(Utente utente, MultipartFile file) {
+    public boolean aggiungiIscrizione(Iscrizione iscrizione) {
         if (stato == Stato.APERTO) {
-            iscrizioni.put(new Iscrizione(utente, this, file), 0);
+            iscrizioni.add(iscrizione);
             return true;
         }
         return false;
@@ -68,12 +92,10 @@ public class Contest implements ObserverTempo {
      * @return true se il voto è stato aggiunto, false altrimenti.
      */
     public boolean votazione (Iscrizione iscrizione) {
-        if (stato == Stato.APERTO) {
-            if (iscrizioni.containsKey(iscrizione)) {
-                iscrizioni.put(iscrizione, iscrizioni.get(iscrizione) + 1);
-                return true;
+        if(stato == Stato.APERTO)
+            if(iscrizioni.contains(iscrizione)){
+                iscrizioni.stream().filter(x->x.equals(iscrizione)).forEach(x->x.addPunti(1));
             }
-        }
         return false;
     }
 
@@ -145,7 +167,7 @@ public class Contest implements ObserverTempo {
         this.stato = stato;
     }
 
-    public Map<Iscrizione, Integer> getIscrizioni() {
+    public Set<Iscrizione> getIscrizioni() {
         return this.iscrizioni;
     }
 

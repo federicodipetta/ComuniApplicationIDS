@@ -1,18 +1,24 @@
 package unicam.cs.ids.models.richieste;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import org.json.JSONException;
 import org.json.JSONObject;
 import unicam.cs.ids.models.punti.Contenuto;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.view.View;
 
+@Entity
+@DiscriminatorValue("Segnalazione")
 public class Segnalazione extends RichiestaAstratta {
 
     @JsonView({View.Dettagli.class})
-    private final String descrizione;
+    private String descrizione;
     @JsonView({View.Dettagli.class})
-    private final Contenuto contenuto;
+    @OneToOne
+    private Contenuto contenuto;
 
     /**
      * Costruttore di una segnalazione
@@ -20,10 +26,15 @@ public class Segnalazione extends RichiestaAstratta {
      * @param contenuto il contenuto che deve essere segnalato
      */
     public Segnalazione(String id, String descrizione, Contenuto contenuto){
-        super(id);
+        super();
         this.descrizione = descrizione;
         this.contenuto = contenuto;
     }
+
+    public Segnalazione() {
+
+    }
+
     @Override
     public void esegui(boolean accetta) {
         if(accetta){

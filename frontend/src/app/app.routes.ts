@@ -8,6 +8,7 @@ import { AddComuneComponent } from './add-comune/add-comune.component';
 import { AddContenutiComponent } from './add-contenuti/add-contenuti.component';
 import { RichiestaComponent } from './richiesta/richiesta.component';
 
+
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
