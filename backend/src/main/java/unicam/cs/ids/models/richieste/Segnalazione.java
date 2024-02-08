@@ -1,13 +1,17 @@
 package unicam.cs.ids.models.richieste;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.json.JSONException;
 import org.json.JSONObject;
 import unicam.cs.ids.models.punti.Contenuto;
 import unicam.cs.ids.models.stato.Stato;
+import unicam.cs.ids.view.View;
 
 public class Segnalazione extends RichiestaAstratta {
 
+    @JsonView({View.Dettagli.class})
     private final String descrizione;
+    @JsonView({View.Dettagli.class})
     private final Contenuto contenuto;
 
     /**

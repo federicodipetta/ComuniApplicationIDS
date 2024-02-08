@@ -1,10 +1,12 @@
 package unicam.cs.ids.models.richieste;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.punti.Contest;
 import unicam.cs.ids.models.punti.Iscrizione;
 import unicam.cs.ids.models.ruoli.Utente;
+import unicam.cs.ids.view.View;
 
 import java.io.File;
 
@@ -13,7 +15,9 @@ import java.io.File;
  */
 public class RichiestaIscrizione extends RichiestaAstratta {
 
+    @JsonView({View.Dettagli.class})
     private final MultipartFile file;
+    @JsonView({View.Dettagli.class})
     private final Utente utente;
     private final Contest contest;
 
