@@ -9,7 +9,7 @@ export class ContenutiServiceService {
   contenuti: ContenutoDettagliato[] = [];
   constructor(private httpClient: HttpClient) { }
 
-  public getContenuto(idComune: number, idContenuto: number) {
+  public getContenuto(idComune: string, idContenuto: string) {
     return this.httpClient.get<ContenutoDettagliato>('/api/v0/elementi/getContenuto?idComune=' + idComune + '&idContenuto=' + idContenuto);
   }
 

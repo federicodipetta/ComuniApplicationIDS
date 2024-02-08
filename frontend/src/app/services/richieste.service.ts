@@ -20,4 +20,17 @@ export class RichiesteService {
   public valutaRichiesta(idComune: string, valutazione: Valutazione) {
     return this.httpClient.post<Richiesta>('/api/v0/richieste/valuta?id='+idComune,valutazione);
   }
+
+  public richiestaEliminazione(idComune: string, idContenuto: string, lat: number, lon: number) {
+    const body = {
+      idContenuto: idContenuto,
+      puntoFisico: {
+        latitudine: lat,
+        longitudine: lon
+      }
+    }
+    console.log(idComune);
+    return this.httpClient.post<any>('/api/v0/richieste/contenuti/eliminazione?id='+idComune, body);
+  }
+
 }
