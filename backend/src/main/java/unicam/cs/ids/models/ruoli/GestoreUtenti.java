@@ -1,5 +1,7 @@
 package unicam.cs.ids.models.ruoli;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import unicam.cs.ids.repositorys.UtentiRepository;
 
 import java.util.HashSet;
@@ -9,17 +11,17 @@ import java.util.Set;
  * Classe utilizzata per gestire gli utenti della piattaforma.
  * Per ottenere i comuni a cui è abilitato un utente utilizza il GestoreRuoliSingleton.
  */
+@Component
 public class GestoreUtenti {
 
     private final GestoreRuoli gestoreRuoli;
 
-    private final Set<Utente> utenti;
-
     private UtentiRepository utentiRepository;
+    @Autowired
 
     public GestoreUtenti(UtentiRepository utentiRepository) {
         gestoreRuoli = new GestoreRuoli();
-        utenti = new HashSet<>();
+        this.utentiRepository = utentiRepository;
     }
 
     /**
@@ -38,8 +40,11 @@ public class GestoreUtenti {
      * @return true se l'utente è stato rimosso, false altrimenti.
      */
     public boolean rimuoviUtente(Utente utente) {
-        this.utentiRepository.delete(utente);
-        return true;
+        if(this.utentiRepository.existsById(utente.id())) {
+            this.utentiRepository.delete(utente);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -55,7 +60,7 @@ public class GestoreUtenti {
     @Override
     public String toString() {
         return "GestoreUtenti{" +
-                "utenti=" + utenti.size() +
+                "utenti=" + this.utentiRepository.count() +
                 '}';
     }
 
@@ -64,7 +69,10 @@ public class GestoreUtenti {
     }
 
     public Utente getUtenteById(String idUtente) {
-        return utentiRepository.getReferenceById(idUtente);
+        if(this.utentiRepository.existsById(idUtente)) {
+            return utentiRepository.getReferenceById(idUtente);
+        }
+        return null;
     }
 
 }
