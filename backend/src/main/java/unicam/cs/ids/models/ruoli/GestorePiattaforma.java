@@ -1,12 +1,17 @@
 package unicam.cs.ids.models.ruoli;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import unicam.cs.ids.configurazioni.GestorePiattaformaBuilder;
 import unicam.cs.ids.models.Comune;
+import unicam.cs.ids.repositorys.*;
 
 import java.util.Set;
 
 /**
  * Classe utilizzata per gestire la piattaforma.
  */
+@Service
 public class GestorePiattaforma {
 
     private static GestorePiattaforma instance = null;
@@ -19,15 +24,32 @@ public class GestorePiattaforma {
 
     private final GestoreComuni gestoreComuni;
 
-    private GestorePiattaforma() {
-        gestoreUtenti = new GestoreUtenti();
-        gestoreComuni = new GestoreComuni();
+    ComuniRepository comuniRepository;
+    RichiesteRepository richiesteRepository;
+    ContenutiRepository contenutiRepository;
+    ContestRepository contestRepository;
+    PuntiFisiciRepository puntiFisiciRepository;
+    UtentiRepository utentiRepository;
+
+    @Autowired
+    private GestorePiattaforma(GestorePiattaformaBuilder builder) {
+        this.comuniRepository = builder.getComuniRepository();
+        this.richiesteRepository = builder.getRichiesteRepository();
+        this.contenutiRepository = builder.getContenutiRepository();
+        this.contestRepository = builder.getContestRepository();
+        this.puntiFisiciRepository = builder.getPuntiFisiciRepository();
+        this.utentiRepository = builder.getUtentiRepository();
+        this.gestoreUtenti = new GestoreUtenti();
+        this.gestoreComuni = new GestoreComuni(comuniRepository, contestRepository, puntiFisiciRepository, contenutiRepository);
+        this.instance = this;
+    }
+
+    public GestorePiattaforma() {
+        this.gestoreUtenti = new GestoreUtenti();
+        this.gestoreComuni = new GestoreComuni(comuniRepository, contestRepository, puntiFisiciRepository, contenutiRepository);
     }
 
     public static GestorePiattaforma getInstance() {
-        if (instance == null) {
-            instance = new GestorePiattaforma();
-        }
         return instance;
     }
 

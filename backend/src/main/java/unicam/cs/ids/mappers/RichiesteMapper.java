@@ -18,10 +18,9 @@ public class RichiesteMapper {
     public static RichiestaContenuto mapRichiestaAggiunta(
             RichiestaContenutoAggiuntaDto richiestaContenutoDto, String idComune){
 
-        return new RichiestaContenuto(richiestaContenutoDto.id(),
+        return new RichiestaContenuto(
                 ContenutoMapper.mapContenutoRichiesta(richiestaContenutoDto.contenuto()),
-                PuntoFisicoMapper.mapPuntoFisico(richiestaContenutoDto.puntoFisico()),
-                getGestoreComunale(idComune)
+                PuntoFisicoMapper.mapPuntoFisico(richiestaContenutoDto.puntoFisico())
         );
     }
 
@@ -32,15 +31,13 @@ public class RichiesteMapper {
             return new RichiestaEliminaContenuto(
                     richiestaEliminazioneDto.id(),
                     getGestoreComunale(idComune).getContenutoById(richiestaEliminazioneDto.idContenuto()),
-                    PuntoFisicoMapper.mapPuntoFisico(richiestaEliminazioneDto.puntoFisico()),
-                    getGestoreComunale(idComune)
+                    PuntoFisicoMapper.mapPuntoFisico(richiestaEliminazioneDto.puntoFisico())
             );
 
     }
 
     public static RichiestaIscrizione mapRichiestaIscrizione(IscrizioneDto iscrizioneDto, MultipartFile file, String idComune){
         return new RichiestaIscrizione(
-                iscrizioneDto.id(),
                 file,
                 getGestoreComunale(idComune).getContestById(iscrizioneDto.idContest()),
                 GestorePiattaforma.getInstance().getGestoreUtenti().getUtenteById(iscrizioneDto.idUtente())

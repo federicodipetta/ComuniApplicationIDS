@@ -1,7 +1,5 @@
 package unicam.cs.ids.models.controllers;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,13 +7,14 @@ import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.punti.*;
 import unicam.cs.ids.models.ruoli.GestoreComuni;
 import unicam.cs.ids.models.ruoli.GestorePiattaforma;
-import unicam.cs.ids.models.stato.Stato;
+import unicam.cs.ids.models.ruoli.Utente;
 import unicam.cs.ids.models.tempo.SempreAttivo;
 import unicam.cs.ids.repositorys.ContenutiRepository;
+import unicam.cs.ids.repositorys.ContestRepository;
 import unicam.cs.ids.repositorys.PuntiFisiciRepository;
-import unicam.cs.ids.view.View;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 @Service
@@ -23,11 +22,13 @@ public class ControllerElementi {
     GestoreComuni gestoreComuni;
     ContenutiRepository contenutiRepository;
     PuntiFisiciRepository repo;
+
+    ContestRepository contestRepository;
     public ControllerElementi() {
     }
     @Autowired
-    public ControllerElementi(ContenutiRepository contenutiRepository, PuntiFisiciRepository repo) throws JSONException {
-
+    public ControllerElementi(ContenutiRepository contenutiRepository, ContestRepository contestRepository, PuntiFisiciRepository repo) throws JSONException {
+        this.contestRepository = contestRepository;
         this.gestoreComuni = GestorePiattaforma.getInstance().getGestoreComuni();
         this.contenutiRepository = contenutiRepository;
         PuntoInteresse municipio= new PuntoInteresse("Municipio", "Sede del comune", new ArrayList<>());
@@ -39,6 +40,7 @@ public class ControllerElementi {
         this.contenutiRepository.save(it);
         this.repo = repo;
         this.repo.save(new PuntoFisico(new Coordinate(1.0, 1.0), Set.of(municipio)));
+        this.contestRepository.save(new Contest(new Utente("eduardo"), "Contest", "descrizione del mio contest", new SempreAttivo(), this.repo.findAll().getFirst()));
     }
 
     public ControllerElementi(GestoreComuni gestoreComuni) {

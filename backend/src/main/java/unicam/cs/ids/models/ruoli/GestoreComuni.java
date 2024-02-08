@@ -1,12 +1,13 @@
 package unicam.cs.ids.models.ruoli;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import unicam.cs.ids.models.Comune;
-import unicam.cs.ids.view.View;
+import unicam.cs.ids.repositorys.ComuniRepository;
+import unicam.cs.ids.repositorys.ContenutiRepository;
+import unicam.cs.ids.repositorys.ContestRepository;
+import unicam.cs.ids.repositorys.PuntiFisiciRepository;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Classe utilizzata per gestire i comuni della piattaforma.
@@ -15,7 +16,19 @@ public class GestoreComuni {
 
     private final Set<GestoreComunale> gestoriComunali;
 
-    public GestoreComuni() {
+    private ComuniRepository comuniRepository;
+
+    private ContestRepository contestRepository;
+
+    private PuntiFisiciRepository puntiFisiciRepository;
+
+    private ContenutiRepository contenutiRepository;
+
+    public GestoreComuni(ComuniRepository comuniRepository, ContestRepository contestRepository, PuntiFisiciRepository puntiFisiciRepository, ContenutiRepository contenutiRepository) {
+        this.contestRepository = contestRepository;
+        this.contenutiRepository = contenutiRepository;
+        this.comuniRepository = comuniRepository;
+        this.puntiFisiciRepository = puntiFisiciRepository;
         this.gestoriComunali = new HashSet<>();
     }
 
@@ -25,7 +38,8 @@ public class GestoreComuni {
      * @return true se il gestore comunale è stato aggiunto, false altrimenti
      */
     public boolean aggiungiComune(Comune comune) {
-        return gestoriComunali.add(new GestoreComunale(comune));
+        this.comuniRepository.save(comune);
+        return gestoriComunali.add(new GestoreComunale(comuniRepository, comune, contestRepository, puntiFisiciRepository, contenutiRepository));
     }
 
     @Override
@@ -41,12 +55,7 @@ public class GestoreComuni {
      * @return il gestore comunale richiesto.
      */
     public Comune getComuneById(String idComune) {
-        for (GestoreComunale gc : gestoriComunali) {
-            if (gc.getComune().id().equals(idComune)) {
-                return gc.getComune();
-            }
-        }
-        return null;
+        return comuniRepository.getReferenceById(idComune);
     }
 
     /**
@@ -54,9 +63,7 @@ public class GestoreComuni {
      * @return la lista dei comuni gestiti.
      */
     public Set<Comune> getComuni() {
-        return gestoriComunali.stream()
-                .map(GestoreComunale::getComune)
-                .collect(Collectors.toSet());
+        return new HashSet<>(comuniRepository.findAll());
     }
 
     /**

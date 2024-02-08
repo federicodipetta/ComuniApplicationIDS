@@ -1,5 +1,8 @@
 package unicam.cs.ids.models.punti;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,9 +10,9 @@ import unicam.cs.ids.models.ruoli.Utente;
 import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.ObserverTempo;
-import unicam.cs.ids.models.tempo.Tempo;
+import unicam.cs.ids.models.tempo.TempoAstratto;
+import unicam.cs.ids.view.View;
 
-import java.io.File;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,18 +20,30 @@ import java.util.Map;
 /**
  * Classe per rappresentare un contest.
  */
+@Entity
 public class Contest implements ObserverTempo {
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private  String id;
+    @ManyToOne
+    @Transient
+    private  Utente animatore;
+    @Transient
+    private  Map<Iscrizione, Integer> iscrizioni;
+    @JsonView(View.Dettagli.class)
+    private  String titolo;
 
-    private final String id;
-    private final Utente animatore;
-    private final Map<Iscrizione, Integer> iscrizioni;
-    private final String titolo;
-    private final String descrizione;
-    private Tempo tempo;
+    private  String descrizione;
+    @OneToOne(cascade = CascadeType.ALL)
+    private TempoAstratto tempo;
+
     private Stato stato;
-    private final PuntoFisico puntoFisico;
+    @ManyToOne
+    private  PuntoFisico puntoFisico;
 
-    public Contest (Utente animatore, String titolo, String descrizione, Tempo tempo, PuntoFisico puntoFisico, String id) {
+
+    public Contest (Utente animatore, String titolo, String descrizione, TempoAstratto tempo, PuntoFisico puntoFisico) {
         this.animatore = animatore;
         this.iscrizioni = new HashMap<>();
         this.titolo = titolo;
@@ -36,7 +51,10 @@ public class Contest implements ObserverTempo {
         this.descrizione = descrizione;
         this.puntoFisico = puntoFisico;
         this.stato = SelettoreStato.nuovoStato(Stato.CHIUSO, tempo, LocalDateTime.now());
-        this.id = id;
+    }
+
+    public Contest() {
+
     }
 
     /**

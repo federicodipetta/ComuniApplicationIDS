@@ -5,15 +5,14 @@ import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.punti.Coordinate;
 import unicam.cs.ids.models.punti.PuntoFisico;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import static org.junit.Assert.assertFalse;
 
 public class GestoreRuoliTest {
 
-    private Utente utente1 = new Utente("utente1", "1");
-    private Utente utente2 = new Utente("utente2", "2");
+    private Utente utente1 = new Utente("utente1");
+    private Utente utente2 = new Utente("utente2");
     private Comune civitanova = new Comune("Civitanova Marche", "MC", "1", new PuntoFisico(new Coordinate(43.308, 13.700), new HashSet<>()));
     private Comune camerino = new Comune("Camerino", "MC", "2", new PuntoFisico(new Coordinate(43.135, 13.067),new HashSet<>()));
     private RuoloComune ruoloComune1 = new RuoloComune(civitanova, Ruolo.TURISTA);
