@@ -14,14 +14,17 @@ public class AnalizzatorePuntoFisico implements IAnalizzatorePuntoFisico {
 
     private final IServizioOSM servizioOSM;
 
+
     public AnalizzatorePuntoFisico(IServizioOSM servizioOSM) {
             this.servizioOSM = servizioOSM;
     }
+
 
     @Override
     public boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune) {
         return getNomeComune(puntoFisico).equalsIgnoreCase(comune.nome().trim());
     }
+
 
     @Override
     public String getNomeComune(PuntoFisico puntoFisico) {

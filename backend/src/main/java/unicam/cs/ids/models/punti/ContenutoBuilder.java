@@ -13,6 +13,7 @@ import java.util.List;
 public class ContenutoBuilder {
 
     private boolean tempoSettato;
+
     private String titolo;
 
     private String testo;
@@ -29,7 +30,8 @@ public class ContenutoBuilder {
 
     private List<Utente> iscritti;
 
-    private boolean ordianto;
+    private boolean ordinato;
+
 
     /**
      * Inizializza il builder con i valori di default.
@@ -41,8 +43,9 @@ public class ContenutoBuilder {
         this.tempo = new SempreAttivo();
         this.iscritti = new LinkedList<>();
         this.stato = null;
-        this.ordianto= false;
+        this.ordinato = false;
     }
+
 
      private boolean checkString(String stringa){
         return stringa == null || stringa.isEmpty() || stringa.isBlank() ;
@@ -140,7 +143,7 @@ public class ContenutoBuilder {
      * @return questo builder.
      */
     public ContenutoBuilder setContenuti(List<Contenuto> contenuti, boolean ordianto) {
-        this.ordianto= ordianto;
+        this.ordinato = ordianto;
         if(!addElementToList(this.contenuti, contenuti))
             throw new IllegalArgumentException("Contenuti non validi");
         return this;
@@ -152,7 +155,7 @@ public class ContenutoBuilder {
      * @return questo builder.
      */
     public ContenutoBuilder setContenuto(Contenuto contenuto, boolean ordianto) {
-        this.ordianto= ordianto;
+        this.ordinato = ordianto;
         if (!addElementToList(this.contenuti, contenuto))
             throw new IllegalArgumentException("Contenuto non valido");
         return this;
@@ -219,7 +222,7 @@ public class ContenutoBuilder {
         this.stato = null;
         this.contenuti = new LinkedList<>();
         this.iscritti = new LinkedList<>();
-        this.ordianto= false;
+        this.ordinato = false;
         return this;
     }
 

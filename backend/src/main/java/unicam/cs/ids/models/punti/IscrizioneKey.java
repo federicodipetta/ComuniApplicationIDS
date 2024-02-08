@@ -8,18 +8,21 @@ import java.io.Serializable;
 
 @Embeddable
 public class IscrizioneKey implements Serializable {
+
     @ManyToOne
     private Utente iscritto;
+
     @ManyToOne
     private Contest contest;
+
 
     public IscrizioneKey(Utente iscritto, Contest contest) {
         this.iscritto = iscritto;
         this.contest = contest;
     }
 
-    public IscrizioneKey() {
-    }
+    public IscrizioneKey() { }
+
 
     public Utente getIscritto() {
         return iscritto;
@@ -36,4 +39,5 @@ public class IscrizioneKey implements Serializable {
     public void setContest(Contest contest) {
         this.contest = contest;
     }
+
 }

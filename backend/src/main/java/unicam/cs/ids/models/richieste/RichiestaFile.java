@@ -22,9 +22,11 @@ public class RichiestaFile extends RichiestaAstratta {
     @JsonView({View.Dettagli.class})
     @OneToOne
     private Contenuto contenuto;
+
     @JsonView(View.Dettagli.class)
     @Transient
     private List<MultipartFile> files;
+
 
     public RichiestaFile(String id, List<MultipartFile> files, Contenuto contenuto) {
         super();
@@ -32,9 +34,8 @@ public class RichiestaFile extends RichiestaAstratta {
         this.contenuto = contenuto;
     }
 
-    public RichiestaFile() {
+    public RichiestaFile() { }
 
-    }
 
     @Override
     public void esegui(boolean accetta) {
@@ -42,6 +43,7 @@ public class RichiestaFile extends RichiestaAstratta {
             contenuto.aggiungiFile(files);
         }
     }
+
 
     @Override
     public JSONObject dettagliMinimi() {
@@ -63,6 +65,7 @@ public class RichiestaFile extends RichiestaAstratta {
             throw new RuntimeException();
         }
     }
+
 
     @Override
     public String toString() {

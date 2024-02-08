@@ -6,8 +6,10 @@ import unicam.cs.ids.models.ruoli.Utente;
 
 @Entity
 public class Iscrizione {
+
     @EmbeddedId
     private IscrizioneKey id;
+
     @Transient
     private  MultipartFile file;
 
@@ -15,24 +17,18 @@ public class Iscrizione {
 
     private int punti;
 
-    public int getPunti() {
-        return punti;
-    }
-
-    public void addPunti(int punti){
-        this.punti += punti;
-    }
 
     public Iscrizione(Utente iscritto, Contest contest, MultipartFile file) {
         this.id = new IscrizioneKey(iscritto, contest);
     }
+
     public Iscrizione(Utente iscritto, Contest contest, String descrizione) {
         this.id = new IscrizioneKey(iscritto, contest);
         this.descrizione = descrizione;
     }
-    public Iscrizione() {
 
-    }
+    public Iscrizione() { }
+
 
     @Override
     public boolean equals(Object o) {
@@ -53,6 +49,15 @@ public class Iscrizione {
                 ", contest=" + id.getContest() +
                 ", file=" + file +
                 '}';
+    }
+
+
+    public int getPunti() {
+        return punti;
+    }
+
+    public void addPunti(int punti){
+        this.punti += punti;
     }
 
 }

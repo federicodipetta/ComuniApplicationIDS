@@ -5,13 +5,12 @@ import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.ObserverTempo;
 import unicam.cs.ids.models.tempo.SempreAttivo;
-import org.json.JSONObject;
-import unicam.cs.ids.models.tempo.Tempo;
 import unicam.cs.ids.models.tempo.TempoAstratto;
 import unicam.cs.ids.view.View;
 
@@ -19,6 +18,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Classe per rappresentare un generale contenuto di un punto fisico.
  */
@@ -33,28 +33,22 @@ public abstract class Contenuto implements ObserverTempo {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private  String id;
+
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private  String titolo;
+
     @JsonView(View.Dettagli.class)
     private  String testo;
+
     @Transient
     private  List<MultipartFile> fileMultimediali;
+
     @OneToOne(cascade = CascadeType.ALL)
     private TempoAstratto tempo;
+
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private Stato stato;
 
-    public String getTitolo() {
-        return titolo;
-    }
-
-    public String getTesto() {
-        return testo;
-    }
-
-    public List<MultipartFile> getFileMultimediali() {
-        return fileMultimediali;
-    }
 
     public Contenuto(String titolo, String testo, List<MultipartFile> fileMultimediali) {
         this.titolo = titolo;
@@ -65,7 +59,6 @@ public abstract class Contenuto implements ObserverTempo {
     }
 
     public Contenuto(String titolo, String testo, List<MultipartFile> fileMultimediali, TempoAstratto tempo) {
-        this.id = id;
         this.titolo = titolo;
         this.testo = testo;
         this.fileMultimediali = fileMultimediali;
@@ -74,7 +67,6 @@ public abstract class Contenuto implements ObserverTempo {
     }
 
     public Contenuto(String titolo, String testo, List<MultipartFile> fileMultimediali, TempoAstratto tempo, Stato stato) {
-        this.id = id;
         this.titolo = titolo;
         this.testo = testo;
         this.fileMultimediali = fileMultimediali;
@@ -84,8 +76,8 @@ public abstract class Contenuto implements ObserverTempo {
 
     public Contenuto() {
         this.fileMultimediali = new ArrayList<>();
-
     }
+
 
     /**
      * Aggiorna lo stato del contenuto.
@@ -96,6 +88,7 @@ public abstract class Contenuto implements ObserverTempo {
         stato = SelettoreStato.nuovoStato(stato, tempo, dataOra);
     }
 
+
     /**
      * Metodo per aggiungere una lista di file multimediali al contenuto.
      * @param file i file da aggiungere.
@@ -105,6 +98,7 @@ public abstract class Contenuto implements ObserverTempo {
         return fileMultimediali.addAll(file);
     }
 
+
     /**
      * Metodo per rimuovere dei file multimediali dal contenuto.
      * @param file i file da rimuovere.
@@ -113,6 +107,7 @@ public abstract class Contenuto implements ObserverTempo {
     public boolean rimuoviFile(List<File> file) {
         return fileMultimediali.removeAll(file);
     }
+
 
     public JSONObject dettagli()  {
         try {
@@ -138,6 +133,7 @@ public abstract class Contenuto implements ObserverTempo {
         }
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -158,6 +154,7 @@ public abstract class Contenuto implements ObserverTempo {
                 ", testo='" + testo + '\'' +
                 ", fileMultimediali=" + fileMultimediali.size()+",";
     }
+
 
     /**
      * Ritorna l'id del contenuto.
@@ -184,6 +181,18 @@ public abstract class Contenuto implements ObserverTempo {
 
     public TempoAstratto getTempo() {
         return tempo;
+    }
+
+    public String getTitolo() {
+        return titolo;
+    }
+
+    public String getTesto() {
+        return testo;
+    }
+
+    public List<MultipartFile> getFileMultimediali() {
+        return fileMultimediali;
     }
 
 }

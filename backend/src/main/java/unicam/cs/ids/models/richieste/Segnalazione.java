@@ -16,9 +16,11 @@ public class Segnalazione extends RichiestaAstratta {
 
     @JsonView({View.Dettagli.class})
     private String descrizione;
+
     @JsonView({View.Dettagli.class})
     @OneToOne
     private Contenuto contenuto;
+
 
     /**
      * Costruttore di una segnalazione
@@ -31,9 +33,8 @@ public class Segnalazione extends RichiestaAstratta {
         this.contenuto = contenuto;
     }
 
-    public Segnalazione() {
+    public Segnalazione() { }
 
-    }
 
     @Override
     public void esegui(boolean accetta) {
@@ -43,6 +44,7 @@ public class Segnalazione extends RichiestaAstratta {
         //in caso non sia accettata andrebbe implementata la notificazione dell'utente
 
     }
+
 
     @Override
     public JSONObject dettagliMinimi() {
@@ -75,4 +77,5 @@ public class Segnalazione extends RichiestaAstratta {
             return descrizione;
         }
     }
+
 }

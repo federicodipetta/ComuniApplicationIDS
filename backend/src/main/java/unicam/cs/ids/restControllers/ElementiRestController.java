@@ -19,10 +19,13 @@ import java.util.HashSet;
 public class ElementiRestController {
 
     private final ControllerElementi controllerElementi ;
+
+
     @Autowired
     public ElementiRestController(ControllerElementi controllerElementi) {
         this.controllerElementi = controllerElementi;
     }
+
 
     @PostMapping("/aggiungiContenuto")
     public ResponseEntity<Object> aggiungiContenuto(@RequestBody ContenutoPuntoFisicoWrapper wrapper, @PathParam("id") String id) {
@@ -38,6 +41,7 @@ public class ElementiRestController {
         else return new ResponseEntity<>("Errore nell'aggiunta del contenuto.", HttpStatus.BAD_REQUEST);
     }
 
+
     @PostMapping("/aggiungiContest")
     public ResponseEntity<Object> aggiungiContest(ContestDto contest, @PathParam("id") String idComune) {
         Contest con = new Contest(contest.getAnimatore(), contest.getTitolo(), contest.getDescrizione(), contest.getTempo(), contest.getPuntoFisico());
@@ -45,6 +49,7 @@ public class ElementiRestController {
         if(risultato) return new ResponseEntity<>("Contest aggiunto correttamente.", HttpStatus.OK);
         else return new ResponseEntity<>("Errore nell'aggiunta del contest.", HttpStatus.BAD_REQUEST);
     }
+
 
     @DeleteMapping("/eliminaContenuto")
     public ResponseEntity<Object> eliminaContenuto(ContenutoPuntoFisicoWrapper wrapper, @PathParam("id") String idComune) {
@@ -55,12 +60,13 @@ public class ElementiRestController {
                 .setTesto(wrapper.contenuto().getTesto())
                 .setIscritti(wrapper.contenuto().getIscritti())
                 .setStato(wrapper.contenuto().getStato())
-                .setContenuti(wrapper.contenuto().contenuti(), wrapper.contenuto().ordianto())
+                .setContenuti(wrapper.contenuto().contenuti(), wrapper.contenuto().ordinato())
                 .build();
         boolean risultato = controllerElementi.eliminaContenuto(contenuto, idComune, wrapper.puntoFisico());
         if(risultato) return new ResponseEntity<>("Contenuto eliminato correttamente.", HttpStatus.OK);
         else return new ResponseEntity<>("Errore nell'eliminazione del contenuto.", HttpStatus.BAD_REQUEST);
     }
+
 
     @GetMapping("/getIscrizioniVincenti")
     public ResponseEntity<Object> getIscrizioniVincenti(@PathParam("id") String idContest) {
@@ -72,6 +78,7 @@ public class ElementiRestController {
     public ResponseEntity<Object> getIscrizioniVincenti(@PathParam("idContest") String idContest, @PathParam("idComune") String idComune) {
         return new ResponseEntity<>(controllerElementi.getIscrizioniVincenti(idContest, idComune), HttpStatus.OK);
     }
+
 
     @JsonView(View.DettagliMinimi.class)
     @GetMapping("/getContenuti")

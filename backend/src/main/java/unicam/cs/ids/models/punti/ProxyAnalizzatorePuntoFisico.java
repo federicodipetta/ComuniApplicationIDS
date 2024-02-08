@@ -14,10 +14,12 @@ public class ProxyAnalizzatorePuntoFisico implements IAnalizzatorePuntoFisico {
 
     private final Map<PuntoFisico, String> cache;
 
+
     public ProxyAnalizzatorePuntoFisico(IAnalizzatorePuntoFisico analizzatorePuntoFisico) {
         this.analizzatorePuntoFisico = analizzatorePuntoFisico;
         this.cache = new HashMap<>();
     }
+
 
     @Override
     public boolean controllaPuntoFisico(PuntoFisico puntoFisico, Comune comune) {
@@ -28,8 +30,10 @@ public class ProxyAnalizzatorePuntoFisico implements IAnalizzatorePuntoFisico {
         return nomeComune.equals(comune.nome());
     }
 
+
     @Override
     public String getNomeComune(PuntoFisico puntoFisico) {
         return analizzatorePuntoFisico.getNomeComune(puntoFisico);
     }
+
 }

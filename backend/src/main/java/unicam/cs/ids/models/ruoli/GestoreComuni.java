@@ -20,17 +20,20 @@ public class GestoreComuni {
     private PuntiFisiciRepository puntiFisiciRepository;
 
     private ContenutiRepository contenutiRepository;
-    private RichiesteRepository ric;
+
+    private RichiesteRepository richiesteRepository;
+
 
     public GestoreComuni(ComuniRepository comuniRepository, ContestRepository contestRepository, PuntiFisiciRepository puntiFisiciRepository
-            , ContenutiRepository contenutiRepository, RichiesteRepository ric) {
+            , ContenutiRepository contenutiRepository, RichiesteRepository richiesteRepository) {
         this.contestRepository = contestRepository;
         this.contenutiRepository = contenutiRepository;
         this.comuniRepository = comuniRepository;
         this.puntiFisiciRepository = puntiFisiciRepository;
+        this.richiesteRepository = richiesteRepository;
         this.gestoriComunali = new HashSet<>();
-        this.ric = ric;
     }
+
 
     /**
      * Aggiunge un gestore comunale alla lista dei gestori comunali
@@ -42,8 +45,9 @@ public class GestoreComuni {
         comune = this.comuniRepository.save(comune);
         a.setIdc(comune.id());
         this.puntiFisiciRepository.save(a);
-        return gestoriComunali.add(new GestoreComunale(comuniRepository, comune, contestRepository, puntiFisiciRepository, contenutiRepository,ric));
+        return gestoriComunali.add(new GestoreComunale(comuniRepository, comune, contestRepository, puntiFisiciRepository, contenutiRepository, richiesteRepository));
     }
+
 
     @Override
     public String toString() {
@@ -52,21 +56,16 @@ public class GestoreComuni {
                 '}';
     }
 
+
     /**
      * Questo metodo restituisce un gestore comunale dato un id di comune.
      * @param idComune l'id del comune del gestore comunale da restituire.
      * @return il gestore comunale richiesto.
      */
     public Comune getComuneById(String idComune) {
-        return comuniRepository.getReferenceById(idComune);
-    }
-
-    /**
-     * Restituisce la lista dei comuni gestiti.
-     * @return la lista dei comuni gestiti.
-     */
-    public Set<Comune> getComuni() {
-        return new HashSet<>(comuniRepository.findAll());
+        if (this.comuniRepository.existsById(idComune))
+            return comuniRepository.getReferenceById(idComune);
+        return null;
     }
 
     /**
@@ -79,6 +78,14 @@ public class GestoreComuni {
                 .filter(gc -> gc.getComune().equals(comune))
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Restituisce la lista dei comuni gestiti.
+     * @return la lista dei comuni gestiti.
+     */
+    public Set<Comune> getComuni() {
+        return new HashSet<>(comuniRepository.findAll());
     }
 
     public Set<GestoreComunale> getGestoriComunali() {

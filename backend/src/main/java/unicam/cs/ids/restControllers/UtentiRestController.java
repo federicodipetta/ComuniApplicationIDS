@@ -19,8 +19,9 @@ public class UtentiRestController {
 
     public ControllerUtenti controllerUtenti = new ControllerUtenti();
 
-    public UtentiRestController() {
-    }
+
+    public UtentiRestController() { }
+
 
     @PostMapping("/aggiungiUtente")
     public ResponseEntity<Object> aggiungiUtente(@RequestBody UtenteDto utente) {
@@ -29,12 +30,14 @@ public class UtentiRestController {
         else return new ResponseEntity<>("Errore nell'aggiunta dell'utente.", HttpStatus.BAD_REQUEST);
     }
 
+
     @DeleteMapping("/rimuoviUtente")
     public ResponseEntity<Object> rimuoviUtente(@PathParam("id") String id) {
         boolean risultato = controllerUtenti.rimuoviUtente(id);
         if(risultato) return new ResponseEntity<>("Utente rimosso correttamente.", HttpStatus.OK);
         else return new ResponseEntity<>("Errore nella rimozione dell'utente.", HttpStatus.BAD_REQUEST);
     }
+
 
     @PostMapping("/setRuoloUtente")
     public ResponseEntity<Object> setRuoloUtente(@PathParam("id") String id, @RequestBody RuoloDto ruolo) {
@@ -43,26 +46,30 @@ public class UtentiRestController {
         else return new ResponseEntity<>("Errore nell'aggiornamento del ruolo utente.", HttpStatus.BAD_REQUEST);
     }
 
+
     @GetMapping("/getComuniAbilitati")
     public ResponseEntity<Set<Comune>> getComuniAbilitati(@PathParam("id") String id, @PathParam("ruolo") Ruolo ruolo) {
         return new ResponseEntity<>(controllerUtenti.getComuniAbilitati(id, ruolo), HttpStatus.OK);
     }
 
+
     @PostMapping("/addNotifica")
     public ResponseEntity<Object> addNotifica(@PathParam("id") String id, @RequestBody NotificaDto notifica) {
-        boolean risultato = controllerUtenti.invioNotifica(id, new Notifica(notifica.testo(), notifica.id()));
+        boolean risultato = controllerUtenti.invioNotifica(id, new Notifica(notifica.testo()));
         if(risultato) return new ResponseEntity<>("Notifica aggiunta correttamente.", HttpStatus.OK);
         else return new ResponseEntity<>("Errore nell'aggiunta della notifica.", HttpStatus.BAD_REQUEST);
     }
+
 
     @GetMapping("/getNotifiche")
     public ResponseEntity<Set<Notifica>> getNotifiche(@PathParam("id") String id) {
         return new ResponseEntity<>(controllerUtenti.getNotifiche(id), HttpStatus.OK);
     }
 
+
     @DeleteMapping("/rimuoviNotifica")
     public ResponseEntity<Object> rimuoviNotifica(@PathParam("id") String id, @PathParam("idNotifica") String idNotifica) {
-        boolean risultato = controllerUtenti.rimuoviNotifica(id, new Notifica("", idNotifica));
+        boolean risultato = controllerUtenti.rimuoviNotifica(id, idNotifica);
         if(risultato) return new ResponseEntity<>("Notifica rimossa correttamente.", HttpStatus.OK);
         else return new ResponseEntity<>("Errore nella rimozione della notifica.", HttpStatus.BAD_REQUEST);
     }

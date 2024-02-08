@@ -11,14 +11,14 @@ import java.io.Serializable;
  */
 @Embeddable
 public final class Coordinate implements Serializable {
+
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private  Double latitudine;
+
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private  Double longitudine;
 
-    /**
-     *
-     */
+
     public Coordinate(
             @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
             Double latitudine,
@@ -28,9 +28,8 @@ public final class Coordinate implements Serializable {
         this.longitudine = longitudine;
     }
 
-    public Coordinate() {
+    public Coordinate() { }
 
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -56,6 +55,7 @@ public final class Coordinate implements Serializable {
                 '}';
     }
 
+
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     public Double latitudine() {
         return latitudine;
@@ -65,6 +65,5 @@ public final class Coordinate implements Serializable {
     public Double longitudine() {
         return longitudine;
     }
-
 
 }

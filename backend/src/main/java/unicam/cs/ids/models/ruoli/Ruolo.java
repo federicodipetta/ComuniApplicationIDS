@@ -9,11 +9,14 @@ public enum Ruolo {
     CURATORE("CURATORE"),
     GESTORE_PIATTAFORMA("GESTORE_PIATTAFORMA");
 
+
     public final String ruolo;
+
 
     Ruolo(String ruolo) {
         this.ruolo = ruolo;
     }
+
 
     public static Ruolo getRuolo(String ruolo) {
         for(Ruolo r : Ruolo.values()) {

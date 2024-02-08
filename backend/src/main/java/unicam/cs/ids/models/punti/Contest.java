@@ -1,25 +1,17 @@
 package unicam.cs.ids.models.punti;
 
-
-import com.fasterxml.jackson.annotation.JsonView;
-
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.ruoli.Utente;
 import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.ObserverTempo;
 import unicam.cs.ids.models.tempo.TempoAstratto;
-import unicam.cs.ids.view.View;
- 
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -27,14 +19,14 @@ import java.util.Set;
  */
 @Entity
 public class Contest implements ObserverTempo {
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private  String id;
+
     @ManyToOne
-
     private  Utente animatore;
-
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,orphanRemoval = false)
     private Set<Iscrizione> iscrizioni;
@@ -42,12 +34,14 @@ public class Contest implements ObserverTempo {
     private  String titolo;
 
     private  String descrizione;
+
     @OneToOne(cascade = CascadeType.ALL)
     private TempoAstratto tempo;
 
     private Stato stato;
     @ManyToOne
     private  PuntoFisico puntoFisico;
+
 
     public Contest (Utente animatore, String titolo, String descrizione, TempoAstratto tempo, PuntoFisico puntoFisico) {
         this.animatore = animatore;
@@ -59,9 +53,8 @@ public class Contest implements ObserverTempo {
         this.stato = SelettoreStato.nuovoStato(Stato.CHIUSO, tempo, LocalDateTime.now());
     }
 
-    public Contest() {
+    public Contest() { }
 
-    }
 
     /**
      * Questo metodo permette di vedere se un utente è abilitato come creatore del contest.
@@ -72,10 +65,10 @@ public class Contest implements ObserverTempo {
         return animatore.equals(utente);
     }
 
+
     /**
      * Questo metodo permette di aggiungere un'iscrizione al contest.
-     * @param utente l'utente che vuole iscriversi al contest.
-     * @param file il file che l'utente vuole iscrivere al contest.
+     * @param iscrizione l'iscrizione da aggiungere.
      * @return true se l'iscrizione è stata aggiunta, false altrimenti.
      */
     public boolean aggiungiIscrizione(Iscrizione iscrizione) {
@@ -85,6 +78,7 @@ public class Contest implements ObserverTempo {
         }
         return false;
     }
+
 
     /**
      * Questo metodo permette di aggiungere un voto a un'iscrizione del contest.
@@ -99,6 +93,7 @@ public class Contest implements ObserverTempo {
         return false;
     }
 
+
     /**
      * Aggiorna lo stato del contest.
      * @param dataOra la data e l'ora attuali.
@@ -107,6 +102,7 @@ public class Contest implements ObserverTempo {
     public void update(LocalDateTime dataOra) {
         stato = SelettoreStato.nuovoStato(stato, tempo, dataOra);
     }
+
 
     public JSONObject dettagli() {
         try {
@@ -159,6 +155,7 @@ public class Contest implements ObserverTempo {
         return id.hashCode();
     }
 
+
     public Stato getStato () {
         return stato;
     }
@@ -178,4 +175,9 @@ public class Contest implements ObserverTempo {
     public String getId () {
         return id;
     }
+
+    public PuntoFisico getPuntoFisico() {
+        return puntoFisico;
+    }
+
 }

@@ -10,11 +10,15 @@ import java.util.stream.Collectors;
  */
 public class GestoreRuoli {
 
+    //TODO: Rendere i ruoli persistiti.
+
     private final Map<Utente, Set<RuoloComune>> mappaUtenteRuoliComune;
+
 
     public GestoreRuoli() {
         mappaUtenteRuoliComune = new HashMap<>();
     }
+
 
     /**
      * Restituisce i comuni in cui un utente è abilitato con un certo ruolo.
@@ -30,6 +34,7 @@ public class GestoreRuoli {
                 .map(RuoloComune::comune)
                 .collect(Collectors.toSet());
     }
+
 
     /**
      * Associa a un utente un ruolo in un comune.
@@ -47,6 +52,7 @@ public class GestoreRuoli {
             return mappaUtenteRuoliComune.get(utente).add(ruoloComune);
         }
     }
+
 
     @Override
     public String toString() {

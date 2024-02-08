@@ -17,17 +17,17 @@ import java.util.Set;
 @Entity
 @DiscriminatorValue("Evento")
 public class Evento extends Contenuto {
+
     @ManyToMany(cascade = CascadeType.ALL)
     private  Set<Utente> iscritti;
+
 
     public Evento(String titolo, String testo, List<MultipartFile> fileMultimediali, TempoAstratto tempo) {
         super(titolo, testo, fileMultimediali, tempo);
         this.iscritti = new HashSet<>();
     }
 
-    public Evento() {
-
-    }
+    public Evento() { }
 
 
     /**
@@ -52,6 +52,7 @@ public class Evento extends Contenuto {
         return iscritti.addAll(utente);
     }
 
+
     @Override
     public JSONObject dettagli() {
         try {
@@ -62,6 +63,7 @@ public class Evento extends Contenuto {
             throw new RuntimeException();
         }
     }
+
 
     @Override
     public String toString() {
