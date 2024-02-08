@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.ObserverTempo;
 import unicam.cs.ids.models.tempo.SempreAttivo;
+import org.json.JSONObject;
+import unicam.cs.ids.models.tempo.Tempo;
 import unicam.cs.ids.models.tempo.TempoAstratto;
 import unicam.cs.ids.view.View;
 
@@ -32,19 +33,14 @@ public abstract class Contenuto implements ObserverTempo {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private  String id;
-
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private  String titolo;
-
     @JsonView(View.Dettagli.class)
     private  String testo;
-
     @Transient
     private  List<MultipartFile> fileMultimediali;
-
     @OneToOne(cascade = CascadeType.ALL)
     private TempoAstratto tempo;
-
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private Stato stato;
 
@@ -78,6 +74,7 @@ public abstract class Contenuto implements ObserverTempo {
     }
 
     public Contenuto(String titolo, String testo, List<MultipartFile> fileMultimediali, TempoAstratto tempo, Stato stato) {
+        this.id = id;
         this.titolo = titolo;
         this.testo = testo;
         this.fileMultimediali = fileMultimediali;

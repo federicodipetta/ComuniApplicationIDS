@@ -26,11 +26,9 @@ public class RichiestaContenuto extends RichiestaAstratta {
     @JsonView({View.Dettagli.class})
     @OneToOne
     private Contenuto contenuto;
-
     @JsonView({View.Dettagli.class})
     @OneToOne
     private PuntoFisico puntoFisico;
-
     @Transient
     private GestoreComunale gestoreComunale;
 
@@ -40,7 +38,9 @@ public class RichiestaContenuto extends RichiestaAstratta {
         this.puntoFisico = puntoFisico;
     }
 
-    public RichiestaContenuto() { }
+    public RichiestaContenuto() {
+
+    }
 
     @Override
     public void esegui(boolean accetta) {
@@ -49,7 +49,7 @@ public class RichiestaContenuto extends RichiestaAstratta {
         if (accetta) {
             contenuto.setStato(SelettoreStato.nuovoStato(Stato.APERTO, contenuto.getTempo(), LocalDateTime.now()));
             gestoreComunale.aggiungiContenuto(contenuto, puntoFisico);
-        } else
+        }else
             contenuto.setStato(Stato.ELIMINATO);
     }
 

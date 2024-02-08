@@ -34,8 +34,6 @@ public class ControllerComuni {
      * @return true se il comune è stato aggiunto, false altrimenti.
      */
     public boolean aggiungiComune(Comune comune) {
-        if (comune.nome().isBlank() || comune.provincia().isBlank())
-            return false;
         return gestorePiattaforma.aggiungiComune(comune);
     }
 
