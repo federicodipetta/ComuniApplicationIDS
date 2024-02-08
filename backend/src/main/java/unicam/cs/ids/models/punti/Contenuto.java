@@ -10,6 +10,7 @@ import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.ObserverTempo;
 import unicam.cs.ids.models.tempo.SempreAttivo;
 import org.json.JSONObject;
+import unicam.cs.ids.models.tempo.Tempo;
 import unicam.cs.ids.models.tempo.TempoAstratto;
 import unicam.cs.ids.view.View;
 
@@ -27,7 +28,7 @@ public abstract class Contenuto implements ObserverTempo {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @JsonView(View.DettagliMinimi.class)
+    @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private  String id;
     @JsonView(View.DettagliMinimi.class)
     private  String titolo;
@@ -168,7 +169,7 @@ public abstract class Contenuto implements ObserverTempo {
         return this.stato;
     }
 
-    public Tempo getTempo() {
+    public TempoAstratto getTempo() {
         return tempo;
     }
 

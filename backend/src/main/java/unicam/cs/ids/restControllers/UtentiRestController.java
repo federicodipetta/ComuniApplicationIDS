@@ -24,7 +24,7 @@ public class UtentiRestController {
 
     @PostMapping("/aggiungiUtente")
     public ResponseEntity<Object> aggiungiUtente(@RequestBody UtenteDto utente) {
-        boolean risultato = controllerUtenti.aggiungiUtente(new Utente(utente.nomeUtente(), utente.id()));
+        boolean risultato = controllerUtenti.aggiungiUtente(new Utente(utente.nomeUtente()));
         if(risultato) return new ResponseEntity<>("Utente aggiunto correttamente.", HttpStatus.OK);
         else return new ResponseEntity<>("Errore nell'aggiunta dell'utente.", HttpStatus.BAD_REQUEST);
     }

@@ -1,6 +1,10 @@
 package unicam.cs.ids.models.richieste;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.punti.Contest;
@@ -8,24 +12,31 @@ import unicam.cs.ids.models.punti.Iscrizione;
 import unicam.cs.ids.models.ruoli.Utente;
 import unicam.cs.ids.view.View;
 
-import java.io.File;
-
 /**
  * Questa classe rappresenta una richiesta riguardante un'iscrizione.
  */
+@Entity
+@DiscriminatorValue("RichiestaIscrizione")
 public class RichiestaIscrizione extends RichiestaAstratta {
 
     @JsonView({View.Dettagli.class})
-    private final MultipartFile file;
+    @Transient
+    private MultipartFile file;
     @JsonView({View.Dettagli.class})
-    private final Utente utente;
-    private final Contest contest;
+    @OneToOne
+    private Utente utente;
+    @OneToOne
+    private Contest contest;
 
-    public RichiestaIscrizione(String id, MultipartFile file, Contest contest, Utente utente) {
-        super(id);
+    public RichiestaIscrizione(MultipartFile file, Contest contest, Utente utente) {
+        super();
         this.file = file;
         this.contest = contest;
         this.utente = utente;
+    }
+
+    public RichiestaIscrizione() {
+
     }
 
     @Override

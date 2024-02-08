@@ -2,22 +2,46 @@ package unicam.cs.ids.models.controllers;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import unicam.cs.ids.models.punti.PuntoInteresse;
 import unicam.cs.ids.models.richieste.*;
 import unicam.cs.ids.models.ruoli.*;
+import unicam.cs.ids.repositorys.ContenutiRepository;
+import unicam.cs.ids.repositorys.PuntiFisiciRepository;
+import unicam.cs.ids.repositorys.RichiesteRepository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Questa classe è un controller per le richieste.
  */
+@Service
 public class ControllerRichieste {
     GestoreComuni gestoreComuni;
     GestoreUtenti gestoreUtenti;
+
+    RichiesteRepository richiesteRepository;
 
     public ControllerRichieste() {
         this.gestoreComuni = GestorePiattaforma.getInstance().getGestoreComuni();
         this.gestoreUtenti = GestorePiattaforma.getInstance().getGestoreUtenti();
     }
+
+    @Autowired
+    public ControllerRichieste(RichiesteRepository richiesteRepository, ContenutiRepository contenutiRepository, PuntiFisiciRepository puntiFisiciRepository) {
+        this();
+        this.richiesteRepository = richiesteRepository;
+        ContenutiRepository contenutiRepository1 = contenutiRepository;
+        PuntoInteresse puntoInteresse = new PuntoInteresse("nome", "descrizione", new ArrayList<>());
+        contenutiRepository1.save(puntoInteresse);
+        RichiestaContenuto richiestaContenuto = new RichiestaContenuto(puntoInteresse, puntiFisiciRepository.findAll().get(0));
+
+        this.richiesteRepository.save(richiestaContenuto);
+    }
+
+
 
     /**
      * Costruisce un ControllerRichieste.
@@ -55,7 +79,6 @@ public class ControllerRichieste {
      * @param richiestaCommand richiesta da valutare.
      * @param accettazione true se la richiesta è accettata, false altrimenti.
      * @return true se la richiesta è stata valutata, false altrimenti.
-     * @see GestoreRichieste#valutaRichiesta(RichiestaAstratta, String,boolean)  fanno una funzione simile ma questo metodo è meno efficente
      */
     public boolean valutaRichiesta(RichiestaAstratta richiestaCommand, boolean accettazione){
         return gestoreComuni.getGestoriComunali().stream()

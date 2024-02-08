@@ -18,9 +18,8 @@ public final class Utente {
 
     /**
      * @param nomeUtente il nome dell'utente.
-     * @param id         l'id dell'utente.
      */
-    public Utente(String nomeUtente, String id) {
+    public Utente(String nomeUtente) {
         this.nomeUtente = nomeUtente;
         this.id = id;
     }

@@ -5,7 +5,6 @@ import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.punti.*;
 import unicam.cs.ids.models.stato.Stato;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

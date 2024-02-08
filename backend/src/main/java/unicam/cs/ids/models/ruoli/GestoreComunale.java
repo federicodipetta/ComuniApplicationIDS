@@ -7,10 +7,12 @@ import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.punti.*;
 import unicam.cs.ids.models.servizi.ServizioOSM;
 import unicam.cs.ids.models.stato.Stato;
+import unicam.cs.ids.repositorys.ComuniRepository;
+import unicam.cs.ids.repositorys.ContenutiRepository;
+import unicam.cs.ids.repositorys.ContestRepository;
+import unicam.cs.ids.repositorys.PuntiFisiciRepository;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Questa classe rappresenta un gestore comunale.
@@ -23,7 +25,19 @@ public class GestoreComunale {
     private final IAnalizzatorePuntoFisico analizzatorePuntoFisico;
     private final GestoreRichieste gestoreRichieste;
 
-    public GestoreComunale(Comune comune) {
+    private ContenutiRepository contenutiRepository;
+
+    private ComuniRepository comuniRepository;
+
+    private ContestRepository contestRepository;
+
+    private PuntiFisiciRepository puntiFisiciRepository;
+
+    public GestoreComunale(ComuniRepository comuniRepository, Comune comune, ContestRepository contestRepository, PuntiFisiciRepository puntiFisiciRepository, ContenutiRepository contenutiRepository) {
+        this.contestRepository = contestRepository;
+        this.contenutiRepository = contenutiRepository;
+        this.puntiFisiciRepository = puntiFisiciRepository;
+        this.comuniRepository = comuniRepository;
         this.comune = comune;
         this.contest = new HashSet<>();
         this.puntiFisici = new HashSet<>();
@@ -36,7 +50,7 @@ public class GestoreComunale {
      * @param puntoFisico il punto fisico da valutare.
      * @return true se il punto fisico è contenuto nel comune, false altrimenti.
      */
-    public boolean valutaPuntoFisico(PuntoFisico puntoFisico) throws JSONException, IOException {
+    public boolean valutaPuntoFisico(PuntoFisico puntoFisico) {
         return this.analizzatorePuntoFisico.controllaPuntoFisico(puntoFisico, comune);
     }
 
@@ -62,7 +76,11 @@ public class GestoreComunale {
      * @param contest il contest da aggiungere
      */
     public boolean aggiungiContest(Contest contest) {
-        return this.contest.add(contest);
+        if(this.contestRepository.findById(contest.getId()).isEmpty()) {
+            this.contestRepository.save(contest);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -71,13 +89,18 @@ public class GestoreComunale {
      * @return le iscrizioni vincenti del contest.
      */
     public List<Iscrizione> getIscrizioniVincenti(Contest contest) {
-        int max = contest.getIscrizioni().stream()
-                .mapToInt(Iscrizione::getPunti)
-                .max()
-                .orElse(0);
-        return contest.getIscrizioni().stream()
-                .filter(iscrizione -> iscrizione.getPunti() == max)
-                .collect(Collectors.toList());
+
+        // TODO: implementare
+        return null;
+
+   // int max = contest.getIscrizioni().stream()
+   //            .mapToInt(Iscrizione::getPunti)
+   //            .max()
+   //             .orElse(0);
+    //     return contest.getIscrizioni().stream()
+    //            .filter(iscrizione -> iscrizione.getPunti() == max)
+    //            .collect(Collectors.toList());
+
     }
 
     /**
@@ -87,7 +110,10 @@ public class GestoreComunale {
      */
     public boolean chiudiContest(Contest contest) {
         if (contest.getStato() == Stato.APERTO) {
-            contest.setStato(Stato.CHIUSO);
+            this.contestRepository.findById(contest.getId()).ifPresent(contest1 -> {
+                contest1.setStato(Stato.CHIUSO);
+                this.contestRepository.save(contest1);
+            });
             return true;
         }
         return false;
@@ -99,12 +125,10 @@ public class GestoreComunale {
      * @return i dettagli dei contenuti del punto fisico
      */
     public Set<Contenuto> getDettagliContenuti(PuntoFisico puntoFisico) {
-        if(puntoFisico.equals(this.comune.puntoComune())) return this.comune.puntoComune().getContenuti();
-        return new HashSet<>(this.puntiFisici.stream()
-                .filter(pf -> pf.equals(puntoFisico))
-                .findFirst()
-                .orElseThrow()
-                .getContenuti());
+        PuntoFisico punto = this.puntiFisiciRepository.getReferenceById(puntoFisico.getCoordinate());
+        if(punto != null) {
+            return punto.getContenuti();
+        } else return new HashSet<>();
     }
 
     /**
@@ -113,21 +137,15 @@ public class GestoreComunale {
      * @param puntoFisico il punto fisico a cui aggiungere il contenuto
      */
     public boolean aggiungiContenuto(Contenuto contenuto, PuntoFisico puntoFisico) {
-        if(puntoFisico.equals(this.comune.puntoComune())) return this.comune.puntoComune().getContenuti().add(contenuto);
-        if(this.puntiFisici.contains(puntoFisico)) {
-            return this.puntiFisici.stream()
-                    .filter(pf -> pf.equals(puntoFisico))
-                    .findFirst()
-                    .get() // E' presente.
-                    .getContenuti()
-                    .add(contenuto);
-        } else { // Il punto non e' presente.
+        Contenuto con = this.contenutiRepository.save(contenuto);
+        PuntoFisico pf = this.puntiFisiciRepository.getReferenceById(puntoFisico.getCoordinate());
+        if(!this.puntiFisiciRepository.existsById(puntoFisico.getCoordinate())) {
             if(analizzatorePuntoFisico.controllaPuntoFisico(puntoFisico, comune)) {
-                puntoFisico.getContenuti().add(contenuto);
-                return puntiFisici.add(puntoFisico);
+                pf = this.puntiFisiciRepository.save(puntoFisico);
             }
         }
-        return false;
+        pf.getContenuti().add(con);
+        return true;
     }
 
     /**
@@ -137,13 +155,7 @@ public class GestoreComunale {
      * @return true se il contenuto è stato eliminato, false altrimenti.
      */
     public boolean eliminaContenuto(Contenuto contenuto, PuntoFisico puntoFisico) {
-        if (puntoFisico.getContenuti().contains(contenuto)) {
-            puntoFisico.getContenuti().remove(contenuto);
-            if (puntoFisico.getContenuti().isEmpty()) {
-                return puntiFisici.remove(puntoFisico);
-            }
-        }
-        return false;
+        return eliminaContenuto(contenuto);
     }
 
     /**
@@ -152,31 +164,11 @@ public class GestoreComunale {
      * @return true se il contenuto è stato eliminato, false altrimenti.
      */
     public boolean eliminaContenuto(Contenuto contenuto) {
-        for (PuntoFisico puntoFisico : puntiFisici) {
-            if (puntoFisico.getContenuti().contains(contenuto)) {
-                puntoFisico.getContenuti().remove(contenuto);
-                if (puntoFisico.getContenuti().isEmpty()) {
-                    return puntiFisici.remove(puntoFisico);
-                }
-            }
-        }
-        return false;
+        Contenuto con = this.contenutiRepository.getReferenceById(contenuto.getId());
+        con.setStato(Stato.ELIMINATO);
+        this.contenutiRepository.save(con);
+        return true;
     }
-
-
-
-    /**
-     * Questo metodo ritorna i dettagli di un punto fisico, nelle quali potremmo trovare
-     * le coordinate del punto, il numero dei contenuti.
-     * @return
-     */
-    public JSONArray getDettagliPuntiFisici() {
-        // TODO: implementare
-        return null;
-    }
-
-
-
 
     @Override
     public String toString() {
@@ -201,9 +193,7 @@ public class GestoreComunale {
      * @return il contest.
      */
     public Contest getContestById(String id) {
-        return contest.stream()
-                .filter(contest -> contest.getId().equals(id)).findFirst()
-                .orElse(null);
+        return this.contestRepository.getReferenceById(id);
     }
 
     /**
@@ -212,10 +202,7 @@ public class GestoreComunale {
      * @return il contenuto.
      */
     public Contenuto getContenutoById(String id) {
-        return puntiFisici.stream()
-                .flatMap(puntoFisico -> puntoFisico.getContenuti().stream())
-                .filter(contenuto -> contenuto.getId().equals(id)).findFirst()
-                .orElse(null);
+        return this.contenutiRepository.getReferenceById(id);
     }
 
     /**
@@ -227,8 +214,7 @@ public class GestoreComunale {
     }
 
     public Set<PuntoFisico> getPuntiFisici() {
-        HashSet<PuntoFisico> set = new HashSet<>(puntiFisici);
-        set.add(comune.puntoComune());
-        return set;
+        return new HashSet<>(this.puntiFisiciRepository.findAll());
+
     }
 }

@@ -1,10 +1,15 @@
 package unicam.cs.ids.models.richieste;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import org.json.JSONObject;
 import unicam.cs.ids.models.punti.Contenuto;
 import unicam.cs.ids.models.punti.PuntoFisico;
 import unicam.cs.ids.models.ruoli.GestoreComunale;
+import unicam.cs.ids.models.ruoli.GestorePiattaforma;
 import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.view.View;
@@ -14,19 +19,28 @@ import java.time.LocalDateTime;
 /**
  * Questa classe rappresenta una richiesta riguardante un contenuto.
  */
+@Entity
+@DiscriminatorValue("RichiestaContenuto")
 public class RichiestaContenuto extends RichiestaAstratta {
 
     @JsonView({View.Dettagli.class})
-    private final Contenuto contenuto;
+    @OneToOne
+    private Contenuto contenuto;
     @JsonView({View.Dettagli.class})
-    private final PuntoFisico puntoFisico;
-    private final GestoreComunale gestoreComunale;
+    @OneToOne
+    private PuntoFisico puntoFisico;
+    @Transient
+    private GestoreComunale gestoreComunale;
 
-    public RichiestaContenuto(String id, Contenuto contenuto, PuntoFisico puntoFisico, GestoreComunale gestoreComunale) {
-        super(id);
+    public RichiestaContenuto(Contenuto contenuto, PuntoFisico puntoFisico) {
+        super();
         this.contenuto = contenuto;
         this.puntoFisico = puntoFisico;
-        this.gestoreComunale = gestoreComunale;
+        this.gestoreComunale = GestorePiattaforma.getInstance().getGestoreComuni().getGestoreComunale(super.comune);
+    }
+
+    public RichiestaContenuto() {
+
     }
 
     @Override

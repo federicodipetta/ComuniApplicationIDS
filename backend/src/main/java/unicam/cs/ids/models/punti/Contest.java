@@ -1,5 +1,8 @@
 package unicam.cs.ids.models.punti;
 
+
+import com.fasterxml.jackson.annotation.JsonView;
+
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.json.JSONException;
@@ -10,6 +13,8 @@ import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.ObserverTempo;
 import unicam.cs.ids.models.tempo.TempoAstratto;
+import unicam.cs.ids.view.View;
+ 
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -27,6 +32,7 @@ public class Contest implements ObserverTempo {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private  String id;
     @ManyToOne
+
     private  Utente animatore;
 
 
@@ -42,7 +48,6 @@ public class Contest implements ObserverTempo {
     private Stato stato;
     @ManyToOne
     private  PuntoFisico puntoFisico;
-
 
     public Contest (Utente animatore, String titolo, String descrizione, TempoAstratto tempo, PuntoFisico puntoFisico) {
         this.animatore = animatore;
