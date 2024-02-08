@@ -1,5 +1,6 @@
 package unicam.cs.ids.models.tempo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
  * Se un orario inizia e finisce nello stesso momento significa che il periodo di tempo è sempre attivo.
  */
 @Embeddable
+@JsonFormat(pattern = "HH:mm")
 public final class OrarioInizioFine implements Comparable<OrarioInizioFine> {
     private  LocalDateTime inizio;
     private  LocalDateTime fine;
@@ -74,8 +76,15 @@ public final class OrarioInizioFine implements Comparable<OrarioInizioFine> {
         return inizio;
     }
 
+    public void setInizio(LocalDateTime inizio) {
+        this.inizio = inizio;
+    }
+
     public LocalDateTime fine() {
         return fine;
+    }
+    public void setFine(LocalDateTime fine) {
+        this.fine = fine;
     }
 
     @Override

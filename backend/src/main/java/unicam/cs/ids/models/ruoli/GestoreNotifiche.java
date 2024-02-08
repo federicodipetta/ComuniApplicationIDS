@@ -1,17 +1,24 @@
 package unicam.cs.ids.models.ruoli;
 
+import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Service
 public class GestoreNotifiche {
 
+    //TODO: Far diventare le notifiche persistite.
+
     private final Map<Utente, Set<Notifica>> mappaUtentiNotifiche;
+
 
     public GestoreNotifiche() {
         mappaUtentiNotifiche = new HashMap<>();
     }
+
 
     /**
      * Metodo usato per ottenere le notifiche di un utente.
@@ -21,6 +28,7 @@ public class GestoreNotifiche {
     public Set<Notifica> getNotifiche(Utente utente) {
         return mappaUtentiNotifiche.get(utente);
     }
+
 
     /**
      * Metodo usato per aggiungere una notifica a un utente.
@@ -37,6 +45,7 @@ public class GestoreNotifiche {
         }
     }
 
+
     /**
      * Metodo usato per aggiungere una notifica a più utenti.
      * @param utenti la lista di utenti a cui si vuole aggiungere la notifica.
@@ -50,17 +59,18 @@ public class GestoreNotifiche {
                 .allMatch(utente -> invioNotifica(utente, notifica));
     }
 
+
     /**
-     * Metodo usato per rimuovere una notifica da un utente.
-     * @param utente l'utente a cui si vuole rimuovere la notifica.
-     * @param notifica la notifica da rimuovere.
-     * @return true se la notifica è stata rimossa, false altrimenti.
+     * Metodo usato per rimuovere una idNotifica da un utente.
+     * @param utente l'utente a cui si vuole rimuovere la idNotifica.
+     * @param idNotifica la idNotifica da rimuovere.
+     * @return true se la idNotifica è stata rimossa, false altrimenti.
      */
-    public boolean rimuoviNotifica(Utente utente, Notifica notifica) {
+    public boolean rimuoviNotifica(Utente utente, String idNotifica) {
         if(!mappaUtentiNotifiche.containsKey(utente)) {
             return false;
         } else {
-            return mappaUtentiNotifiche.get(utente).remove(notifica);
+            return mappaUtentiNotifiche.get(utente).remove(idNotifica);
         }
     }
 

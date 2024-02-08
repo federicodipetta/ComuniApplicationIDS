@@ -12,6 +12,7 @@ import unicam.cs.ids.models.ruoli.GestoreComunale;
 import unicam.cs.ids.models.ruoli.GestorePiattaforma;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.view.View;
+
 @Entity
 @DiscriminatorValue("RichiestaEliminaContenuto")
 public class RichiestaEliminaContenuto extends RichiestaAstratta {
@@ -19,22 +20,23 @@ public class RichiestaEliminaContenuto extends RichiestaAstratta {
     @JsonView({View.Dettagli.class})
     @OneToOne
     private Contenuto contenuto;
+
     @JsonView({View.Dettagli.class})
     @OneToOne
     private PuntoFisico puntoFisico;
+
     @Transient
     private GestoreComunale gestoreComunale;
+
 
     public RichiestaEliminaContenuto(String id, Contenuto contenuto, PuntoFisico puntoFisico) {
         super();
         this.contenuto = contenuto;
         this.puntoFisico = puntoFisico;
-      ;
     }
 
-    public RichiestaEliminaContenuto() {
+    public RichiestaEliminaContenuto() { }
 
-    }
 
     @Override
     public void esegui(boolean accetta) {
@@ -45,6 +47,7 @@ public class RichiestaEliminaContenuto extends RichiestaAstratta {
             gestoreComunale.eliminaContenuto(contenuto);
         }
     }
+
 
     @Override
     public JSONObject dettagliMinimi() {
@@ -66,6 +69,7 @@ public class RichiestaEliminaContenuto extends RichiestaAstratta {
             throw new RuntimeException();
         }
     }
+
 
     @Override
     public String toString() {

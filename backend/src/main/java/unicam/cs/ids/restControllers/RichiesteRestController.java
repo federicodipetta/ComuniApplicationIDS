@@ -14,94 +14,97 @@ import unicam.cs.ids.models.richieste.RichiestaAstratta;
 import unicam.cs.ids.view.View;
 
 import java.util.Collection;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v0/richieste")
 public class RichiesteRestController {
+
     private ControllerRichieste controllerRichieste;
+
+    private RichiesteMapper richiesteMapper;
+
+
     @Autowired
-    public RichiesteRestController(ControllerRichieste controllerRichieste) {
+    public RichiesteRestController(ControllerRichieste controllerRichieste, RichiesteMapper richiesteMapper) {
         this.controllerRichieste = controllerRichieste;
+        this.richiesteMapper = richiesteMapper;
     }
+
+
     @PostMapping("/contenuti/aggiungi")
     public ResponseEntity<Object> aggiungiRichiestaAggiunta(@RequestBody RichiestaContenutoAggiuntaDto richiestaContenutoDto
                                     ,@PathParam("id") String id){
-
-        return new ResponseEntity<>(
-                controllerRichieste.aggiungiRichiestaAggiunta(
-                        RichiesteMapper.mapRichiestaAggiunta(richiestaContenutoDto, id),
-                        id
-                )
-                , HttpStatus.OK);
-    }
-
-    @PostMapping("/contenuti/eliminazione")
-    public ResponseEntity<Object> rimuoviRichiestaAggiunta(@RequestBody RichiestaEliminazioneDto richiestaContenutoDto
-                                    ,@PathParam("id") String id){
-
-        boolean reponse= controllerRichieste.aggiuntaRichiestaEliminazione(
-                RichiesteMapper.mapRichiestaEliminaContenuto(richiestaContenutoDto,id),
-                id
-        );
-        if(reponse)
+        boolean response = controllerRichieste.aggiungiRichiestaAggiunta(
+                this.richiesteMapper.mapRichiestaAggiunta(richiestaContenutoDto, id), id);
+        if(response)
             return new ResponseEntity<>("Richiesta aggiunta correttamente", HttpStatus.OK);
         else
             return new ResponseEntity<>("Errore nell'aggiunta della richiesta", HttpStatus.BAD_REQUEST);
     }
-    
+
+
+    @PostMapping("/contenuti/eliminazione")
+    public ResponseEntity<Object> aggiuntaRichiestaRimozione(@RequestBody RichiestaEliminazioneDto richiestaContenutoDto
+                                    , @PathParam("id") String id){
+        boolean response = controllerRichieste.aggiuntaRichiestaEliminazione(
+                this.richiesteMapper.mapRichiestaEliminaContenuto(richiestaContenutoDto,id), id);
+        if(response)
+            return new ResponseEntity<>("Richiesta aggiunta correttamente", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("Errore nell'aggiunta della richiesta", HttpStatus.BAD_REQUEST);
+    }
+
+
     @PostMapping("/contest/iscrizione")
     public ResponseEntity<Object> iscrizioneContest(@RequestBody IscrizioneDto iscrizioneDto,
                                                     @RequestParam("file") MultipartFile file,
                                                     @PathParam("id") String id){
-        boolean reponse= controllerRichieste.aggiungiRichiestaIscrizione(
-                RichiesteMapper.mapRichiestaIscrizione(iscrizioneDto, file,id),
-                id
-        );
-        if(reponse)
+        boolean response= controllerRichieste.aggiungiRichiestaIscrizione(
+                this.richiesteMapper.mapRichiestaIscrizione(iscrizioneDto, file,id), id);
+        if(response)
             return new ResponseEntity<>("Richiesta aggiunta correttamente", HttpStatus.OK);
         else 
             return new ResponseEntity<>("Errore nell'aggiunta della richiesta", HttpStatus.BAD_REQUEST);
     }
 
+
     @PostMapping("/contenuti/file")
     public ResponseEntity<Object> aggiungiFile(@RequestParam("file") MultipartFile file,
                                               @RequestBody RichiestaFileDto richiestaFileDto,
                                               @PathParam("id") String id){
-        boolean reponse= controllerRichieste.aggiungiRichiesta(
-                RichiesteMapper.mapRichiestaFile(richiestaFileDto,file,id)
-                ,id);
-        if(reponse)
+        boolean response= controllerRichieste.aggiungiRichiesta(
+                this.richiesteMapper.mapRichiestaFile(richiestaFileDto,file,id),id);
+        if(response)
             return new ResponseEntity<>("File aggiunto correttamente", HttpStatus.OK);
         else
             return new ResponseEntity<>("Errore nell'aggiunta del file", HttpStatus.BAD_REQUEST);
     }
 
+
     @PostMapping ("/segnalazione/aggiungi")
     public ResponseEntity<Object> aggiungiSegnalazione(@RequestBody SegnalazioneDto segnalazioneDto,
                                                        @PathParam("id") String id){
-        boolean reponse= controllerRichieste.aggiungiSegnalazione(
-                RichiesteMapper.mapSegnalazione(id,segnalazioneDto)
-                ,id);
-        if(reponse)
+        boolean response= controllerRichieste.aggiungiSegnalazione(
+                this.richiesteMapper.mapSegnalazione(id,segnalazioneDto),id);
+        if(response)
             return new ResponseEntity<>("Segnalazione aggiunta correttamente", HttpStatus.OK);
         else
             return new ResponseEntity<>("Errore nell'aggiunta della segnalazione", HttpStatus.BAD_REQUEST);
     }
 
+
     @PostMapping("/valuta")
     public ResponseEntity<Object> valutaRichiesta(@PathParam("id") String id, @RequestBody ValutazioneDto valutazioneDto){
-        boolean reponse= controllerRichieste.valutaRichiesta(RichiesteMapper.richiestaCommand(
-                id,valutazioneDto.id()
-                )
-                ,id
-                ,valutazioneDto.risposta());
-        if(reponse)
+        boolean response= controllerRichieste.valutaRichiesta(
+                this.richiesteMapper.richiestaCommand(id,valutazioneDto.id()), id, valutazioneDto.risposta());
+        if(response)
             return new ResponseEntity<>("Richiesta valutata correttamente", HttpStatus.OK);
         else
             return new ResponseEntity<>("Errore nella valutazione della richiesta", HttpStatus.BAD_REQUEST);
 
     }
+
+
     @JsonView(View.DettagliMinimi.class)
     @GetMapping("")
     public ResponseEntity<Collection<RichiestaAstratta>> getRichieste(@PathParam("id") String id){
@@ -113,7 +116,5 @@ public class RichiesteRestController {
     public ResponseEntity<Object> getRichiesta(@PathParam("id") String id,@PathParam("idR") String idR){
         return new ResponseEntity<>(controllerRichieste.getRichiesta(idR,id), HttpStatus.OK);
     }
-
-
 
 }

@@ -22,11 +22,14 @@ public class RichiestaIscrizione extends RichiestaAstratta {
     @JsonView({View.Dettagli.class})
     @Transient
     private MultipartFile file;
+
     @JsonView({View.Dettagli.class})
     @OneToOne
     private Utente utente;
+
     @OneToOne
     private Contest contest;
+
 
     public RichiestaIscrizione(MultipartFile file, Contest contest, Utente utente) {
         super();
@@ -35,9 +38,8 @@ public class RichiestaIscrizione extends RichiestaAstratta {
         this.utente = utente;
     }
 
-    public RichiestaIscrizione() {
+    public RichiestaIscrizione() { }
 
-    }
 
     @Override
     public void esegui(boolean accetta) {
@@ -45,6 +47,7 @@ public class RichiestaIscrizione extends RichiestaAstratta {
             contest.aggiungiIscrizione(new Iscrizione(utente, contest, file));
         }
     }
+
 
     @Override
     public JSONObject dettagliMinimi() {
@@ -67,6 +70,7 @@ public class RichiestaIscrizione extends RichiestaAstratta {
         }
     }
 
+
     @Override
     public String toString() {
         return "RichiestaIscrizione{" +
@@ -76,7 +80,9 @@ public class RichiestaIscrizione extends RichiestaAstratta {
                 '}';
     }
 
+
     public Utente getAnimatore() {
         return contest.getAnimatore();
     }
+
 }

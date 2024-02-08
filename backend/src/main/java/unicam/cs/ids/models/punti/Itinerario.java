@@ -13,26 +13,29 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("Itinerario")
 public class Itinerario extends Contenuto{
+
     @ManyToMany
     @JoinTable(
             name = "itinerario_contenuti",
             joinColumns = @JoinColumn(name = "itinerario_id"),
             inverseJoinColumns = @JoinColumn(name = "contenuto_id")
     )
+
     private  List<Contenuto> contenuti;
+
 
     public Itinerario(String titolo, String testo, List<MultipartFile> fileMultimediali, List<Contenuto> contenuti) {
         super(titolo, testo, fileMultimediali);
         this.contenuti = contenuti;
     }
+
     public Itinerario(String titolo, String testo, List<MultipartFile> fileMultimediali, List<Contenuto> contenuti,  TempoAstratto tempo) {
         super(titolo, testo, fileMultimediali, tempo);
         this.contenuti = contenuti;
     }
 
-    public Itinerario() {
+    public Itinerario() { }
 
-    }
 
     @Override
     public JSONObject dettagli() {
@@ -45,6 +48,7 @@ public class Itinerario extends Contenuto{
         }
     }
 
+
     @Override
     public String toString() {
         return "Itinerario{" +
@@ -52,4 +56,5 @@ public class Itinerario extends Contenuto{
                 "contenuti=" + contenuti.size() +
                 '}';
     }
+
 }

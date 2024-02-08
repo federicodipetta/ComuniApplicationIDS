@@ -5,15 +5,11 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import unicam.cs.ids.configurazioni.GestorePiattaformaBuilder;
-import unicam.cs.ids.models.punti.PuntoInteresse;
 import unicam.cs.ids.models.richieste.*;
 import unicam.cs.ids.models.ruoli.*;
 import unicam.cs.ids.models.stato.Stato;
-import unicam.cs.ids.repositorys.ContenutiRepository;
-import unicam.cs.ids.repositorys.PuntiFisiciRepository;
 import unicam.cs.ids.repositorys.RichiesteRepository;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -21,21 +17,21 @@ import java.util.Collection;
  */
 @Service
 public class ControllerRichieste {
+
     GestoreComuni gestoreComuni;
+
     GestoreUtenti gestoreUtenti;
 
     RichiesteRepository richiesteRepository;
 
+
     @Autowired
-    public ControllerRichieste(RichiesteRepository richiesteRepository, ContenutiRepository contenutiRepository, PuntiFisiciRepository puntiFisiciRepository
-    , GestorePiattaformaBuilder gestorePiattaformaBuilder) {
-        var gestorePiattaforma =GestorePiattaforma.getInstance(gestorePiattaformaBuilder);
+    public ControllerRichieste(RichiesteRepository richiesteRepository, GestorePiattaformaBuilder gestorePiattaformaBuilder) {
+        var gestorePiattaforma = GestorePiattaforma.getInstance(gestorePiattaformaBuilder);
         this.gestoreComuni = gestorePiattaforma.getGestoreComuni();
         this.gestoreUtenti = gestorePiattaforma.getGestoreUtenti();
         this.richiesteRepository = richiesteRepository;
     }
-
-
 
     /**
      * Costruisce un ControllerRichieste.
@@ -46,6 +42,8 @@ public class ControllerRichieste {
         this.gestoreUtenti = gestoreUtenti;
         this.gestoreComuni = gestoreComuni;
     }
+
+
     /**
      * Aggiunge una richiesta di aggiunta di un contenuto.
      * @param richiestaContenuto la richiesta da aggiungere.
@@ -58,30 +56,6 @@ public class ControllerRichieste {
                 .aggiungiContenuto(richiestaContenuto.getContenuto(), richiestaContenuto.getPuntoFisico());
 
         return aggiungiRichiestaGenerica(richiestaContenuto, idComune);
-    }
-
-    /**
-     * Restituisce le richieste di iscrizione ad un contest.
-     * @param utente animatore del contest.
-     * @return le richieste di iscrizione a un contest in formato JSON.
-     */
-    public JSONArray getRichiesteContest(String utente){
-        return gestoreComuni.getGestoriComunali().stream()
-                .map(GestoreComunale::getGestoreRichieste)
-                .map(x->x.getDettagliRichiesteContest(gestoreUtenti.getUtenteById(utente)))
-                .collect(JSONArray::new, JSONArray::put, JSONArray::put);
-    }
-
-    /**
-     * Valuta una richiesta generica.
-     * @param richiestaCommand richiesta da valutare.
-     * @param accettazione true se la richiesta è accettata, false altrimenti.
-     * @return true se la richiesta è stata valutata, false altrimenti.
-     */
-    public boolean valutaRichiesta(RichiestaAstratta richiestaCommand, boolean accettazione){
-        return gestoreComuni.getGestoriComunali().stream()
-                .map(GestoreComunale::getGestoreRichieste)
-                .anyMatch(x->x.valutaRichiesta(richiestaCommand, accettazione));
     }
 
     /**
@@ -115,7 +89,7 @@ public class ControllerRichieste {
     }
 
     /**
-     * Aggiunge una richiesta di iscrizione ad un contest.
+     * Aggiunge una richiesta di iscrizione a un contest.
      * @param richiestaIscrizione richiesta da aggiungere.
      * @param idComune comune in cui aggiungere la richiesta.
      * @return true se la richiesta è stata aggiunta, false altrimenti.
@@ -126,30 +100,18 @@ public class ControllerRichieste {
 
     }
 
-    /**
-     * Restituisce una richiesta.
-     * @param richiestaCommand richiesta da restituire.
-     * @return la richiesta in formato JSON.
-     */
-    public JSONObject getRichiesta(RichiestaCommand richiestaCommand){
-        return gestoreComuni.getGestoriComunali().stream()
-                .map(GestoreComunale::getGestoreRichieste)
-                .map(x->x.getDettagliRichiesta(richiestaCommand))
-                .findFirst()
-                .orElse(null);
-    }
 
     /**
-     * valuta una richiesta
+     * Valuta una richiesta
      * @param richiestaAstratta richiesta da valutare
      * @param idComune comune in cui valutare la richiesta
-     * @param accetazione true se la richiesta è accettata, false altrimenti.
+     * @param accettazione true se la richiesta è accettata, false altrimenti.
      * @return true se la richiesta è stata valutata, false altrimenti.
      * @see GestoreRichieste#valutaRichiesta(RichiestaAstratta, boolean) fanno una funzione simile ma questo metodo è più efficente
      */
-    public boolean valutaRichiesta(RichiestaAstratta richiestaAstratta, String idComune, boolean accetazione){
+    public boolean valutaRichiesta(RichiestaAstratta richiestaAstratta, String idComune, boolean accettazione){
         return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune))
-                .getGestoreRichieste().valutaRichiesta(richiestaAstratta, accetazione);
+                .getGestoreRichieste().valutaRichiesta(richiestaAstratta, accettazione);
     }
 
 
@@ -163,9 +125,51 @@ public class ControllerRichieste {
                 .getGestoreRichieste().getRichiestaById(id);
     }
 
+
     private boolean aggiungiRichiestaGenerica(RichiestaAstratta richiestaCommand, String idComune) {
         return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune))
                 .getGestoreRichieste().aggiungiRichiesta(richiestaCommand);
+    }
+
+
+
+    /**
+     * Restituisce le richieste di iscrizione ad un contest.
+     * @param utente animatore del contest.
+     * @return le richieste di iscrizione a un contest in formato JSON.
+     */
+    public JSONArray getRichiesteContest(String utente){
+        return gestoreComuni.getGestoriComunali().stream()
+                .map(GestoreComunale::getGestoreRichieste)
+                .map(x->x.getDettagliRichiesteContest(gestoreUtenti.getUtenteById(utente)))
+                .collect(JSONArray::new, JSONArray::put, JSONArray::put);
+    }
+
+    /**
+     * Valuta una richiesta generica.
+     * @param richiestaCommand richiesta da valutare.
+     * @param accettazione true se la richiesta è accettata, false altrimenti.
+     * @return true se la richiesta è stata valutata, false altrimenti.
+     */
+    public boolean valutaRichiesta(RichiestaAstratta richiestaCommand, boolean accettazione){
+        return gestoreComuni.getGestoriComunali().stream()
+                .map(GestoreComunale::getGestoreRichieste)
+                .anyMatch(x->x.valutaRichiesta(richiestaCommand, accettazione));
+    }
+
+
+
+    /**
+     * Restituisce una richiesta.
+     * @param richiestaCommand richiesta da restituire.
+     * @return la richiesta in formato JSON.
+     */
+    public JSONObject getRichiesta(RichiestaCommand richiestaCommand){
+        return gestoreComuni.getGestoriComunali().stream()
+                .map(GestoreComunale::getGestoreRichieste)
+                .map(x->x.getDettagliRichiesta(richiestaCommand))
+                .findFirst()
+                .orElse(null);
     }
 
 }

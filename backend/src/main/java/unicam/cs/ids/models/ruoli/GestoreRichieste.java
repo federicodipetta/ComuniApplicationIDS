@@ -11,17 +11,19 @@ import java.util.*;
 
 public class GestoreRichieste {
 
-    private static Set<RichiestaAstratta> richiesteBase;
     private static Map<Utente, RichiestaAstratta> richiesteIscrizione;
 
     private RichiesteRepository richiesteRepository;
+
     private String idComune;
+
+
     public GestoreRichieste (RichiesteRepository richiesteRepository,String idComune) {
         this.idComune = idComune;
         this.richiesteRepository = richiesteRepository;
-        richiesteBase = new HashSet<>();
         richiesteIscrizione = new HashMap<>();
     }
+
 
     /**
      * Questo metodo aggiunge una richiesta non legata a contest.
@@ -45,6 +47,7 @@ public class GestoreRichieste {
         return richiesteIscrizione.put(utente,richiesta) == null;
     }
 
+
     /**
      * Questo metodo valuta una richiesta se presente nel gestore.
      * @param richiesta la richiesta da valutare.
@@ -52,12 +55,15 @@ public class GestoreRichieste {
      * @return true se la richiesta è stata valutata correttamente, false altrimenti.
      */
     public boolean valutaRichiesta(RichiestaAstratta richiesta, boolean valutazione) {
-        this.richiesteRepository.getReferenceById(richiesta.getId()).esegui(valutazione);
-        this.richiesteRepository.delete(richiesta);
-
+        if (this.richiesteRepository.existsById(richiesta.getId())) {
+            this.richiesteRepository.getReferenceById(richiesta.getId()).esegui(valutazione);
+            this.richiesteRepository.delete(richiesta);
+            return true;
+        }
+        return false;
         //TODO: implementare valutazione richieste iscrizione
-        return true;
     }
+
 
     public RichiestaAstratta getRichiestaById(String id){
         if(this.richiesteRepository.existsById(id))
@@ -65,8 +71,24 @@ public class GestoreRichieste {
         return null;
     }
 
-    public JSONArray getDettagliRichiesteContest(Utente utente) {
 
+    @Override
+    public String toString() {
+        return "GestoreRichieste{" +
+                "richiesteBase=" + this.richiesteRepository.findAll().stream().filter(richiesta -> richiesta.getIdc().equals(this.idComune)).count() +
+                ", richiesteIscrizione=" + richiesteIscrizione.size() +
+                '}';
+    }
+
+
+    public Collection<RichiestaAstratta> getRichieste() {
+        return this.richiesteRepository.findAll().stream().filter(richiesta -> richiesta.getIdc().equals(this.idComune)).toList();
+    }
+
+
+
+    public JSONArray getDettagliRichiesteContest(Utente utente) {
+        // METODO DEPRECATO
         try {
             return new JSONArray(richiesteIscrizione.entrySet().stream()
                     .filter(entry -> entry.getKey().equals(utente))
@@ -78,21 +100,13 @@ public class GestoreRichieste {
         }
     }
 
-    @Override
-    public String toString() {
-        return "GestoreRichieste{" +
-                "richiesteBase=" + richiesteBase.size() +
-                ", richiesteIscrizione=" + richiesteIscrizione.size() +
-                '}';
-    }
-
     /**
      * Questo metodo restituisce i dettagli di una richiesta legata a un contest.
      * @param richiesta la richiesta di cui si vogliono i dettagli.
      * @return i dettagli della richiesta o null s essa non è presente.
      */
     public JSONObject getDettagliRichiestaContest (RichiestaCommand richiesta) {
-        // Sostituito con json view
+        // Sostituito con json view, deprecato
         if (richiesteIscrizione.containsValue(richiesta)) {
             return richiesta.dettagli();
         }
@@ -105,14 +119,8 @@ public class GestoreRichieste {
      * @return i dettagli della richiesta o null se essa non è presente.
      */
     public JSONObject getDettagliRichiesta (RichiestaCommand richiesta) {
-        // Sostituito dalle json view.
+        // Sostituito dalle json view, deprecato
         return null;
     }
-
-    public Collection<RichiestaAstratta> getRichieste() {
-        return this.richiesteRepository.findAll();
-    }
-
-
 
 }

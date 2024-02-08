@@ -6,7 +6,6 @@ import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.servizi.ServizioOSM;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -18,7 +17,7 @@ public class ProxyAnalizzatorePuntoFisicoTest {
     public void controllaPuntoFisicoTest() throws JSONException, IOException {
         PuntoFisico puntoFisico = new PuntoFisico(new Coordinate(0.0, 0.0), new HashSet<>()); // Non ci interessa, per ora, che il comune sia al suo interno.
         PuntoFisico scuola = new PuntoFisico(new Coordinate(43.3019444, 13.730555555555556), new HashSet<>()); // Civitanova Marche.
-        Comune comune = new Comune("Civitanova Marche", "Macerata", "1", puntoFisico);
+        Comune comune = new Comune("Civitanova Marche", "Macerata", puntoFisico);
         IAnalizzatorePuntoFisico analizzatorePuntoFisico = new ProxyAnalizzatorePuntoFisico(new AnalizzatorePuntoFisico(new ServizioOSM()));
         assertTrue(analizzatorePuntoFisico.controllaPuntoFisico(scuola, comune));
         assertTrue(analizzatorePuntoFisico.controllaPuntoFisico(scuola, comune));
