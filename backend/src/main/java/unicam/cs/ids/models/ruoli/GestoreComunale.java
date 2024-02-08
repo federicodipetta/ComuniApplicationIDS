@@ -30,11 +30,9 @@ public class GestoreComunale {
 
     private PuntiFisiciRepository puntiFisiciRepository;
 
-    private RichiesteRepository richiesteRepository;
-
     public GestoreComunale(ComuniRepository comuniRepository, Comune comune, ContestRepository contestRepository,
-                           PuntiFisiciRepository puntiFisiciRepository, ContenutiRepository contenutiRepository,
-                           RichiesteRepository richiesteRepository) {
+                           PuntiFisiciRepository puntiFisiciRepository, ContenutiRepository contenutiRepository
+                            ,RichiesteRepository richiesteRepository){
         this.contestRepository = contestRepository;
         this.contenutiRepository = contenutiRepository;
         this.puntiFisiciRepository = puntiFisiciRepository;
@@ -43,7 +41,7 @@ public class GestoreComunale {
         this.contest = new HashSet<>();
         this.puntiFisici = new HashSet<>();
         this.analizzatorePuntoFisico = new ProxyAnalizzatorePuntoFisico(new AnalizzatorePuntoFisico(new ServizioOSM()));
-        this.gestoreRichieste = new GestoreRichieste(richiesteRepository);
+        this.gestoreRichieste = new GestoreRichieste(richiesteRepository,comune.id());
     }
 
     /**
@@ -139,13 +137,17 @@ public class GestoreComunale {
      */
     public boolean aggiungiContenuto(Contenuto contenuto, PuntoFisico puntoFisico) {
         Contenuto con = this.contenutiRepository.save(contenuto);
-        PuntoFisico pf = this.puntiFisiciRepository.getReferenceById(puntoFisico.getCoordinate());
-        if(!this.puntiFisiciRepository.existsById(puntoFisico.getCoordinate())) {
-            if(analizzatorePuntoFisico.controllaPuntoFisico(puntoFisico, comune)) {
-                pf = this.puntiFisiciRepository.save(puntoFisico);
-            }
-        }
+        PuntoFisico pf ;
+        puntoFisico.setIdc(this.comune.id());
+        if(!this.puntiFisiciRepository.existsById(puntoFisico.getCoordinate())) {//Todo: elimina commento finiti i test
+           // if(analizzatorePuntoFisico.controllaPuntoFisico(puntoFisico, comune)) {
+            pf = this.puntiFisiciRepository.save(puntoFisico);
+        //    }
+        } else pf = this.puntiFisiciRepository.getReferenceById(puntoFisico.getCoordinate());
+
+
         pf.getContenuti().add(con);
+        pf = this.puntiFisiciRepository.save(pf);
         return true;
     }
 
@@ -215,7 +217,6 @@ public class GestoreComunale {
     }
 
     public Set<PuntoFisico> getPuntiFisici() {
-        return new HashSet<>(this.puntiFisiciRepository.findAll());
-
+        return new HashSet<>(this.puntiFisiciRepository.findAll().stream().filter(puntoFisico -> this.comune.id().equals(puntoFisico.getIdc())).toList());
     }
 }

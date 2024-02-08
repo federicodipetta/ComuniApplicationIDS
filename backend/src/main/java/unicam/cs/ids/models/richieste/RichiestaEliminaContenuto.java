@@ -29,7 +29,7 @@ public class RichiestaEliminaContenuto extends RichiestaAstratta {
         super();
         this.contenuto = contenuto;
         this.puntoFisico = puntoFisico;
-        this.gestoreComunale = GestorePiattaforma.getInstance().getGestoreComuni().getGestoreComunale(super.comune);
+      ;
     }
 
     public RichiestaEliminaContenuto() {
@@ -37,6 +37,8 @@ public class RichiestaEliminaContenuto extends RichiestaAstratta {
 
     @Override
     public void esegui(boolean accetta) {
+        this.gestoreComunale = GestorePiattaforma.getInstance().getGestoreComuni().getGestoreComunale(
+                GestorePiattaforma.getInstance().getGestoreComuni().getComuneById(super.getIdc()));
         if (accetta) {
             contenuto.setStato(Stato.ELIMINATO);
             gestoreComunale.eliminaContenuto(contenuto);

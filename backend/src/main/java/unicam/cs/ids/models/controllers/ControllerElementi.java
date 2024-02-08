@@ -1,15 +1,16 @@
 package unicam.cs.ids.models.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import unicam.cs.ids.configurazioni.GestorePiattaformaBuilder;
 import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.punti.*;
 import unicam.cs.ids.models.ruoli.GestoreComuni;
 import unicam.cs.ids.models.ruoli.GestorePiattaforma;
 import unicam.cs.ids.models.ruoli.Utente;
 
+import unicam.cs.ids.models.servizi.ServizioOSM;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.SempreAttivo;
 import unicam.cs.ids.repositorys.*;
@@ -26,34 +27,22 @@ public class ControllerElementi {
     ContestRepository contestRepository;
     PuntiFisiciRepository repo;
 
-    GestorePiattaforma gestorePiattaforma;
+    public ControllerElementi() {
+    }
     @Autowired
     public ControllerElementi(ContenutiRepository contenutiRepository, PuntiFisiciRepository repo
-    , ContestRepository repository , UtentiRepository ur, IscrizioniRepository ir, GestorePiattaformaBuilder builder) {
-        this.gestoreComuni = GestorePiattaforma.getInstance(builder).getGestoreComuni();
-        System.out.println("Gestore comuni: "+gestoreComuni);
+    , ContestRepository repository , UtentiRepository ur, IscrizioniRepository ir
+    ,GestorePiattaforma gestorePiattaforma) throws JSONException {
+        this.gestoreComuni = gestorePiattaforma.getGestoreComuni();
         this.contenutiRepository = contenutiRepository;
-        PuntoInteresse municipio= new PuntoInteresse("Municipio", "Sede del comune", new ArrayList<>());
-        this.contenutiRepository.save(
-                new PuntoInteresse("Piazza", "Piazza principale", new ArrayList<>()));
-        this.contenutiRepository.save(municipio);
-        Contenuto c = this.contenutiRepository.findAll().iterator().next();
-        Itinerario it = new Itinerario("Itinerario", "Itinerario turistico", new ArrayList<>(), new ArrayList<>(List.of(c)), new SempreAttivo());
-        this.contenutiRepository.save(it);
-        this.repo = repo;
-        this.repo.save(new PuntoFisico(new Coordinate(1.0, 1.0), Set.of(municipio)));
-        this.contestRepository = repository;
-        PuntoFisico puntoFisico = this.repo.findAll().iterator().next();
-        Utente utente = new Utente("0");
-        utente = ur.save(utente);
 
-        this.contestRepository.save(new Contest(utente,"Concorso","Concorso di fotografia", new SempreAttivo(),puntoFisico));
-        var z = this.contestRepository.findAll().getFirst();
-        Iscrizione iz = new Iscrizione(utente, z,"bella");
-        iz =  ir.save(iz);
-        z.aggiungiIscrizione(iz);
-        ir.save(iz);
-        this.contestRepository.save(z);
+        PuntoInteresse municipio= new PuntoInteresse("Municipio", "Sede del comune", new ArrayList<>());
+        PuntoFisico puntoFisico = new PuntoFisico(new Coordinate(43.6168, 13.5167), new HashSet<>());
+        PuntoFisico puntoComune = new PuntoFisico(new Coordinate(43.6168, 13.5167), new HashSet<>());
+        Comune comune = new Comune("Ancona", "AN","", puntoComune);
+        this.gestoreComuni.aggiungiComune(comune);
+
+
     }
 
     public ControllerElementi(GestoreComuni gestoreComuni) {
@@ -94,10 +83,11 @@ public class ControllerElementi {
     }
 
     public List<PuntoFisico> getPunti(String idComune) {
-        return this.gestoreComuni.getGestoreComunale(this.gestoreComuni.getComuneById(idComune)).getPuntiFisici().stream().toList();
+        return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune)).getPuntiFisici().stream().toList();
     }
-
+    @JsonView(View.Dettagli.class)
     public Contenuto getContenuto(String idComune, String idContenuto) {
+        System.out.println(gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune)).getContenutoById(idContenuto));
         return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune)).getContenutoById(idContenuto);
     }
 

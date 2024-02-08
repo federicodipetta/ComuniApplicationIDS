@@ -36,7 +36,6 @@ public class RichiestaContenuto extends RichiestaAstratta {
         super();
         this.contenuto = contenuto;
         this.puntoFisico = puntoFisico;
-        this.gestoreComunale = GestorePiattaforma.getInstance().getGestoreComuni().getGestoreComunale(super.comune);
     }
 
     public RichiestaContenuto() {
@@ -45,11 +44,13 @@ public class RichiestaContenuto extends RichiestaAstratta {
 
     @Override
     public void esegui(boolean accetta) {
+        this.gestoreComunale = GestorePiattaforma.getInstance().getGestoreComuni().getGestoreComunale(
+                GestorePiattaforma.getInstance().getGestoreComuni().getComuneById(super.getIdc()));
         if (accetta) {
             contenuto.setStato(SelettoreStato.nuovoStato(Stato.APERTO, contenuto.getTempo(), LocalDateTime.now()));
             gestoreComunale.aggiungiContenuto(contenuto, puntoFisico);
-        }
-        contenuto.setStato(Stato.ELIMINATO);
+        }else
+            contenuto.setStato(Stato.ELIMINATO);
     }
 
     @Override

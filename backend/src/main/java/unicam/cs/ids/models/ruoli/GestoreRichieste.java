@@ -15,8 +15,10 @@ public class GestoreRichieste {
     private static Map<Utente, RichiestaAstratta> richiesteIscrizione;
 
     private RichiesteRepository richiesteRepository;
-
-    public GestoreRichieste (RichiesteRepository richiesteRepository) {
+    private String idComune;
+    public GestoreRichieste (RichiesteRepository richiesteRepository,String idComune) {
+        this.idComune = idComune;
+        this.richiesteRepository = richiesteRepository;
         richiesteBase = new HashSet<>();
         richiesteIscrizione = new HashMap<>();
     }
@@ -27,6 +29,7 @@ public class GestoreRichieste {
      * @return true se la richiesta è stata aggiunta correttamente, false altrimenti.
      */
     public boolean aggiungiRichiesta(RichiestaAstratta richiesta) {
+        richiesta.setIdc(idComune);
         this.richiesteRepository.save(richiesta);
         return true;
     }
@@ -53,24 +56,17 @@ public class GestoreRichieste {
         this.richiesteRepository.delete(richiesta);
 
         //TODO: implementare valutazione richieste iscrizione
-        /*if(richiesteIscrizione.containsValue(richiesta)) {
-            richiesta.esegui(valutazione);
-            richiesteIscrizione.remove(richiesteIscrizione.entrySet().stream()
-                    .filter(entry -> entry.getValue().equals(richiesta))
-                    .map(Map.Entry::getKey)
-                    .findFirst()
-                    .orElse(null), richiesta);
-            return true;
-        }*/
         return true;
     }
 
     public RichiestaAstratta getRichiestaById(String id){
-        return this.richiesteRepository.getReferenceById(id);
+        if(this.richiesteRepository.existsById(id))
+            return this.richiesteRepository.getReferenceById(id);
+        return null;
     }
 
     public JSONArray getDettagliRichiesteContest(Utente utente) {
-        //TODO: implementare
+
         try {
             return new JSONArray(richiesteIscrizione.entrySet().stream()
                     .filter(entry -> entry.getKey().equals(utente))

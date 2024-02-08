@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class GestoreComuni {
 
-    private Set<GestoreComunale> gestoriComunali;
+    private final Set<GestoreComunale> gestoriComunali;
 
     private ComuniRepository comuniRepository;
 
@@ -20,17 +20,16 @@ public class GestoreComuni {
     private PuntiFisiciRepository puntiFisiciRepository;
 
     private ContenutiRepository contenutiRepository;
+    private RichiesteRepository ric;
 
-    private RichiesteRepository richiesteRepository;
-
-    public GestoreComuni(ComuniRepository comuniRepository, ContestRepository contestRepository, PuntiFisiciRepository puntiFisiciRepository, ContenutiRepository contenutiRepository,
-                         RichiesteRepository richiesteRepository) {
+    public GestoreComuni(ComuniRepository comuniRepository, ContestRepository contestRepository, PuntiFisiciRepository puntiFisiciRepository
+            , ContenutiRepository contenutiRepository, RichiesteRepository ric) {
         this.contestRepository = contestRepository;
         this.contenutiRepository = contenutiRepository;
         this.comuniRepository = comuniRepository;
         this.puntiFisiciRepository = puntiFisiciRepository;
         this.gestoriComunali = new HashSet<>();
-        this.richiesteRepository = richiesteRepository;
+        this.ric = ric;
     }
 
     /**
@@ -39,9 +38,11 @@ public class GestoreComuni {
      * @return true se il gestore comunale è stato aggiunto, false altrimenti
      */
     public boolean aggiungiComune(Comune comune) {
-        this.puntiFisiciRepository.save(comune.puntoComune());
-        Comune c = this.comuniRepository.save(comune);
-        return gestoriComunali.add(new GestoreComunale(comuniRepository, c, contestRepository, puntiFisiciRepository, contenutiRepository, richiesteRepository));
+        var a = this.puntiFisiciRepository.save(comune.puntoComune());
+        comune = this.comuniRepository.save(comune);
+        a.setIdc(comune.id());
+        this.puntiFisiciRepository.save(a);
+        return gestoriComunali.add(new GestoreComunale(comuniRepository, comune, contestRepository, puntiFisiciRepository, contenutiRepository,ric));
     }
 
     @Override

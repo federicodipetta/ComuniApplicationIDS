@@ -18,8 +18,7 @@ import java.util.HashSet;
 @RequestMapping("/api/v0/elementi")
 public class ElementiRestController {
 
-    private ControllerElementi controllerElementi;
-
+    private final ControllerElementi controllerElementi ;
     @Autowired
     public ElementiRestController(ControllerElementi controllerElementi) {
         this.controllerElementi = controllerElementi;
@@ -82,6 +81,7 @@ public class ElementiRestController {
     }
 
     @GetMapping("/getContenuto")
+    @JsonView(View.Dettagli.class)
     public ResponseEntity<Object> getContenuto(@PathParam("idComune") String idComune, @PathParam("idContenuto") String idContenuto) {
         return new ResponseEntity<>(controllerElementi.getContenuto(idComune, idContenuto), HttpStatus.OK);
     }

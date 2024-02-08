@@ -4,9 +4,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import unicam.cs.ids.configurazioni.GestorePiattaformaBuilder;
 import unicam.cs.ids.models.punti.PuntoInteresse;
 import unicam.cs.ids.models.richieste.*;
 import unicam.cs.ids.models.ruoli.*;
+import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.repositorys.ContenutiRepository;
 import unicam.cs.ids.repositorys.PuntiFisiciRepository;
 import unicam.cs.ids.repositorys.RichiesteRepository;
@@ -24,21 +26,13 @@ public class ControllerRichieste {
 
     RichiesteRepository richiesteRepository;
 
-    public ControllerRichieste() {
-        this.gestoreComuni = GestorePiattaforma.getInstance().getGestoreComuni();
-        this.gestoreUtenti = GestorePiattaforma.getInstance().getGestoreUtenti();
-    }
-
     @Autowired
-    public ControllerRichieste(RichiesteRepository richiesteRepository, ContenutiRepository contenutiRepository, PuntiFisiciRepository puntiFisiciRepository) {
-        this();
+    public ControllerRichieste(RichiesteRepository richiesteRepository, ContenutiRepository contenutiRepository, PuntiFisiciRepository puntiFisiciRepository
+    , GestorePiattaformaBuilder gestorePiattaformaBuilder) {
+        var gestorePiattaforma =GestorePiattaforma.getInstance(gestorePiattaformaBuilder);
+        this.gestoreComuni = gestorePiattaforma.getGestoreComuni();
+        this.gestoreUtenti = gestorePiattaforma.getGestoreUtenti();
         this.richiesteRepository = richiesteRepository;
-        /*ContenutiRepository contenutiRepository1 = contenutiRepository;
-        PuntoInteresse puntoInteresse = new PuntoInteresse("nome", "descrizione", new ArrayList<>());
-        contenutiRepository1.save(puntoInteresse);
-        RichiestaContenuto richiestaContenuto = new RichiestaContenuto(puntoInteresse, puntiFisiciRepository.findAll().get(0));
-
-        this.richiesteRepository.save(richiestaContenuto);*/
     }
 
 
@@ -59,6 +53,10 @@ public class ControllerRichieste {
      * @return true se la richiesta è stata aggiunta, false altrimenti.
      */
     public boolean aggiungiRichiestaAggiunta(RichiestaContenuto richiestaContenuto, String idComune){
+        richiestaContenuto.getContenuto().setStato(Stato.DA_ACCETTARE);
+        this.gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune))
+                .aggiungiContenuto(richiestaContenuto.getContenuto(), richiestaContenuto.getPuntoFisico());
+
         return aggiungiRichiestaGenerica(richiestaContenuto, idComune);
     }
 

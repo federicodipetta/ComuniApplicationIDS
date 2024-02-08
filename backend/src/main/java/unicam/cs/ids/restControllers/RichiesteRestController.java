@@ -19,12 +19,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v0/richieste")
 public class RichiesteRestController {
-
-    private RichiesteMapper richiesteMapper;
-    private ControllerRichieste controllerRichieste = new ControllerRichieste();
+    private ControllerRichieste controllerRichieste;
     @Autowired
-    public RichiesteRestController(RichiesteMapper richiesteMapper) {
-        this.richiesteMapper = richiesteMapper;
+    public RichiesteRestController(ControllerRichieste controllerRichieste) {
+        this.controllerRichieste = controllerRichieste;
     }
     @PostMapping("/contenuti/aggiungi")
     public ResponseEntity<Object> aggiungiRichiestaAggiunta(@RequestBody RichiestaContenutoAggiuntaDto richiestaContenutoDto
@@ -32,7 +30,7 @@ public class RichiesteRestController {
 
         return new ResponseEntity<>(
                 controllerRichieste.aggiungiRichiestaAggiunta(
-                        this.richiesteMapper.mapRichiestaAggiunta(richiestaContenutoDto, id),
+                        RichiesteMapper.mapRichiestaAggiunta(richiestaContenutoDto, id),
                         id
                 )
                 , HttpStatus.OK);
@@ -43,7 +41,7 @@ public class RichiesteRestController {
                                     ,@PathParam("id") String id){
 
         boolean reponse= controllerRichieste.aggiuntaRichiestaEliminazione(
-                this.richiesteMapper.mapRichiestaEliminaContenuto(richiestaContenutoDto,id),
+                RichiesteMapper.mapRichiestaEliminaContenuto(richiestaContenutoDto,id),
                 id
         );
         if(reponse)
@@ -57,7 +55,7 @@ public class RichiesteRestController {
                                                     @RequestParam("file") MultipartFile file,
                                                     @PathParam("id") String id){
         boolean reponse= controllerRichieste.aggiungiRichiestaIscrizione(
-                this.richiesteMapper.mapRichiestaIscrizione(iscrizioneDto, file,id),
+                RichiesteMapper.mapRichiestaIscrizione(iscrizioneDto, file,id),
                 id
         );
         if(reponse)
@@ -71,7 +69,7 @@ public class RichiesteRestController {
                                               @RequestBody RichiestaFileDto richiestaFileDto,
                                               @PathParam("id") String id){
         boolean reponse= controllerRichieste.aggiungiRichiesta(
-                this.richiesteMapper.mapRichiestaFile(richiestaFileDto,file,id)
+                RichiesteMapper.mapRichiestaFile(richiestaFileDto,file,id)
                 ,id);
         if(reponse)
             return new ResponseEntity<>("File aggiunto correttamente", HttpStatus.OK);
@@ -83,7 +81,7 @@ public class RichiesteRestController {
     public ResponseEntity<Object> aggiungiSegnalazione(@RequestBody SegnalazioneDto segnalazioneDto,
                                                        @PathParam("id") String id){
         boolean reponse= controllerRichieste.aggiungiSegnalazione(
-                this.richiesteMapper.mapSegnalazione(id,segnalazioneDto)
+                RichiesteMapper.mapSegnalazione(id,segnalazioneDto)
                 ,id);
         if(reponse)
             return new ResponseEntity<>("Segnalazione aggiunta correttamente", HttpStatus.OK);
@@ -93,7 +91,7 @@ public class RichiesteRestController {
 
     @PostMapping("/valuta")
     public ResponseEntity<Object> valutaRichiesta(@PathParam("id") String id, @RequestBody ValutazioneDto valutazioneDto){
-        boolean reponse= controllerRichieste.valutaRichiesta(this.richiesteMapper.richiestaCommand(
+        boolean reponse= controllerRichieste.valutaRichiesta(RichiesteMapper.richiestaCommand(
                 id,valutazioneDto.id()
                 )
                 ,id

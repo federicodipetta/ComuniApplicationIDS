@@ -5,15 +5,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import unicam.cs.ids.models.ruoli.GestorePiattaforma;
 
-//@Configuration
+@Configuration
 public class GestorePiattaformaConfigurazione {
+    private GestorePiattaformaBuilder gestorePiattaformaBuilder;
+    @Autowired
+    public GestorePiattaformaConfigurazione(GestorePiattaformaBuilder gestorePiattaformaBuilder){
+        this.gestorePiattaformaBuilder = gestorePiattaformaBuilder;
 
-   /* @Autowired
-    @Bean
-    public GestorePiattaforma getGestorePiattaforma(GestorePiattaformaBuilder builder) {
-        return GestorePiattaforma.getInstance(builder);
     }
-*/
-
+    @Bean
+    public GestorePiattaforma gestorePiattaforma() {
+        return GestorePiattaforma.getInstance(gestorePiattaformaBuilder);
+    }
 
 }
