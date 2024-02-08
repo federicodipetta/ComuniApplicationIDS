@@ -1,5 +1,5 @@
-
 <div class="container mt-3">
+
     <form [formGroup]="formGroup" (ngSubmit)="submitForm()" class="bg-light p-4 rounded">
 
         <div class="form-group">
@@ -8,17 +8,18 @@
                 <option *ngFor="let comune of comuni" [value]="comune.id">{{ comune.nome }}</option>
             </select>
         </div>
-
         <div class="form-group">
             <label for="tipoSelect">Seleziona il tipo di contenuto</label>
-            <select class="form-control" id="tipoSelect" [(ngModel)]="tipo">
-                <option [value]="0">POI</option>
-                <option [value]="1">Evento</option>
-                <option [value]="2">Itinerario</option>
+            <select class="form-control" id="tipoSelect" formControlName="tipo">
+                <option value='0'>POI</option>
+                <option value='1'>Evento</option>
+                <option value='2'>Itinerario</option>
             </select>
         </div>
 
-        <app-orari-form *ngIf="tipo != '0'" (orarioInserito)="handleOrarioInserito($event)"></app-orari-form>
+
+        <app-orari-form *ngIf="formGroup.get('tipo')?.value!='0'"
+            (orarioInserito)="handleOrarioInserito($event)"></app-orari-form>
 
         <div class="form-group">
             <label for="nome">Nome</label>
@@ -59,34 +60,13 @@
         </div>
 
         <div class="form-group" *ngIf="formGroup.get('punto')?.value == '0'">
-            <select></select>
+            <select>
+                <option *ngFor="let punto of punti" [value]="punto.coordinate">{{ punto.coordinate.latitudine+" lon : "+
+                    punto.coordinate.longitudine }} {{" " +
+                    punto.numeroContenuti}}</option>
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Submit</button>
     </form>
 </div>
-
-<label for="comuneSelect">Seleziona il comune in cui vuoi aggiungere il contenuto</label>
-<select class="form-control" id="comuneSelect" [(ngModel)]="idc">
-    <option *ngFor="let comune of comuni" [value]="comune.id">{{ comune.nome }}</option>
-</select>
-<label for="comuneSelect">Seleziona il tipo di contenuto</label>
-<select class="form-control" id="comuneSelect" [(ngModel)]="tipo">
-    <option [value]="0">POI</option>
-    <option [value]="1">Evento</option>
-    <option [value]="2">Orario</option>
-</select>
-<form [formGroup]=" formGroup" (ngSubmit)="submitForm()">
-
-    <app-orari-form *ngIf="tipo != '0'" (orarioInserito)="handleOrarioInserito($event)"></app-orari-form>
-
-    <label for="nome">Nome</label>
-    <input type="text" class="form-control" id="titolo" formControlName="titolo" placeholder="titolo">
-
-    <label for="descrizione">Descrizione</label>
-    <input type="text" class="form-control" id="descrizione" formControlName="descrizione" placeholder="descrizione">
-
-
-    <button type="submit" class="btn btn-primary mt-3">Submit</button>
-</form>
-

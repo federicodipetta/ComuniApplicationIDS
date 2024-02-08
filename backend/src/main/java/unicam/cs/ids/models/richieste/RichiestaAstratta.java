@@ -16,9 +16,16 @@ public abstract class RichiestaAstratta implements RichiestaCommand {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @ManyToOne
-    @JsonView(View.Dettagli.class)
-    protected Comune comune;
+
+    private String idc;
+
+    public String getIdc() {
+        return idc;
+    }
+
+    public void setIdc(String idc) {
+        this.idc = idc;
+    }
 
     public RichiestaAstratta() {
     }

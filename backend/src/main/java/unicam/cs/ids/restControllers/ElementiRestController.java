@@ -2,6 +2,7 @@ package unicam.cs.ids.restControllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.websocket.server.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,10 @@ import java.util.HashSet;
 @RequestMapping("/api/v0/elementi")
 public class ElementiRestController {
 
-    private final ControllerElementi controllerElementi = new ControllerElementi();
-
-    public ElementiRestController() {
+    private final ControllerElementi controllerElementi ;
+    @Autowired
+    public ElementiRestController(ControllerElementi controllerElementi) {
+        this.controllerElementi = controllerElementi;
     }
 
     @PostMapping("/aggiungiContenuto")
@@ -79,6 +81,7 @@ public class ElementiRestController {
     }
 
     @GetMapping("/getContenuto")
+    @JsonView(View.Dettagli.class)
     public ResponseEntity<Object> getContenuto(@PathParam("idComune") String idComune, @PathParam("idContenuto") String idContenuto) {
         return new ResponseEntity<>(controllerElementi.getContenuto(idComune, idContenuto), HttpStatus.OK);
     }

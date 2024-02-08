@@ -11,7 +11,6 @@ import java.util.Set;
 /**
  * Classe utilizzata per gestire la piattaforma.
  */
-@Service
 public class GestorePiattaforma {
 
     private static GestorePiattaforma instance = null;
@@ -31,7 +30,30 @@ public class GestorePiattaforma {
     PuntiFisiciRepository puntiFisiciRepository;
     UtentiRepository utentiRepository;
 
-    @Autowired
+    public ComuniRepository getComuniRepository() {
+        return comuniRepository;
+    }
+
+    public RichiesteRepository getRichiesteRepository() {
+        return richiesteRepository;
+    }
+
+    public ContenutiRepository getContenutiRepository() {
+        return contenutiRepository;
+    }
+
+    public ContestRepository getContestRepository() {
+        return contestRepository;
+    }
+
+    public PuntiFisiciRepository getPuntiFisiciRepository() {
+        return puntiFisiciRepository;
+    }
+
+    public UtentiRepository getUtentiRepository() {
+        return utentiRepository;
+    }
+
     private GestorePiattaforma(GestorePiattaformaBuilder builder) {
         this.comuniRepository = builder.getComuniRepository();
         this.richiesteRepository = builder.getRichiesteRepository();
@@ -40,13 +62,19 @@ public class GestorePiattaforma {
         this.puntiFisiciRepository = builder.getPuntiFisiciRepository();
         this.utentiRepository = builder.getUtentiRepository();
         this.gestoreUtenti = new GestoreUtenti();
-        this.gestoreComuni = new GestoreComuni(comuniRepository, contestRepository, puntiFisiciRepository, contenutiRepository);
+        this.gestoreComuni = new GestoreComuni(comuniRepository, contestRepository, puntiFisiciRepository, contenutiRepository,richiesteRepository);
         this.instance = this;
     }
 
     public GestorePiattaforma() {
         this.gestoreUtenti = new GestoreUtenti();
-        this.gestoreComuni = new GestoreComuni(comuniRepository, contestRepository, puntiFisiciRepository, contenutiRepository);
+        this.gestoreComuni = new GestoreComuni(comuniRepository, contestRepository, puntiFisiciRepository, contenutiRepository,richiesteRepository);
+    }
+    public static GestorePiattaforma getInstance(GestorePiattaformaBuilder builder) {
+        if (instance == null) {
+            instance = new GestorePiattaforma(builder);
+        }
+        return instance;
     }
 
     public static GestorePiattaforma getInstance() {

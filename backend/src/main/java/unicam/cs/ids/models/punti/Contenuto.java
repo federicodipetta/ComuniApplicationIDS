@@ -1,5 +1,6 @@
 package unicam.cs.ids.models.punti;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -16,6 +17,7 @@ import unicam.cs.ids.view.View;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 /**
  * Classe per rappresentare un generale contenuto di un punto fisico.
@@ -23,6 +25,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public abstract class Contenuto implements ObserverTempo {
 
     @Id
@@ -30,11 +33,10 @@ public abstract class Contenuto implements ObserverTempo {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private  String id;
-    @JsonView(View.DettagliMinimi.class)
+    @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private  String titolo;
     @JsonView(View.Dettagli.class)
     private  String testo;
-    @JsonView(View.Dettagli.class)
     @Transient
     private  List<MultipartFile> fileMultimediali;
     @OneToOne(cascade = CascadeType.ALL)
@@ -42,7 +44,17 @@ public abstract class Contenuto implements ObserverTempo {
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     private Stato stato;
 
+    public String getTitolo() {
+        return titolo;
+    }
 
+    public String getTesto() {
+        return testo;
+    }
+
+    public List<MultipartFile> getFileMultimediali() {
+        return fileMultimediali;
+    }
 
     public Contenuto(String titolo, String testo, List<MultipartFile> fileMultimediali) {
         this.titolo = titolo;
@@ -71,6 +83,7 @@ public abstract class Contenuto implements ObserverTempo {
     }
 
     public Contenuto() {
+        this.fileMultimediali = new ArrayList<>();
 
     }
 

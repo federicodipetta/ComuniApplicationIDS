@@ -1,8 +1,11 @@
 package unicam.cs.ids.models.punti;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
 import org.springframework.web.multipart.MultipartFile;
+import unicam.cs.ids.view.View;
 
 import java.util.List;
 
@@ -12,6 +15,7 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("PuntoInteresse")
 public class PuntoInteresse extends Contenuto {
+
 
     public PuntoInteresse(String titolo, String testo, List<MultipartFile> fileMultimediali) {
         super(titolo, testo, fileMultimediali);
