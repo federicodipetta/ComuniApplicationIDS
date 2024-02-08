@@ -1,18 +1,25 @@
 package unicam.cs.ids.models.punti;
 
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.ruoli.Utente;
 import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.ObserverTempo;
 import unicam.cs.ids.models.tempo.TempoAstratto;
+import unicam.cs.ids.view.View;
+ 
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -52,7 +59,9 @@ public class Contest implements ObserverTempo {
         this.stato = SelettoreStato.nuovoStato(Stato.CHIUSO, tempo, LocalDateTime.now());
     }
 
-    public Contest() { }
+    public Contest() {
+
+    }
 
     /**
      * Questo metodo permette di vedere se un utente è abilitato come creatore del contest.
@@ -65,7 +74,8 @@ public class Contest implements ObserverTempo {
 
     /**
      * Questo metodo permette di aggiungere un'iscrizione al contest.
-     * @param iscrizione l'iscrizione da aggiungere.
+     * @param utente l'utente che vuole iscriversi al contest.
+     * @param file il file che l'utente vuole iscrivere al contest.
      * @return true se l'iscrizione è stata aggiunta, false altrimenti.
      */
     public boolean aggiungiIscrizione(Iscrizione iscrizione) {
@@ -167,9 +177,5 @@ public class Contest implements ObserverTempo {
 
     public String getId () {
         return id;
-    }
-
-    public PuntoFisico getPuntoFisico() {
-        return puntoFisico;
     }
 }

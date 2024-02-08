@@ -22,7 +22,6 @@ public class RichiestaFile extends RichiestaAstratta {
     @JsonView({View.Dettagli.class})
     @OneToOne
     private Contenuto contenuto;
-
     @JsonView(View.Dettagli.class)
     @Transient
     private List<MultipartFile> files;

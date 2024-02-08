@@ -29,7 +29,7 @@ public class ContenutoBuilder {
 
     private List<Utente> iscritti;
 
-    private boolean ordinato;
+    private boolean ordianto;
 
     /**
      * Inizializza il builder con i valori di default.
@@ -41,7 +41,7 @@ public class ContenutoBuilder {
         this.tempo = new SempreAttivo();
         this.iscritti = new LinkedList<>();
         this.stato = null;
-        this.ordinato = false;
+        this.ordianto= false;
     }
 
      private boolean checkString(String stringa){
@@ -140,7 +140,7 @@ public class ContenutoBuilder {
      * @return questo builder.
      */
     public ContenutoBuilder setContenuti(List<Contenuto> contenuti, boolean ordianto) {
-        this.ordinato = ordianto;
+        this.ordianto= ordianto;
         if(!addElementToList(this.contenuti, contenuti))
             throw new IllegalArgumentException("Contenuti non validi");
         return this;
@@ -152,7 +152,7 @@ public class ContenutoBuilder {
      * @return questo builder.
      */
     public ContenutoBuilder setContenuto(Contenuto contenuto, boolean ordianto) {
-        this.ordinato = ordianto;
+        this.ordianto= ordianto;
         if (!addElementToList(this.contenuti, contenuto))
             throw new IllegalArgumentException("Contenuto non valido");
         return this;
@@ -219,7 +219,7 @@ public class ContenutoBuilder {
         this.stato = null;
         this.contenuti = new LinkedList<>();
         this.iscritti = new LinkedList<>();
-        this.ordinato = false;
+        this.ordianto= false;
         return this;
     }
 

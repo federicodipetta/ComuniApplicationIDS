@@ -5,11 +5,15 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import unicam.cs.ids.configurazioni.GestorePiattaformaBuilder;
+import unicam.cs.ids.models.punti.PuntoInteresse;
 import unicam.cs.ids.models.richieste.*;
 import unicam.cs.ids.models.ruoli.*;
 import unicam.cs.ids.models.stato.Stato;
+import unicam.cs.ids.repositorys.ContenutiRepository;
+import unicam.cs.ids.repositorys.PuntiFisiciRepository;
 import unicam.cs.ids.repositorys.RichiesteRepository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -23,7 +27,8 @@ public class ControllerRichieste {
     RichiesteRepository richiesteRepository;
 
     @Autowired
-    public ControllerRichieste(RichiesteRepository richiesteRepository, GestorePiattaformaBuilder gestorePiattaformaBuilder) {
+    public ControllerRichieste(RichiesteRepository richiesteRepository, ContenutiRepository contenutiRepository, PuntiFisiciRepository puntiFisiciRepository
+    , GestorePiattaformaBuilder gestorePiattaformaBuilder) {
         var gestorePiattaforma =GestorePiattaforma.getInstance(gestorePiattaformaBuilder);
         this.gestoreComuni = gestorePiattaforma.getGestoreComuni();
         this.gestoreUtenti = gestorePiattaforma.getGestoreUtenti();
@@ -110,7 +115,7 @@ public class ControllerRichieste {
     }
 
     /**
-     * Aggiunge una richiesta di iscrizione a un contest.
+     * Aggiunge una richiesta di iscrizione ad un contest.
      * @param richiestaIscrizione richiesta da aggiungere.
      * @param idComune comune in cui aggiungere la richiesta.
      * @return true se la richiesta è stata aggiunta, false altrimenti.
@@ -135,16 +140,16 @@ public class ControllerRichieste {
     }
 
     /**
-     * Valuta una richiesta
+     * valuta una richiesta
      * @param richiestaAstratta richiesta da valutare
      * @param idComune comune in cui valutare la richiesta
-     * @param accettazione true se la richiesta è accettata, false altrimenti.
+     * @param accetazione true se la richiesta è accettata, false altrimenti.
      * @return true se la richiesta è stata valutata, false altrimenti.
      * @see GestoreRichieste#valutaRichiesta(RichiestaAstratta, boolean) fanno una funzione simile ma questo metodo è più efficente
      */
-    public boolean valutaRichiesta(RichiestaAstratta richiestaAstratta, String idComune, boolean accettazione){
+    public boolean valutaRichiesta(RichiestaAstratta richiestaAstratta, String idComune, boolean accetazione){
         return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune))
-                .getGestoreRichieste().valutaRichiesta(richiestaAstratta, accettazione);
+                .getGestoreRichieste().valutaRichiesta(richiestaAstratta, accetazione);
     }
 
 

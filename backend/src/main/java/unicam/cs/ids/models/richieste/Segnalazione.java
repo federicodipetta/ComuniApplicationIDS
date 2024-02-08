@@ -16,7 +16,6 @@ public class Segnalazione extends RichiestaAstratta {
 
     @JsonView({View.Dettagli.class})
     private String descrizione;
-
     @JsonView({View.Dettagli.class})
     @OneToOne
     private Contenuto contenuto;

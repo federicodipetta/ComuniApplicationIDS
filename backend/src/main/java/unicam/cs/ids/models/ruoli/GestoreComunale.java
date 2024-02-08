@@ -17,6 +17,8 @@ import java.util.*;
 public class GestoreComunale {
 
     private final Comune comune;
+    private final Set<Contest> contest;
+    private final Set<PuntoFisico> puntiFisici;
     private final IAnalizzatorePuntoFisico analizzatorePuntoFisico;
     private final GestoreRichieste gestoreRichieste;
 
@@ -36,6 +38,8 @@ public class GestoreComunale {
         this.puntiFisiciRepository = puntiFisiciRepository;
         this.comuniRepository = comuniRepository;
         this.comune = comune;
+        this.contest = new HashSet<>();
+        this.puntiFisici = new HashSet<>();
         this.analizzatorePuntoFisico = new ProxyAnalizzatorePuntoFisico(new AnalizzatorePuntoFisico(new ServizioOSM()));
         this.gestoreRichieste = new GestoreRichieste(richiesteRepository,comune.id());
     }
@@ -55,8 +59,6 @@ public class GestoreComunale {
      * @return i dettagli dei contest dell'animatore.
      */
     public JSONObject getDettagliContest(Utente utente) {
-        /* METODO DEPRECATO
-
         try {
             return this.contest.stream()
                     .filter(contest -> contest.getAnimatore().equals(utente))
@@ -65,8 +67,7 @@ public class GestoreComunale {
                     .getJSONObject(0);
         } catch (JSONException e) {
             throw new RuntimeException();
-        } */
-        return null;
+        }
     }
 
     /**
@@ -87,16 +88,18 @@ public class GestoreComunale {
      * @return le iscrizioni vincenti del contest.
      */
     public List<Iscrizione> getIscrizioniVincenti(Contest contest) {
+
         // TODO: implementare
         return null;
 
-        /* int max = contest.getIscrizioni().stream()
-               .mapToInt(Iscrizione::getPunti)
-               .max()
-               .orElse(0);
-        return contest.getIscrizioni().stream()
-               .filter(iscrizione -> iscrizione.getPunti() == max)
-               .collect(Collectors.toList()); */
+   // int max = contest.getIscrizioni().stream()
+   //            .mapToInt(Iscrizione::getPunti)
+   //            .max()
+   //             .orElse(0);
+    //     return contest.getIscrizioni().stream()
+    //            .filter(iscrizione -> iscrizione.getPunti() == max)
+    //            .collect(Collectors.toList());
+
     }
 
     /**
@@ -118,12 +121,13 @@ public class GestoreComunale {
     /**
      * Questo metodo ritorna i dettagli dei contenuti dentro un punto fisico.
      * @param puntoFisico il punto fisico
-     * @return i dettagli dei contenuti del punto fisico o null se non esiste.
+     * @return i dettagli dei contenuti del punto fisico
      */
     public Set<Contenuto> getDettagliContenuti(PuntoFisico puntoFisico) {
-        if (this.puntiFisiciRepository.existsById(puntoFisico.getCoordinate()))
-            return this.puntiFisiciRepository.getReferenceById(puntoFisico.getCoordinate()).getContenuti();
-        return null;
+        PuntoFisico punto = this.puntiFisiciRepository.getReferenceById(puntoFisico.getCoordinate());
+        if(punto != null) {
+            return punto.getContenuti();
+        } else return new HashSet<>();
     }
 
     /**
@@ -133,18 +137,17 @@ public class GestoreComunale {
      */
     public boolean aggiungiContenuto(Contenuto contenuto, PuntoFisico puntoFisico) {
         Contenuto con = this.contenutiRepository.save(contenuto);
-        PuntoFisico pf;
+        PuntoFisico pf ;
         puntoFisico.setIdc(this.comune.id());
         if(!this.puntiFisiciRepository.existsById(puntoFisico.getCoordinate())) {//Todo: elimina commento finiti i test
-            if(analizzatorePuntoFisico.controllaPuntoFisico(puntoFisico, comune)) {
-                pf = this.puntiFisiciRepository.save(puntoFisico);
-            }
-            else
-                return false;
-        } else
-            pf = this.puntiFisiciRepository.getReferenceById(puntoFisico.getCoordinate());
+           // if(analizzatorePuntoFisico.controllaPuntoFisico(puntoFisico, comune)) {
+            pf = this.puntiFisiciRepository.save(puntoFisico);
+        //    }
+        } else pf = this.puntiFisiciRepository.getReferenceById(puntoFisico.getCoordinate());
+
+
         pf.getContenuti().add(con);
-        this.puntiFisiciRepository.save(pf);
+        pf = this.puntiFisiciRepository.save(pf);
         return true;
     }
 
@@ -164,21 +167,18 @@ public class GestoreComunale {
      * @return true se il contenuto è stato eliminato, false altrimenti.
      */
     public boolean eliminaContenuto(Contenuto contenuto) {
-        if (this.contenutiRepository.existsById(contenuto.getId())) {
-            Contenuto con = this.contenutiRepository.getReferenceById(contenuto.getId());
-            con.setStato(Stato.ELIMINATO);
-            this.contenutiRepository.save(con);
-            return true;
-        }
-        return false;
+        Contenuto con = this.contenutiRepository.getReferenceById(contenuto.getId());
+        con.setStato(Stato.ELIMINATO);
+        this.contenutiRepository.save(con);
+        return true;
     }
 
     @Override
     public String toString() {
         return "GestoreComunale{" +
                 "Comune=" + comune +
-                ", Contest=" + this.contestRepository.findAll().stream().filter(contest -> this.comune.id().equals(contest.getPuntoFisico().getIdc())).count() +
-                ", PuntiFisici=" + this.puntiFisiciRepository.findAll().stream().filter(puntoFisico -> this.comune.id().equals(puntoFisico.getIdc())).count() +
+                ", Contest=" + contest.size() +
+                ", PuntiFisici=" + puntiFisici.size() +
                 '}';
     }
 
@@ -196,9 +196,7 @@ public class GestoreComunale {
      * @return il contest.
      */
     public Contest getContestById(String id) {
-        if (this.contestRepository.existsById(id))
-            return this.contestRepository.getReferenceById(id);
-        return null;
+        return this.contestRepository.getReferenceById(id);
     }
 
     /**
@@ -207,9 +205,7 @@ public class GestoreComunale {
      * @return il contenuto.
      */
     public Contenuto getContenutoById(String id) {
-        if (this.contenutiRepository.existsById(id))
-            return this.contenutiRepository.getReferenceById(id);
-        return null;
+        return this.contenutiRepository.getReferenceById(id);
     }
 
     /**

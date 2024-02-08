@@ -11,13 +11,15 @@ import java.util.*;
 
 public class GestoreRichieste {
 
+    private static Set<RichiestaAstratta> richiesteBase;
     private static Map<Utente, RichiestaAstratta> richiesteIscrizione;
+
     private RichiesteRepository richiesteRepository;
     private String idComune;
-
     public GestoreRichieste (RichiesteRepository richiesteRepository,String idComune) {
         this.idComune = idComune;
         this.richiesteRepository = richiesteRepository;
+        richiesteBase = new HashSet<>();
         richiesteIscrizione = new HashMap<>();
     }
 
@@ -50,13 +52,11 @@ public class GestoreRichieste {
      * @return true se la richiesta è stata valutata correttamente, false altrimenti.
      */
     public boolean valutaRichiesta(RichiestaAstratta richiesta, boolean valutazione) {
-        if (this.richiesteRepository.existsById(richiesta.getId())) {
-            this.richiesteRepository.getReferenceById(richiesta.getId()).esegui(valutazione);
-            this.richiesteRepository.delete(richiesta);
-            return true;
-        }
-        return false;
+        this.richiesteRepository.getReferenceById(richiesta.getId()).esegui(valutazione);
+        this.richiesteRepository.delete(richiesta);
+
         //TODO: implementare valutazione richieste iscrizione
+        return true;
     }
 
     public RichiestaAstratta getRichiestaById(String id){
@@ -66,7 +66,7 @@ public class GestoreRichieste {
     }
 
     public JSONArray getDettagliRichiesteContest(Utente utente) {
-        // Metodo Deprecato
+
         try {
             return new JSONArray(richiesteIscrizione.entrySet().stream()
                     .filter(entry -> entry.getKey().equals(utente))
@@ -81,7 +81,7 @@ public class GestoreRichieste {
     @Override
     public String toString() {
         return "GestoreRichieste{" +
-                "richiesteBase=" + this.richiesteRepository.findAll().stream().filter(richiesta -> richiesta.getIdc().equals(this.idComune)).count() +
+                "richiesteBase=" + richiesteBase.size() +
                 ", richiesteIscrizione=" + richiesteIscrizione.size() +
                 '}';
     }
@@ -92,7 +92,7 @@ public class GestoreRichieste {
      * @return i dettagli della richiesta o null s essa non è presente.
      */
     public JSONObject getDettagliRichiestaContest (RichiestaCommand richiesta) {
-        // Sostituito con json view, deprecato
+        // Sostituito con json view
         if (richiesteIscrizione.containsValue(richiesta)) {
             return richiesta.dettagli();
         }
@@ -105,12 +105,12 @@ public class GestoreRichieste {
      * @return i dettagli della richiesta o null se essa non è presente.
      */
     public JSONObject getDettagliRichiesta (RichiestaCommand richiesta) {
-        // Sostituito dalle json view, deprecato
+        // Sostituito dalle json view.
         return null;
     }
 
     public Collection<RichiestaAstratta> getRichieste() {
-        return this.richiesteRepository.findAll().stream().filter(richiesta -> richiesta.getIdc().equals(this.idComune)).toList();
+        return this.richiesteRepository.findAll();
     }
 
 
