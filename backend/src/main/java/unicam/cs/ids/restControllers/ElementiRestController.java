@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unicam.cs.ids.dtos.ContestDto;
+import unicam.cs.ids.mappers.ContenutoMapper;
 import unicam.cs.ids.models.controllers.ControllerElementi;
 import unicam.cs.ids.models.punti.*;
 import unicam.cs.ids.view.View;
@@ -29,13 +30,7 @@ public class ElementiRestController {
 
     @PostMapping("/aggiungiContenuto")
     public ResponseEntity<Object> aggiungiContenuto(@RequestBody ContenutoPuntoFisicoWrapper wrapper, @PathParam("id") String id) {
-        ContenutoBuilder builder = new ContenutoBuilder();
-        Contenuto contenuto = builder
-                .setId(wrapper.contenuto().getId())
-                .setTitolo(wrapper.contenuto().getTitolo())
-                .setTesto(wrapper.contenuto().getTesto())
-                .setStato(wrapper.contenuto().getStato())
-                .build();
+        var contenuto=ContenutoMapper.mapContenuto(wrapper.contenuto());
         boolean risultato = controllerElementi.aggiungiContenuto(contenuto, id, wrapper.puntoFisico());
         if(risultato) return new ResponseEntity<>("Contenuto aggiunto correttamente.", HttpStatus.OK);
         else return new ResponseEntity<>("Errore nell'aggiunta del contenuto.", HttpStatus.BAD_REQUEST);

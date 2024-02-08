@@ -16,7 +16,6 @@ export class AddComuneComponent {
     {
       nome: new FormControl(''),
       provincia: new FormControl(''),
-      id: new FormControl(''),
     }
   )
   constructor(private comuniService: ComuniService, private tendina: TendinaService) {
@@ -33,7 +32,6 @@ export class AddComuneComponent {
       },
       error => {
         this.tendina.fetchMenuData();
-        console.error('Errore durante il recupero dei dati del menu:', error);
       }
     );
 

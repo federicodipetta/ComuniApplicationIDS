@@ -8,11 +8,13 @@ import unicam.cs.ids.models.stato.Stato;
 public class ContenutoMapper {
 
     static public Contenuto mapContenuto(ContenutoDto contenutoDto){
+        System.out.println(contenutoDto.getTempoAstratto());
+        System.out.println(contenutoDto.getTempo());
         return new ContenutoBuilder().setId(contenutoDto.getId())
                 .setTitolo(contenutoDto.getTitolo())
                 .setTesto(contenutoDto.getTesto())
                 .setIscritti(contenutoDto.getIscritti())
-                .setTempo(contenutoDto.getTempo())
+                .setTempo(contenutoDto.getTempoAstratto())
                 .setStato(contenutoDto.getStato())
                 .setContenuti(contenutoDto.getContenuti(),contenutoDto.ordinato())
                 .build();

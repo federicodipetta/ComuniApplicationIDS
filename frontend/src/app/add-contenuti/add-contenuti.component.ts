@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrariFormComponent } from '../orari-form/orari-form.component';
-import { Fascia } from '../interfaces/Tempo';
+import { Fascia, FasciaAdd } from '../interfaces/Tempo';
 import { ComuniService } from '../services/comuni.service';
 import { Comune } from '../interfaces/Comune';
 import { CommonModule } from '@angular/common';
@@ -51,12 +51,17 @@ export class AddContenutiComponent {
   submitForm() {
     let value = this.formGroup.value;
     let contenuti = [];
+    let fasciaAdd: FasciaAdd[] = [];
+    this.orari.forEach(x => {
+      fasciaAdd.push({ inizio: x.inizio.toString(), fine: x.fine.toString() });
+    });
+    console.log(fasciaAdd);
     console.log(value)
     let contenutoAdd: ContenutoAddW = {
       contenuto: {
         titolo: value.titolo,
         testo: value.descrizione,
-        tempo: value.tipo == '0' ? [] : this.orari,
+        tempo: value.tipo == '0' ? [] : fasciaAdd,
         contenuti: value.tipo == '2' ? [] : [],
         stato: 0
       },
@@ -67,6 +72,7 @@ export class AddContenutiComponent {
         }
       }
     };
+    console.log(contenutoAdd);
     this.contentservice.addContenuto(contenutoAdd, this.idc).subscribe(x => {
 
     });

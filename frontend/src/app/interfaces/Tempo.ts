@@ -7,3 +7,8 @@ export interface Fascia {
     inizio: Date;
     fine: Date;
 }
+
+export interface FasciaAdd {
+    inizio: string;
+    fine: string;
+}

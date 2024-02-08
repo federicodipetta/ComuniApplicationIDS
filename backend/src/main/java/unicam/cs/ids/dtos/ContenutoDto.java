@@ -28,7 +28,9 @@ public record ContenutoDto (
     boolean ordinato){
 
 
-
+    public List<Coppia> getTempo() {
+        return tempo;
+    }
     public String getTitolo() {
         return titolo;
     }
@@ -41,7 +43,7 @@ public record ContenutoDto (
         return id;
     }
 
-    public TempoAstratto getTempo() {
+    public TempoAstratto getTempoAstratto() {
         List<OrarioInizioFine> lista = tempo.stream().map(Coppia::serializzazione).toList();
         if (lista.isEmpty())
             return new SempreAttivo();
