@@ -10,3 +10,7 @@ export interface PuntoFisicoDettagliato {
     coordinate: Coordinate;
     contenuti: ContenutoMinimo[];
 }
+
+export interface PuntoFisicoAdd {
+    coordinate: Coordinate;
+}

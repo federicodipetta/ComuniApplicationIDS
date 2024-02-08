@@ -2,10 +2,12 @@ package unicam.cs.ids.models.punti;
 
 import org.springframework.web.multipart.MultipartFile;
 import unicam.cs.ids.models.ruoli.Utente;
+import unicam.cs.ids.models.stato.SelettoreStato;
 import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.SempreAttivo;
 import unicam.cs.ids.models.tempo.TempoAstratto;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -190,9 +192,10 @@ public class ContenutoBuilder {
      * @throws IllegalStateException se non sono stati settati tutti i parametri minimi.
      */
     public Contenuto build() {
-        if (checkString(titolo) || checkString(testo) ||  stato == null) {
+        if (checkString(titolo) || checkString(testo)) {
             throw new IllegalStateException("Non tutti i parametri minimi sono stati settati");
         }
+        stato = stato== null ? SelettoreStato.nuovoStato(Stato.APERTO,this.tempo, LocalDateTime.now()) : stato;
         Contenuto c ;
         //solo l'itinerario ha i contenuti
         if(!this.contenuti.isEmpty())

@@ -4,7 +4,7 @@
 
         <div class="form-group">
             <label for="comuneSelect">Seleziona il comune in cui vuoi aggiungere il contenuto</label>
-            <select class="form-control" id="comuneSelect" [(ngModel)]="idc">
+            <select class="form-control" id="comuneSelect" formControlName="id">
                 <option *ngFor="let comune of comuni" [value]="comune.id">{{ comune.nome }}</option>
             </select>
         </div>
@@ -22,7 +22,7 @@
             (orarioInserito)="handleOrarioInserito($event)"></app-orari-form>
 
         <div class="form-group">
-            <label for="nome">Nome</label>
+            <label for="nome">Titolo</label>
             <input type="text" class="form-control" id="titolo" formControlName="titolo" placeholder="titolo">
         </div>
 
@@ -60,9 +60,11 @@
         </div>
 
         <div class="form-group" *ngIf="formGroup.get('punto')?.value == '0'">
-            <select>
-                <option *ngFor="let punto of punti" [value]="punto.coordinate">{{ punto.coordinate.latitudine+" lon : "+
-                    punto.coordinate.longitudine }} {{" " +
+            <select class="form-control" id="comuneSelect" formControlName="coordinate">
+                <option *ngFor="let punto of punti" [value]="punti.indexOf(punto)">{{"lon : "+
+                    punto.coordinate.latitudine+"
+                    lon : "+
+                    punto.coordinate.longitudine }} {{" Contenuti : " +
                     punto.numeroContenuti}}</option>
             </select>
         </div>

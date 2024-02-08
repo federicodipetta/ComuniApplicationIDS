@@ -123,7 +123,7 @@ public class GestoreComunale {
         Contenuto con = this.contenutiRepository.save(contenuto);
         PuntoFisico pf;
         puntoFisico.setIdc(this.comune.id());
-        if(!this.puntiFisiciRepository.existsById(puntoFisico.getCoordinate())) {//Todo: elimina commento finiti i test
+        if(!this.puntiFisiciRepository.existsById(puntoFisico.getCoordinate())) {
             if(analizzatorePuntoFisico.controllaPuntoFisico(puntoFisico, comune)) {
                 pf = this.puntiFisiciRepository.save(puntoFisico);
             }

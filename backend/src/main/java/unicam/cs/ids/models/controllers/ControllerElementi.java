@@ -78,9 +78,7 @@ public class ControllerElementi {
         return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune)).getPuntiFisici().stream().toList();
     }
 
-    @JsonView(View.Dettagli.class)
     public Contenuto getContenuto(String idComune, String idContenuto) {
-        System.out.println(gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune)).getContenutoById(idContenuto));
         return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune)).getContenutoById(idContenuto);
     }
 

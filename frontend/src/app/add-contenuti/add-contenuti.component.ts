@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { ServiziopuntiService } from '../services/serviziopunti.service';
 import { PuntoFisicoDettagliato, PuntoFisicoMinimo } from '../interfaces/PuntoFisico';
+import { ContenutoAdd, ContenutoAddW } from '../interfaces/Contenuto';
+import { ContenutiServiceService } from '../services/contenuti-service.service';
 
 @Component({
   selector: 'app-add-contenuti',
@@ -23,7 +25,8 @@ export class AddContenutiComponent {
   comuni: Comune[] = []
   punti: PuntoFisicoMinimo[] = []
 
-  constructor(private servizio: ComuniService, private puntis: ServiziopuntiService) {
+  constructor(private servizio: ComuniService, private puntis: ServiziopuntiService
+    , private contentservice: ContenutiServiceService) {
     servizio.getComuni().subscribe(x => {
       this.comuni = x
       this.idc = this.comuni[0].id
@@ -38,14 +41,36 @@ export class AddContenutiComponent {
     id: new FormControl(''),
     titolo: new FormControl(''),
     descrizione: new FormControl(''),
-    punto: new FormControl(''),
-    latitudine: new FormControl(''),
-    longitudine: new FormControl(''),
-    tipo: new FormControl('0')
+    punto: new FormControl('0'),
+    latitudine: new FormControl('0'),
+    longitudine: new FormControl('0'),
+    tipo: new FormControl('0'),
+    coordinate: new FormControl('0')
   });
 
   submitForm() {
-    console.log(this.formGroup.value);
+    let value = this.formGroup.value;
+    let contenuti = [];
+    console.log(value)
+    let contenutoAdd: ContenutoAddW = {
+      contenuto: {
+        titolo: value.titolo,
+        testo: value.descrizione,
+        tempo: value.tipo == '0' ? [] : this.orari,
+        contenuti: value.tipo == '2' ? [] : [],
+        stato: 0
+      },
+      puntoFisico: {
+        coordinate: {
+          latitudine: value.punto == '1' ? value.latitudine : this.punti[parseInt(value.coordinate)].coordinate.latitudine,
+          longitudine: value.punto == '1' ? value.longitudine : this.punti[parseInt(value.coordinate)].coordinate.longitudine
+        }
+      }
+    };
+    this.contentservice.addContenuto(contenutoAdd, this.idc).subscribe(x => {
+
+    });
+
   }
 
   handleOrarioInserito(orario: Fascia) {
