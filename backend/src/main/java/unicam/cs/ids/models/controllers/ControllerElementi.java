@@ -8,10 +8,11 @@ import unicam.cs.ids.models.punti.*;
 import unicam.cs.ids.models.ruoli.GestoreComuni;
 import unicam.cs.ids.models.ruoli.GestorePiattaforma;
 import unicam.cs.ids.models.ruoli.Utente;
+
+import unicam.cs.ids.models.stato.Stato;
 import unicam.cs.ids.models.tempo.SempreAttivo;
-import unicam.cs.ids.repositorys.ContenutiRepository;
-import unicam.cs.ids.repositorys.ContestRepository;
-import unicam.cs.ids.repositorys.PuntiFisiciRepository;
+import unicam.cs.ids.repositorys.*;
+import unicam.cs.ids.view.View;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,14 +22,15 @@ import java.util.Set;
 public class ControllerElementi {
     GestoreComuni gestoreComuni;
     ContenutiRepository contenutiRepository;
+    ContestRepository contestRepository;
     PuntiFisiciRepository repo;
 
     ContestRepository contestRepository;
     public ControllerElementi() {
     }
     @Autowired
-    public ControllerElementi(ContenutiRepository contenutiRepository, ContestRepository contestRepository, PuntiFisiciRepository repo) throws JSONException {
-        this.contestRepository = contestRepository;
+    public ControllerElementi(ContenutiRepository contenutiRepository, PuntiFisiciRepository repo
+    , ContestRepository repository , UtentiRepository ur, IscrizioniRepository ir) throws JSONException {
         this.gestoreComuni = GestorePiattaforma.getInstance().getGestoreComuni();
         this.contenutiRepository = contenutiRepository;
         PuntoInteresse municipio= new PuntoInteresse("Municipio", "Sede del comune", new ArrayList<>());
@@ -40,7 +42,18 @@ public class ControllerElementi {
         this.contenutiRepository.save(it);
         this.repo = repo;
         this.repo.save(new PuntoFisico(new Coordinate(1.0, 1.0), Set.of(municipio)));
-        this.contestRepository.save(new Contest(new Utente("eduardo"), "Contest", "descrizione del mio contest", new SempreAttivo(), this.repo.findAll().getFirst()));
+        this.contestRepository = repository;
+        PuntoFisico puntoFisico = this.repo.findAll().iterator().next();
+        Utente utente = new Utente("0",null);
+        utente = ur.save(utente);
+
+        this.contestRepository.save(new Contest(utente,"Concorso","Concorso di fotografia", new SempreAttivo(),puntoFisico));
+        var z = this.contestRepository.findAll().getFirst();
+        Iscrizione iz = new Iscrizione(utente, z,"bella");
+        iz =  ir.save(iz);
+        z.aggiungiIscrizione(iz);
+        ir.save(iz);
+        this.contestRepository.save(z);
     }
 
     public ControllerElementi(GestoreComuni gestoreComuni) {

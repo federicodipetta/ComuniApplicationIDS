@@ -90,8 +90,18 @@ public class GestoreComunale {
      * @return le iscrizioni vincenti del contest.
      */
     public List<Iscrizione> getIscrizioniVincenti(Contest contest) {
+
         // TODO: implementare
         return null;
+
+   // int max = contest.getIscrizioni().stream()
+   //            .mapToInt(Iscrizione::getPunti)
+   //            .max()
+   //             .orElse(0);
+    //     return contest.getIscrizioni().stream()
+    //            .filter(iscrizione -> iscrizione.getPunti() == max)
+    //            .collect(Collectors.toList());
+
     }
 
     /**
