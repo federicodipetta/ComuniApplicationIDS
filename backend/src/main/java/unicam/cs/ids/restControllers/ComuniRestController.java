@@ -2,8 +2,10 @@ package unicam.cs.ids.restControllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import org.json.JSONException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import unicam.cs.ids.configurazioni.GestorePiattaformaBuilder;
 import unicam.cs.ids.dtos.ComuneDto;
 import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.controllers.ControllerComuni;
@@ -19,8 +21,11 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/v0/comuni")
 public class ComuniRestController {
-    private ControllerComuni controllerComuni = new ControllerComuni();
-    public ComuniRestController() {
+    private ControllerComuni controllerComuni;
+
+    @Autowired
+    public ComuniRestController(GestorePiattaformaBuilder builder) {
+        controllerComuni = new ControllerComuni(builder);
     }
     @JsonView(View.Dettagli.class)
     @GetMapping("/")

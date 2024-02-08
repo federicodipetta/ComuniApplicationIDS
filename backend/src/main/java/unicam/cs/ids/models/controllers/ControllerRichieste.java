@@ -33,12 +33,12 @@ public class ControllerRichieste {
     public ControllerRichieste(RichiesteRepository richiesteRepository, ContenutiRepository contenutiRepository, PuntiFisiciRepository puntiFisiciRepository) {
         this();
         this.richiesteRepository = richiesteRepository;
-        ContenutiRepository contenutiRepository1 = contenutiRepository;
+        /*ContenutiRepository contenutiRepository1 = contenutiRepository;
         PuntoInteresse puntoInteresse = new PuntoInteresse("nome", "descrizione", new ArrayList<>());
         contenutiRepository1.save(puntoInteresse);
         RichiestaContenuto richiestaContenuto = new RichiestaContenuto(puntoInteresse, puntiFisiciRepository.findAll().get(0));
 
-        this.richiesteRepository.save(richiestaContenuto);
+        this.richiesteRepository.save(richiestaContenuto);*/
     }
 
 

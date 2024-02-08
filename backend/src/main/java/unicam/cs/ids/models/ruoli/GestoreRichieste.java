@@ -28,7 +28,7 @@ public class GestoreRichieste {
      */
     public boolean aggiungiRichiesta(RichiestaAstratta richiesta) {
         this.richiesteRepository.save(richiesta);
-        return richiesteBase.add(richiesta);
+        return true;
     }
 
     /**
@@ -38,6 +38,7 @@ public class GestoreRichieste {
      * @return true se la richiesta è stata aggiunta correttamente, false altrimenti.
      */
     public boolean aggiungiRichiestaContest(RichiestaAstratta richiesta, Utente utente) {
+        // TODO: implementare il salvataggio della richiesta
         return richiesteIscrizione.put(utente,richiesta) == null;
     }
 
@@ -48,12 +49,11 @@ public class GestoreRichieste {
      * @return true se la richiesta è stata valutata correttamente, false altrimenti.
      */
     public boolean valutaRichiesta(RichiestaAstratta richiesta, boolean valutazione) {
-        if (richiesteBase.contains(richiesta)) {
-            richiesta.esegui(valutazione);
-            richiesteBase.remove(richiesta);
-            return true;
-        }
-        if(richiesteIscrizione.containsValue(richiesta)) {
+        this.richiesteRepository.getReferenceById(richiesta.getId()).esegui(valutazione);
+        this.richiesteRepository.delete(richiesta);
+
+        //TODO: implementare valutazione richieste iscrizione
+        /*if(richiesteIscrizione.containsValue(richiesta)) {
             richiesta.esegui(valutazione);
             richiesteIscrizione.remove(richiesteIscrizione.entrySet().stream()
                     .filter(entry -> entry.getValue().equals(richiesta))
@@ -61,24 +61,16 @@ public class GestoreRichieste {
                     .findFirst()
                     .orElse(null), richiesta);
             return true;
-        }
-        return false;
+        }*/
+        return true;
     }
 
     public RichiestaAstratta getRichiestaById(String id){
-        return richiesteBase.stream()
-                .filter(x -> x.getId().equals(id))
-                .findFirst()
-                .orElse(
-                        richiesteIscrizione.values().stream()
-                                .filter(x -> x.getId().equals(id))
-                                .findFirst()
-                                .orElse(null)
-                );
-
+        return this.richiesteRepository.getReferenceById(id);
     }
 
     public JSONArray getDettagliRichiesteContest(Utente utente) {
+        //TODO: implementare
         try {
             return new JSONArray(richiesteIscrizione.entrySet().stream()
                     .filter(entry -> entry.getKey().equals(utente))
@@ -104,6 +96,7 @@ public class GestoreRichieste {
      * @return i dettagli della richiesta o null s essa non è presente.
      */
     public JSONObject getDettagliRichiestaContest (RichiestaCommand richiesta) {
+        // Sostituito con json view
         if (richiesteIscrizione.containsValue(richiesta)) {
             return richiesta.dettagli();
         }
@@ -116,14 +109,12 @@ public class GestoreRichieste {
      * @return i dettagli della richiesta o null se essa non è presente.
      */
     public JSONObject getDettagliRichiesta (RichiestaCommand richiesta) {
-        if (richiesteBase.contains(richiesta)) {
-            return richiesta.dettagli();
-        }
+        // Sostituito dalle json view.
         return null;
     }
 
     public Collection<RichiestaAstratta> getRichieste() {
-        return richiesteBase;
+        return this.richiesteRepository.findAll();
     }
 
 

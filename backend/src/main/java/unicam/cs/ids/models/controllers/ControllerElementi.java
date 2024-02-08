@@ -3,6 +3,7 @@ package unicam.cs.ids.models.controllers;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import unicam.cs.ids.configurazioni.GestorePiattaformaBuilder;
 import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.models.punti.*;
 import unicam.cs.ids.models.ruoli.GestoreComuni;
@@ -25,13 +26,12 @@ public class ControllerElementi {
     ContestRepository contestRepository;
     PuntiFisiciRepository repo;
 
-    ContestRepository contestRepository;
-    public ControllerElementi() {
-    }
+    GestorePiattaforma gestorePiattaforma;
     @Autowired
     public ControllerElementi(ContenutiRepository contenutiRepository, PuntiFisiciRepository repo
-    , ContestRepository repository , UtentiRepository ur, IscrizioniRepository ir) throws JSONException {
-        this.gestoreComuni = GestorePiattaforma.getInstance().getGestoreComuni();
+    , ContestRepository repository , UtentiRepository ur, IscrizioniRepository ir, GestorePiattaformaBuilder builder) {
+        this.gestoreComuni = GestorePiattaforma.getInstance(builder).getGestoreComuni();
+        System.out.println("Gestore comuni: "+gestoreComuni);
         this.contenutiRepository = contenutiRepository;
         PuntoInteresse municipio= new PuntoInteresse("Municipio", "Sede del comune", new ArrayList<>());
         this.contenutiRepository.save(
@@ -44,7 +44,7 @@ public class ControllerElementi {
         this.repo.save(new PuntoFisico(new Coordinate(1.0, 1.0), Set.of(municipio)));
         this.contestRepository = repository;
         PuntoFisico puntoFisico = this.repo.findAll().iterator().next();
-        Utente utente = new Utente("0",null);
+        Utente utente = new Utente("0");
         utente = ur.save(utente);
 
         this.contestRepository.save(new Contest(utente,"Concorso","Concorso di fotografia", new SempreAttivo(),puntoFisico));
@@ -94,7 +94,7 @@ public class ControllerElementi {
     }
 
     public List<PuntoFisico> getPunti(String idComune) {
-        return gestoreComuni.getGestoreComunale(gestoreComuni.getComuneById(idComune)).getPuntiFisici().stream().toList();
+        return this.gestoreComuni.getGestoreComunale(this.gestoreComuni.getComuneById(idComune)).getPuntiFisici().stream().toList();
     }
 
     public Contenuto getContenuto(String idComune, String idContenuto) {

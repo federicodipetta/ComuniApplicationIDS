@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class GestoreComuni {
 
-    private final Set<GestoreComunale> gestoriComunali;
+    private Set<GestoreComunale> gestoriComunali;
 
     private ComuniRepository comuniRepository;
 
@@ -39,8 +39,9 @@ public class GestoreComuni {
      * @return true se il gestore comunale è stato aggiunto, false altrimenti
      */
     public boolean aggiungiComune(Comune comune) {
-        this.comuniRepository.save(comune);
-        return gestoriComunali.add(new GestoreComunale(comuniRepository, comune, contestRepository, puntiFisiciRepository, contenutiRepository, richiesteRepository));
+        this.puntiFisiciRepository.save(comune.puntoComune());
+        Comune c = this.comuniRepository.save(comune);
+        return gestoriComunali.add(new GestoreComunale(comuniRepository, c, contestRepository, puntiFisiciRepository, contenutiRepository, richiesteRepository));
     }
 
     @Override

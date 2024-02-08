@@ -14,7 +14,8 @@ import java.util.Set;
 @Service
 public class GestorePiattaforma {
 
-    private static GestorePiattaforma instance = null;
+    @Autowired
+    private static GestorePiattaforma instance;
 
     private final GestoreUtenti gestoreUtenti;
 
@@ -39,14 +40,20 @@ public class GestorePiattaforma {
         this.contestRepository = builder.getContestRepository();
         this.puntiFisiciRepository = builder.getPuntiFisiciRepository();
         this.utentiRepository = builder.getUtentiRepository();
-        this.gestoreUtenti = new GestoreUtenti();
+        this.gestoreUtenti = new GestoreUtenti(utentiRepository);
         this.gestoreComuni = new GestoreComuni(comuniRepository, contestRepository, puntiFisiciRepository, contenutiRepository, richiesteRepository);
-        this.instance = this;
     }
 
     public GestorePiattaforma() {
-        this.gestoreUtenti = new GestoreUtenti();
+        this.gestoreUtenti = new GestoreUtenti(utentiRepository);
         this.gestoreComuni = new GestoreComuni(comuniRepository, contestRepository, puntiFisiciRepository, contenutiRepository, richiesteRepository);
+    }
+
+    @Autowired
+    public static GestorePiattaforma getInstance(GestorePiattaformaBuilder builder) {
+        if(instance == null)
+        instance = new GestorePiattaforma(builder);
+        return instance;
     }
 
     public static GestorePiattaforma getInstance() {

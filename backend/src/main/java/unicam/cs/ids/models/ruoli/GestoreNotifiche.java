@@ -7,6 +7,8 @@ import java.util.Set;
 
 public class GestoreNotifiche {
 
+    // TODO: le notifiche non sono persistite.
+
     private final Map<Utente, Set<Notifica>> mappaUtentiNotifiche;
 
     public GestoreNotifiche() {

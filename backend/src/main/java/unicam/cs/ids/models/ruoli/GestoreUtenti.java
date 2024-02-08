@@ -1,5 +1,7 @@
 package unicam.cs.ids.models.ruoli;
 
+import unicam.cs.ids.repositorys.UtentiRepository;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +15,9 @@ public class GestoreUtenti {
 
     private final Set<Utente> utenti;
 
-    public GestoreUtenti() {
+    private UtentiRepository utentiRepository;
+
+    public GestoreUtenti(UtentiRepository utentiRepository) {
         gestoreRuoli = new GestoreRuoli();
         utenti = new HashSet<>();
     }
@@ -24,7 +28,8 @@ public class GestoreUtenti {
      * @return true se l'utente è stato aggiunto, false altrimenti.
      */
     public boolean aggiungiUtente(Utente utente) {
-        return utenti.add(utente);
+        this.utentiRepository.save(utente);
+        return true;
     }
 
     /**
@@ -33,7 +38,8 @@ public class GestoreUtenti {
      * @return true se l'utente è stato rimosso, false altrimenti.
      */
     public boolean rimuoviUtente(Utente utente) {
-        return utenti.remove(utente);
+        this.utentiRepository.delete(utente);
+        return true;
     }
 
     /**
@@ -58,12 +64,7 @@ public class GestoreUtenti {
     }
 
     public Utente getUtenteById(String idUtente) {
-        for(Utente utente : utenti) {
-            if(utente.id().equals(idUtente)) {
-                return utente;
-            }
-        }
-        return null;
+        return utentiRepository.getReferenceById(idUtente);
     }
 
 }
