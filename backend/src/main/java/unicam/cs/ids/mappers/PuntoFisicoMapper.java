@@ -4,7 +4,6 @@ import unicam.cs.ids.dtos.PuntoFisicoDto;
 import unicam.cs.ids.models.punti.Coordinate;
 import unicam.cs.ids.models.punti.PuntoFisico;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class PuntoFisicoMapper {

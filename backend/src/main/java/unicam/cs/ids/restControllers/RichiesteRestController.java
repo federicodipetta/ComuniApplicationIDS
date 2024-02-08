@@ -14,7 +14,6 @@ import unicam.cs.ids.models.richieste.RichiestaAstratta;
 import unicam.cs.ids.view.View;
 
 import java.util.Collection;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v0/richieste")
@@ -30,24 +29,24 @@ public class RichiesteRestController {
     @PostMapping("/contenuti/aggiungi")
     public ResponseEntity<Object> aggiungiRichiestaAggiunta(@RequestBody RichiestaContenutoAggiuntaDto richiestaContenutoDto
                                     ,@PathParam("id") String id){
+        boolean response = controllerRichieste.aggiungiRichiestaAggiunta(
+                        RichiesteMapper.mapRichiestaAggiunta(richiestaContenutoDto, id),
+                        id);
 
-        return new ResponseEntity<>(
-                controllerRichieste.aggiungiRichiestaAggiunta(
-                        richiesteMapper.mapRichiestaAggiunta(richiestaContenutoDto, id),
-                        id
-                )
-                , HttpStatus.OK);
+        if(response)
+            return new ResponseEntity<>("Richiesta aggiunta correttamente", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("Errore nell'aggiunta della richiesta", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/contenuti/eliminazione")
-    public ResponseEntity<Object> rimuoviRichiestaAggiunta(@RequestBody RichiestaEliminazioneDto richiestaContenutoDto
+    public ResponseEntity<Object> aggiungiRichiestaRimozione(@RequestBody RichiestaEliminazioneDto richiestaContenutoDto
                                     ,@PathParam("id") String id){
+        boolean response = controllerRichieste.aggiuntaRichiestaEliminazione(
+                RichiesteMapper.mapRichiestaEliminaContenuto(richiestaContenutoDto,id),
+                id);
 
-        boolean reponse= controllerRichieste.aggiuntaRichiestaEliminazione(
-                richiesteMapper.mapRichiestaEliminaContenuto(richiestaContenutoDto,id),
-                id
-        );
-        if(reponse)
+        if(response)
             return new ResponseEntity<>("Richiesta aggiunta correttamente", HttpStatus.OK);
         else
             return new ResponseEntity<>("Errore nell'aggiunta della richiesta", HttpStatus.BAD_REQUEST);
@@ -57,11 +56,11 @@ public class RichiesteRestController {
     public ResponseEntity<Object> iscrizioneContest(@RequestBody IscrizioneDto iscrizioneDto,
                                                     @RequestParam("file") MultipartFile file,
                                                     @PathParam("id") String id){
-        boolean reponse= controllerRichieste.aggiungiRichiestaIscrizione(
-                richiesteMapper.mapRichiestaIscrizione(iscrizioneDto, file,id),
-                id
-        );
-        if(reponse)
+        boolean response = controllerRichieste.aggiungiRichiestaIscrizione(
+                RichiesteMapper.mapRichiestaIscrizione(iscrizioneDto, file,id),
+                id);
+      
+        if(response)
             return new ResponseEntity<>("Richiesta aggiunta correttamente", HttpStatus.OK);
         else 
             return new ResponseEntity<>("Errore nell'aggiunta della richiesta", HttpStatus.BAD_REQUEST);
@@ -71,10 +70,11 @@ public class RichiesteRestController {
     public ResponseEntity<Object> aggiungiFile(@RequestParam("file") MultipartFile file,
                                               @RequestBody RichiestaFileDto richiestaFileDto,
                                               @PathParam("id") String id){
-        boolean reponse= controllerRichieste.aggiungiRichiesta(
-                richiesteMapper.mapRichiestaFile(richiestaFileDto,file,id)
+        boolean response = controllerRichieste.aggiungiRichiesta(
+                RichiesteMapper.mapRichiestaFile(richiestaFileDto,file,id)
                 ,id);
-        if(reponse)
+
+        if(response)
             return new ResponseEntity<>("File aggiunto correttamente", HttpStatus.OK);
         else
             return new ResponseEntity<>("Errore nell'aggiunta del file", HttpStatus.BAD_REQUEST);
@@ -83,10 +83,11 @@ public class RichiesteRestController {
     @PostMapping ("/segnalazione/aggiungi")
     public ResponseEntity<Object> aggiungiSegnalazione(@RequestBody SegnalazioneDto segnalazioneDto,
                                                        @PathParam("id") String id){
-        boolean reponse= controllerRichieste.aggiungiSegnalazione(
-                richiesteMapper.mapSegnalazione(id,segnalazioneDto)
+        boolean response = controllerRichieste.aggiungiSegnalazione(
+                RichiesteMapper.mapSegnalazione(id,segnalazioneDto)
                 ,id);
-        if(reponse)
+
+        if(response)
             return new ResponseEntity<>("Segnalazione aggiunta correttamente", HttpStatus.OK);
         else
             return new ResponseEntity<>("Errore nell'aggiunta della segnalazione", HttpStatus.BAD_REQUEST);
@@ -94,12 +95,13 @@ public class RichiesteRestController {
 
     @PostMapping("/valuta")
     public ResponseEntity<Object> valutaRichiesta(@PathParam("id") String id, @RequestBody ValutazioneDto valutazioneDto){
-        boolean reponse= controllerRichieste.valutaRichiesta(richiesteMapper.richiestaCommand(
+        boolean response = controllerRichieste.valutaRichiesta(RichiesteMapper.richiestaCommand(
                 id,valutazioneDto.id()
                 )
                 ,id
                 ,valutazioneDto.risposta());
-        if(reponse)
+
+        if(response)
             return new ResponseEntity<>("Richiesta valutata correttamente", HttpStatus.OK);
         else
             return new ResponseEntity<>("Errore nella valutazione della richiesta", HttpStatus.BAD_REQUEST);
@@ -114,7 +116,7 @@ public class RichiesteRestController {
     @JsonView(View.Dettagli.class)
     @GetMapping("/getRichiesta")
     public ResponseEntity<Object> getRichiesta(@PathParam("id") String id,@PathParam("idR") String idR){
-        return new ResponseEntity<>(controllerRichieste.getRichiesta(idR,id), HttpStatus.OK);
+        return new ResponseEntity<>(controllerRichieste.getRichiesta(idR, id), HttpStatus.OK);
     }
 
 

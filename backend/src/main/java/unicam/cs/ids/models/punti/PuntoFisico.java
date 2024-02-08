@@ -2,10 +2,8 @@ package unicam.cs.ids.models.punti;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
-import unicam.cs.ids.models.Comune;
 import unicam.cs.ids.view.View;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,6 +11,7 @@ import java.util.Set;
  */
 @Entity
 public class PuntoFisico {
+
     @JsonView({View.DettagliMinimi.class, View.Dettagli.class})
     @EmbeddedId
     @AttributeOverrides({
@@ -26,6 +25,7 @@ public class PuntoFisico {
     private  Set<Contenuto> contenuti;
 
     private String idc;
+
     /**
      * Costruttore di un punto fisico.
      * @param coordinate le coordinate del punto fisico
@@ -38,9 +38,7 @@ public class PuntoFisico {
         this.contenuti = contenuti;
     }
 
-    public PuntoFisico() {
-
-    }
+    public PuntoFisico() { }
 
     @Override
     public boolean equals(Object o) {

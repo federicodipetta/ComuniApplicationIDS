@@ -1,7 +1,6 @@
 package unicam.cs.ids.restControllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +12,6 @@ import unicam.cs.ids.models.punti.PuntoFisico;
 import unicam.cs.ids.models.servizi.ServizioOSM;
 import unicam.cs.ids.view.View;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +24,7 @@ public class ComuniRestController {
     public ComuniRestController(GestorePiattaformaBuilder builder) {
         controllerComuni = new ControllerComuni(builder);
     }
+
     @JsonView(View.Dettagli.class)
     @GetMapping("/")
     public ResponseEntity<Set<Comune>> getComuni() {
@@ -34,18 +32,22 @@ public class ComuniRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addComune(@RequestBody ComuneDto comune) throws JSONException, IOException {
-        ServizioOSM servizioOSM = new ServizioOSM();
-        boolean bool = this.controllerComuni.aggiungiComune(
-                new Comune(comune.nome(),
-                        comune.provincia(),
-                        comune.id(),
-                        new PuntoFisico(
-                                servizioOSM.getCoordinate(comune.nome()),
-                                new HashSet<>()
-                        )
-                )
-        );
+    public ResponseEntity<String> addComune(@RequestBody ComuneDto comune) {
+        boolean bool = false;
+        try {
+            ServizioOSM servizioOSM = new ServizioOSM();
+            bool = this.controllerComuni.aggiungiComune(
+                    new Comune(comune.nome(),
+                            comune.provincia(),
+                            comune.id(),
+                            new PuntoFisico(
+                                    servizioOSM.getCoordinate(comune.nome()),
+                                    new HashSet<>()
+                            )
+                    )
+            );
+        } catch (Exception ignored) {}
+
         if(bool)
             return ResponseEntity.ok("Comune aggiunto");
         else

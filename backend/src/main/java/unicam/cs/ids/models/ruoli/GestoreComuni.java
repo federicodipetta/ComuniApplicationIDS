@@ -20,7 +20,7 @@ public class GestoreComuni {
     private PuntiFisiciRepository puntiFisiciRepository;
 
     private ContenutiRepository contenutiRepository;
-    private RichiesteRepository ric;
+    private RichiesteRepository richiesteRepository;
 
     public GestoreComuni(ComuniRepository comuniRepository, ContestRepository contestRepository, PuntiFisiciRepository puntiFisiciRepository
             , ContenutiRepository contenutiRepository, RichiesteRepository ric) {
@@ -29,7 +29,7 @@ public class GestoreComuni {
         this.comuniRepository = comuniRepository;
         this.puntiFisiciRepository = puntiFisiciRepository;
         this.gestoriComunali = new HashSet<>();
-        this.ric = ric;
+        this.richiesteRepository = ric;
     }
 
     /**
@@ -42,7 +42,7 @@ public class GestoreComuni {
         comune = this.comuniRepository.save(comune);
         a.setIdc(comune.id());
         this.puntiFisiciRepository.save(a);
-        return gestoriComunali.add(new GestoreComunale(comuniRepository, comune, contestRepository, puntiFisiciRepository, contenutiRepository,ric));
+        return gestoriComunali.add(new GestoreComunale(comuniRepository, comune, contestRepository, puntiFisiciRepository, contenutiRepository, richiesteRepository));
     }
 
     @Override
@@ -58,7 +58,9 @@ public class GestoreComuni {
      * @return il gestore comunale richiesto.
      */
     public Comune getComuneById(String idComune) {
-        return comuniRepository.getReferenceById(idComune);
+        if (this.comuniRepository.existsById(idComune))
+            return comuniRepository.getReferenceById(idComune);
+        return null;
     }
 
     /**

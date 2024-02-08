@@ -19,9 +19,11 @@ public class RichiestaEliminaContenuto extends RichiestaAstratta {
     @JsonView({View.Dettagli.class})
     @OneToOne
     private Contenuto contenuto;
+
     @JsonView({View.Dettagli.class})
     @OneToOne
     private PuntoFisico puntoFisico;
+
     @Transient
     private GestoreComunale gestoreComunale;
 
@@ -31,9 +33,8 @@ public class RichiestaEliminaContenuto extends RichiestaAstratta {
         this.puntoFisico = puntoFisico;
       ;
     }
-
-    public RichiestaEliminaContenuto() {
-    }
+  
+    public RichiestaEliminaContenuto() { }
 
     @Override
     public void esegui(boolean accetta) {
