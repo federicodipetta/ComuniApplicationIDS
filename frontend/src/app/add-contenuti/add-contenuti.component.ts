@@ -17,7 +17,7 @@ import { PuntoFisicoDettagliato, PuntoFisicoMinimo } from '../interfaces/PuntoFi
   styleUrl: './add-contenuti.component.scss'
 })
 export class AddContenutiComponent {
-  orari: Set<Fascia> = new Set();
+  orari: Fascia[] = [];
   tipo: string = '0';// 0 = POI, 1 = Evento, 2 = Itinerario
   idc: string = '0';
   comuni: Comune[] = []
@@ -49,7 +49,7 @@ export class AddContenutiComponent {
   }
 
   handleOrarioInserito(orario: Fascia) {
-    this.orari.add(orario);
+    this.orari.push(orario);
     console.log(this.orari);
   }
 
